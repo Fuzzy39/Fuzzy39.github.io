@@ -42,16 +42,16 @@ li a {
 h1 {
     font-family:arial;
     font-size:500%;
-    color:#f4604b;
+    color:#628ed6;
 }
 h3 {
     font-family:arial;
     font-size:30;
-    color:#f4604b;
+    color:#628ed6;
 }
 h4 {
     font-family:arial;
-    color:#f4604b;
+    color:#628ed6;
     margin-left:5;
 }
 button {
@@ -59,7 +59,7 @@ button {
     background-color: transparent;
     font-weight:bold;
     border:none;
-    color:#A55D69;
+    color:628ed6;
     padding: 15px 32px;
     text-align: center;
     text-decoration: none;
@@ -101,7 +101,7 @@ hr {
     }
 
 .footer p {
-    color:#594E76;
+    color:#628ed6;
     font-weight:bold;
     font-size: 13;
     margin:2;
