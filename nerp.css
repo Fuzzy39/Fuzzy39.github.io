@@ -112,3 +112,7 @@ hr {
 li a:hover {
     color: grey;
 }
+.footer{
+position:absolute;
+bottom:0;
+}
