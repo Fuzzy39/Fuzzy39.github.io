@@ -59,7 +59,7 @@ button {
     background-color: transparent;
     font-weight:bold;
     border:none;
-    color:628ed6;
+    color:#628ed6;
     padding: 15px 32px;
     text-align: center;
     text-decoration: none;
@@ -92,11 +92,11 @@ hr {
 }
 
 .body h3 {
-    color:#f4604b;
+    color:#628ed6;
     margin-bottom:0;
 }
     .body h2 {
-        color:#f4604b;
+        color:#628ed6;
         margin-bottom:0;
     }
 
@@ -115,7 +115,7 @@ li a:hover {
  .midground{
             position:relative;
             display:inline-block;
-            background:rgba(100,100,100,.9);
+            background:rgba(125,125,125,.8);
             width:80%;
             height:100%;
             margin-left:8%;
