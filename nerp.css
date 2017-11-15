@@ -115,13 +115,13 @@ li a:hover {
  .midground{
             position:relative;
             display:inline-block;
-            background:rgba(125,125,125,.4);
+            background:rgba(125,125,125,.5);
             width:80%;
             height:100%;
             margin-left:8%;
             margin-right:0;
-            margin-top:6%;
-            margin-bottom:6%;
+            margin-top:5%;
+            margin-bottom:5%;
             padding-left:2%;
             padding-right:2%;
             padding-bottom:4cm;
