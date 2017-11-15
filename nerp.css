@@ -42,16 +42,16 @@ li a {
 h1 {
     font-family:arial;
     font-size:500%;
-    color:#DA6C5D;
+    color:#f4604b;
 }
 h3 {
     font-family:arial;
     font-size:30;
-    color:#DA6C5D;
+    color:#f4604b;
 }
 h4 {
     font-family:arial;
-    color:#DA6C5D;
+    color:#f4604b;
     margin-left:5;
 }
 button {
@@ -92,11 +92,11 @@ hr {
 }
 
 .body h3 {
-    color:#DA6C5D;
+    color:#f4604b;
     margin-bottom:0;
 }
     .body h2 {
-        color:#DA65D;
+        color:#f4604b;
         margin-bottom:0;
     }
 
@@ -115,7 +115,7 @@ li a:hover {
  .midground{
             position:relative;
             display:inline-block;
-            background:rgba(125,125,125,.5);
+            background:rgba(100,100,100,.9);
             width:80%;
             height:100%;
             margin-left:8%;
