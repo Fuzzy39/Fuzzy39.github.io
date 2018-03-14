@@ -4,15 +4,18 @@
   <head>
     <title>ToI</title>
     <script>
+      var x = 0;
+      items.innerHTML = x+" stone";
       function clickadd() { 
-        items.innerHTML = "it worked.";
+        x++;
+        items.innerHTML = x+" stone";
       }
     </script>
     
   </head>
 
   <body>
-    <h1 id="items">hey dude.</h1>
-    <button onclick="clickadd()">click?</button>
+    <h1 id="items"></h1>
+    <button onclick="clickadd()">click for stone.</button>
   </body>
 </html>
