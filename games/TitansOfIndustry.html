@@ -1,7 +1,4 @@
-<!doctype html>
-
-<html>
-  <head>
+<html><head>
     <title>ToI</title>
     <script>
       var x = 0;
@@ -15,17 +12,25 @@
   </head>
 
   <body>
+      <div class="wrapper">
+       <div class="left">
+      <button></button>
+    </div>
     <div class="center">
-      <h1 id="items">0 stone</h1>
+      <h1 id="items">28 stone</h1>
       <button onclick="clickadd()">click for stone.</button>
     </div>
-    <div class="left">
-      <button >stone</button>
-    </div>
+      </div>
+   
     <style>
-      .center {text-align:center;} 
+        
+        .wrapper {display:flex;}
+      .center {text-align:center; position:relative; width:50%; left:25%;
+ } 
       .center button {padding:20px;}
-      .left button{width:12% height:33%}
-    </style>
-  </body>
-</html>
+      .left button{width:12%; height:33%;
+    position:relative; top:0; bottom:66%; right:88%; }
+</style>
+  
+
+</body></html>
