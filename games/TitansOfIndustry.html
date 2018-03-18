@@ -8,7 +8,8 @@
         items.innerHTML = x+" stone";
       }
       function menu(t){
-        console.log(t);
+        document.getElementById(t).style.borderBottom = "15px dotted lightblue";
+}
       }
     </script>
     
@@ -27,8 +28,8 @@
             
          <div class="wrapper" style="width:25%;">
               <div class="menu"></div>
-             <button class="right" id="MenuAutos" onclick="menu(1)">Autos</button>
-             <button class="right" id="MenuUpgrades" onclick="menu(2)">Upgrades</button>
+             <button class="right" id="1" onclick="menu(1)">Autos</button>
+             <button class="right" id="2" onclick="menu(2)">Upgrades</button>
       </div></div>
     	
          <button class="left2"></button>
