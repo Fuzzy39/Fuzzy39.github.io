@@ -10,8 +10,16 @@
       }
         
       function menu(t){
-        auto.innerHTML = "mememem";
-      }
+          if(t==1){
+       
+              document.getElementById("auto").style.borderBottom = "";
+              document.getElementById("upgr").style.borderBottom = "2px solid white";
+
+         }
+         if(t==2){
+            document.getElementById("upgr").style.borderBottom = "";
+              document.getElementById("auto").style.borderBottom = "2px solid white";
+         }
       
     </script>
     
@@ -31,7 +39,7 @@
          <div class="wrapper" style="width:25%;">
               <div class="menu"></div>
              <button class="right" id="auto" onclick="menu(1)">Autos</button>
-             <button class="right" id="2" onclick="menu(2)">Upgrades</button>
+             <button class="right" id="upgr" onclick="menu(2)">Upgrades</button>
       </div></div>
     	
          <button class="left2"></button>
