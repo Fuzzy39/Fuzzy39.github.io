@@ -1,0 +1,123 @@
+<!doctype html>
+<html>
+	<head>
+	
+	<title>The Dark.</title>
+	<script>
+	function removeElement(elementId) 
+	{
+    	var element = document.getElementById(elementId);
+    	element.parentNode.removeChild(element);
+	}
+	function knock()
+	{
+		document.getElementById("main").innerHTML = "You are shoved in to the cold air.";
+		document.getElementById("second").innerHTML = "You don't see their faces.";
+		document.getElementById("opt3").innerHTML = "Get carried away.";
+		removeElement("opt1");
+		removeElement("opt2");
+		
+		
+			
+	}
+	function noknock()
+	{
+		document.getElementById("main").innerHTML = "The rapping at the door grows loud.";
+		document.getElementById("second").innerHTML = "Too loud.";
+		removeElement("opt2");
+			
+	}
+	function away()
+	{
+		document.getElementById("main").innerHTML = "You leave. Who knows where.";
+		document.getElementById("second").innerHTML = "It is far too dark.";
+		removeElement("opt3");
+		document.getElementById("opt4").innerHTML = "Ask for a lantern.";
+		document.getElementById("opt5").innerHTML = "Say nothing.";
+		document.getElementById("boody").style.backgroundColor="#1a001a";
+		
+	}
+	function light()
+	{
+		document.getElementById("main").innerHTML = "Your captors say nothing.";
+		document.getElementById("second").innerHTML = "You walk in the dark.";
+		document.getElementById("opt6").innerHTML = "Eventualy, they stop.";
+		removeElement("opt4");
+		removeElement("opt5");
+	}
+		
+	function nolight()
+	{
+		document.getElementById("main").innerHTML = "You walk in the dark.";
+		document.getElementById("second").innerHTML = "";
+		document.getElementById("opt6").innerHTML = "Eventualy, they stop.";
+		removeElement("opt4");
+		removeElement("opt5");
+	}
+	function away2()
+	{
+		document.getElementById("main").innerHTML = "Your captors speak.";
+		document.getElementById("second").innerHTML = "They say, \"You are Away.\"";
+		document.getElementById("end").innerHTML = "You sit there, and slowly fade.";
+		document.getElementById("opt7").innerHTML = "And become part of the Away.";
+		document.getElementById("boody").style.backgroundColor="#0a000a";
+		removeElement("opt6");
+		
+	}
+	function away3()
+	{
+		document.getElementById("main").innerHTML = "You are part of the Away.";
+		document.getElementById("second").innerHTML = "And you welcome the next soul that is brought here.";
+		document.getElementById("end").innerHTML = "";
+		document.getElementById("opt8").innerHTML = "And they become part of the Away.";
+		removeElement("opt7");
+	}
+	function End()
+	{
+		document.getElementById("main").innerHTML = "Away.";
+		document.getElementById("second").innerHTML = "by Mason Hill";
+		document.getElementById("end").innerHTML = "";
+		removeElement("opt8");
+	}
+	</script>
+	
+	</head>
+
+	<body id="boody">
+		<h1 id="main">It is late at night.</h1>
+		<h2 id="second">You hear a knock at the door.</h2>
+		<a href="javascript:knock()" id="opt1">Open the door.</a>
+		<a href="javascript:noknock()" id="opt2">Try to go back to sleep.</a>
+		<a href="javascript:away()" id="opt3"></a>
+		<a href="javascript:light()" id="opt4"></a>
+		<a href="javascript:nolight()" id="opt5"></a>
+		<a href="javascript:away2()" id="opt6"></a>
+		<h3 id="end"></h3>
+		<a href="javascript:away3()" id="opt7"></a>
+		<a href="javascript:End()" id="opt8"></a>
+		<style>
+			/* CSS Document */
+			/* background is a dark sky-ish colour.*/
+		body{
+			background-color:#2a202b;
+		}
+		h1{
+			color:#ffffff;
+		}
+		h2{
+			margin-top: -15px;
+		color:#ffffff;
+		}
+		h3{
+		color:#ffffff;
+		}
+		/* display needs to be block to have its own line */
+		a{
+			color:#FFFFD0;
+			display:block;
+			padding-top:8px;
+			padding-bottom: 15px;
+		}
+		</style>
+	</body>
+</html>
