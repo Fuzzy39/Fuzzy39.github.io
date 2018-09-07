@@ -1,123 +1,501 @@
 <!doctype html>
 <html>
-	<head>
-	
-	<title>The Dark.</title>
-	<script>
-	function removeElement(elementId) 
-	{
-    	var element = document.getElementById(elementId);
-    	element.parentNode.removeChild(element);
-	}
-	function knock()
-	{
-		document.getElementById("main").innerHTML = "You are shoved in to the cold air.";
-		document.getElementById("second").innerHTML = "You don't see their faces.";
-		document.getElementById("opt3").innerHTML = "Get carried away.";
-		removeElement("opt1");
-		removeElement("opt2");
-		
-		
-			
-	}
-	function noknock()
-	{
-		document.getElementById("main").innerHTML = "The rapping at the door grows loud.";
-		document.getElementById("second").innerHTML = "Too loud.";
-		removeElement("opt2");
-			
-	}
-	function away()
-	{
-		document.getElementById("main").innerHTML = "You leave. Who knows where.";
-		document.getElementById("second").innerHTML = "It is far too dark.";
-		removeElement("opt3");
-		document.getElementById("opt4").innerHTML = "Ask for a lantern.";
-		document.getElementById("opt5").innerHTML = "Say nothing.";
-		document.getElementById("boody").style.backgroundColor="#1a001a";
-		
-	}
-	function light()
-	{
-		document.getElementById("main").innerHTML = "Your captors say nothing.";
-		document.getElementById("second").innerHTML = "You walk in the dark.";
-		document.getElementById("opt6").innerHTML = "Eventually, your captors stop.";
-		removeElement("opt4");
-		removeElement("opt5");
-	}
-		
-	function nolight()
-	{
-		document.getElementById("main").innerHTML = "You walk in the dark.";
-		document.getElementById("second").innerHTML = "";
-		document.getElementById("opt6").innerHTML = "Eventually, your captors stop.";
-		removeElement("opt4");
-		removeElement("opt5");
-	}
-	function away2()
-	{
-		document.getElementById("main").innerHTML = "Your captors speak.";
-		document.getElementById("second").innerHTML = "They say, \"You are Away.\"";
-		document.getElementById("end").innerHTML = "You sit there, and slowly fade.";
-		document.getElementById("opt7").innerHTML = "And become part of the Away.";
-		document.getElementById("boody").style.backgroundColor="#0a000a";
-		removeElement("opt6");
-		
-	}
-	function away3()
-	{
-		document.getElementById("main").innerHTML = "You are part of the Away.";
-		document.getElementById("second").innerHTML = "And you welcome the next soul that is brought here.";
-		document.getElementById("end").innerHTML = "";
-		document.getElementById("opt8").innerHTML = "And they become part of the Away.";
-		removeElement("opt7");
-	}
-	function End()
-	{
-		document.getElementById("main").innerHTML = "Away.";
-		document.getElementById("second").innerHTML = "by Mason Hill";
-		document.getElementById("end").innerHTML = "";
-		removeElement("opt8");
-	}
-	</script>
-	
+<head>
+		<title>Away2</title>
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 	</head>
 
-	<body id="boody">
-		<h1 id="main">It is late at night.</h1>
-		<h2 id="second">You hear a knock at the door.</h2>
-		<a href="javascript:knock()" id="opt1">Open the door.</a>
-		<a href="javascript:noknock()" id="opt2">Try to go back to sleep.</a>
-		<a href="javascript:away()" id="opt3"></a>
-		<a href="javascript:light()" id="opt4"></a>
-		<a href="javascript:nolight()" id="opt5"></a>
-		<a href="javascript:away2()" id="opt6"></a>
-		<h3 id="end"></h3>
-		<a href="javascript:away3()" id="opt7"></a>
-		<a href="javascript:End()" id="opt8"></a>
+	<body id="background">
+		
+		
+		<h1 id="first">first</h1>
+		<h2 id="second">second</h2>
+		<h3 id="third">third</h3>
+		
+		<a id="opt1" href="javascript:frame1()">opt1</a>
+		<a id="opt2" href="">opt2</a>
+		<a id="opt3" href="javascript:frame8()">opt3</a>
+		
+		<script>
+			
+			var annoyed=false;
+			var pallet1="#5972a3";
+			var pallet2="#2b202b";
+			var pallet3="#1b101b";
+			var pallet4="#0b000b";
+			
+			//set the start
+			reset();
+			function art(pallet)
+			{
+				document.getElementById("background").style.backgroundColor=pallet;
+			}
+			function changeTarget(Id,target)
+			{
+				// expects two strings, changes the function an A tag goes to. 
+				document.getElementById(Id).href = target;
+			}
+			
+			
+			function reset()
+			{
+				luck=(Math.floor(Math.random()*100)) // if it equals 99, a special thing happens.
+				
+				document.getElementById("first").innerHTML="It is late at night.";
+				document.getElementById("second").innerHTML="You hear a knock at the door.";
+				document.getElementById("third").innerHTML="";
+				
+				document.getElementById("opt1").innerHTML="Open the door.";
+				document.getElementById("opt2").innerHTML="Grab a broom, to be safe.";
+				document.getElementById("opt3").innerHTML="Try to go back to sleep.";
+				
+				changeTarget("opt1","javascript:frame1()");
+				changeTarget("opt2","javascript:frame20()");
+				changeTarget("opt3","javascript:frame8()");
+				
+				annoyed=false;
+				
+				art(pallet2);
+				
+			}
+			
+			function frame1()
+			{
+				
+				document.getElementById("first").innerHTML="You are shoved into the cold air.";
+				document.getElementById("second").innerHTML="You don't see their faces.";
+				document.getElementById("third").innerHTML="";
+				
+				document.getElementById("opt1").innerHTML="Get caried away.";
+				document.getElementById("opt2").innerHTML="";
+				document.getElementById("opt3").innerHTML="";	
+				
+				changeTarget("opt1","javascript:frame2()");
+				changeTarget("opt2","");
+				changeTarget("opt3","");
+				
+				
+				
+				if(luck==99)
+				{
+					frame24();
+				}
+				
+			}
+			
+			function frame2()
+			{
+				document.getElementById("first").innerHTML="You leave. Who knows where.";
+				document.getElementById("second").innerHTML="It is far too dark.";
+				document.getElementById("third").innerHTML="";
+				
+				document.getElementById("opt1").innerHTML="Ask for a lantern.";
+				document.getElementById("opt2").innerHTML="Say nothing.";
+				document.getElementById("opt3").innerHTML="";	
+				
+				changeTarget("opt1","javascript:frame9()");
+				changeTarget("opt2","javascript:frame3()");
+				changeTarget("opt3","");
+				
+				art(pallet3);
+			}
+			
+			function frame3()
+			{
+				document.getElementById("first").innerHTML="You continue in the dark.";
+				document.getElementById("second").innerHTML="It is far too quiet. Unearthly. ";
+				document.getElementById("third").innerHTML="";
+				
+				document.getElementById("opt1").innerHTML="Try to converse with one of the strangers.";
+				document.getElementById("opt2").innerHTML="Say nothing.";
+				document.getElementById("opt3").innerHTML="";	
+				
+				changeTarget("opt1","javascript:frame10()");
+				changeTarget("opt2","javascript:frame4()");
+				changeTarget("opt3","");
+				if(annoyed)
+				{
+					changeTarget("opt1","javascript:frame16()");	
+				}
+			}
+			
+			function frame4()
+			{
+				document.getElementById("first").innerHTML="You continue in silence.";
+				document.getElementById("second").innerHTML="";
+				document.getElementById("third").innerHTML="";
+				
+				document.getElementById("opt1").innerHTML="eventually, your captors stop.";
+				document.getElementById("opt2").innerHTML="";
+				document.getElementById("opt3").innerHTML="";	
+				
+				changeTarget("opt1","javascript:frame5()");
+				changeTarget("opt2","");
+				changeTarget("opt3","");
+			}
+			
+			function frame5()
+			{
+				document.getElementById("first").innerHTML="They speak:";
+				document.getElementById("second").innerHTML="\" You are Away. \"";
+				document.getElementById("third").innerHTML="";
+				
+				document.getElementById("opt1").innerHTML="Away?";
+				document.getElementById("opt2").innerHTML="You run.";
+				document.getElementById("opt3").innerHTML="";	
+				
+				changeTarget("opt1","javascript:frame6()");
+				changeTarget("opt2","javascript:frame11()");
+				changeTarget("opt3","");
+				
+				art(pallet4)
+			}
+			
+			function frame6()
+			{
+				document.getElementById("first").innerHTML="One of us.";
+				document.getElementById("second").innerHTML="Your spirit fades before them.";
+				document.getElementById("third").innerHTML="";
+				
+				document.getElementById("opt1").innerHTML="You are Away.";
+				document.getElementById("opt2").innerHTML="";
+				document.getElementById("opt3").innerHTML="";	
+				
+				changeTarget("opt1","javascript:frame7()");
+				changeTarget("opt2","");
+				changeTarget("opt3","");
+			}
+		
+			function frame7()
+			{
+				document.getElementById("first").innerHTML="You are one of the Away.";
+				document.getElementById("second").innerHTML="Your soul disolves into the rest.";
+				document.getElementById("third").innerHTML="";
+				
+				document.getElementById("opt1").innerHTML="Play again.";
+				document.getElementById("opt2").innerHTML="";
+				document.getElementById("opt3").innerHTML="";	
+				
+				changeTarget("opt1","javascript:reset()");
+				changeTarget("opt2","");
+				changeTarget("opt3","");
+			}
+			
+			function frame8()
+			{
+				document.getElementById("first").innerHTML="The rapping on the door grows loud.";
+				document.getElementById("second").innerHTML="Too loud.";
+				document.getElementById("third").innerHTML="";
+				
+				document.getElementById("opt1").innerHTML="Open the door.";
+				document.getElementById("opt2").innerHTML="";
+				document.getElementById("opt3").innerHTML="";	
+				
+				changeTarget("opt1","javascript:frame1()");
+				changeTarget("opt2","");
+				changeTarget("opt3","");
+			}
+			function frame9()
+			{
+				document.getElementById("first").innerHTML="Your captors say nothing.";
+				document.getElementById("second").innerHTML="";
+				document.getElementById("third").innerHTML="";
+				
+				document.getElementById("opt1").innerHTML="Walk in the dark, then.";
+				document.getElementById("opt2").innerHTML="";
+				document.getElementById("opt3").innerHTML="";	
+				
+				changeTarget("opt1","javascript:frame3()");
+				changeTarget("opt2","");
+				changeTarget("opt3","");
+				
+				annoyed=true;	
+			} 
+			function frame10()
+			{
+				document.getElementById("first").innerHTML="Your captors say nothing.";
+				document.getElementById("second").innerHTML="";
+				document.getElementById("third").innerHTML="";
+				
+				document.getElementById("opt1").innerHTML="Walk in silence, then.";
+				document.getElementById("opt2").innerHTML="";
+				document.getElementById("opt3").innerHTML="";	
+				
+				changeTarget("opt1","javascript:frame4()");
+				changeTarget("opt2","");
+				changeTarget("opt3","");
+			}
+			function frame11()
+			{
+				document.getElementById("first").innerHTML="You run.";
+				document.getElementById("second").innerHTML="The Away chase you.";
+				document.getElementById("third").innerHTML="";
+				
+				document.getElementById("opt1").innerHTML="Keep Running.";
+				document.getElementById("opt2").innerHTML="Submit to the cult.";
+				document.getElementById("opt3").innerHTML="";	
+				
+				changeTarget("opt1","javascript:frame13()");
+				changeTarget("opt2","javascript:frame12()");
+				changeTarget("opt3","");
+			}
+			
+			
+			function frame12()
+			{
+				document.getElementById("first").innerHTML="The Away capture you.";
+				document.getElementById("second").innerHTML="They speak:";
+				document.getElementById("third").innerHTML="";
+				
+				document.getElementById("opt1").innerHTML="\"You are Away, now. \"";
+				document.getElementById("opt2").innerHTML="";
+				document.getElementById("opt3").innerHTML="";	
+				
+				changeTarget("opt1","javascript:frame6()");
+				changeTarget("opt2","");
+				changeTarget("opt3","");
+			}
+			
+			
+			function frame13()
+			{
+				document.getElementById("first").innerHTML="You run, fast.";
+				document.getElementById("second").innerHTML="The Away are not far behind.";
+				document.getElementById("third").innerHTML="";
+				
+				document.getElementById("opt1").innerHTML="Just run.";
+				document.getElementById("opt2").innerHTML="";
+				document.getElementById("opt3").innerHTML="";	
+				
+				changeTarget("opt1","javascript:frame14()");
+				changeTarget("opt2","");
+				changeTarget("opt3","");
+			}
+			
+			function frame14()
+			{
+				document.getElementById("first").innerHTML="You are weak.";
+				document.getElementById("second").innerHTML="But so close to your home.";
+				document.getElementById("third").innerHTML="";
+				
+				document.getElementById("opt1").innerHTML="Just a few more steps...";
+				document.getElementById("opt2").innerHTML="";
+				document.getElementById("opt3").innerHTML="";	
+				
+				changeTarget("opt1","javascript:frame15()");
+				changeTarget("opt2","");
+				changeTarget("opt3","");
+			}
+			
+			function frame15()
+			{
+				document.getElementById("first").innerHTML="You fall.";
+				document.getElementById("second").innerHTML="Your soul is ripped from your body.";
+				document.getElementById("third").innerHTML="Your death will help the Away.";
+				
+				document.getElementById("opt1").innerHTML="Play again.";
+				document.getElementById("opt2").innerHTML="";
+				document.getElementById("opt3").innerHTML="";	
+				
+				changeTarget("opt1","javascript:reset()");
+				changeTarget("opt2","");
+				changeTarget("opt3","");
+			}
+			function frame16()
+			{
+				document.getElementById("first").innerHTML="Distracted by your jibber, one of the captors drop a saber.";
+				document.getElementById("second").innerHTML="Nobody noticed.";
+				document.getElementById("third").innerHTML="";
+				
+				document.getElementById("opt1").innerHTML="Grab the saber.";
+				document.getElementById("opt2").innerHTML="Keep walking.";
+				document.getElementById("opt3").innerHTML="";	
+				
+				changeTarget("opt1","javascript:frame17()");
+				changeTarget("opt2","javascript:frame4()");
+				changeTarget("opt3","");
+			}
+			function frame17()
+			{
+				document.getElementById("first").innerHTML="You've got a saber.";
+				document.getElementById("second").innerHTML="Your captors haven't seen you.";
+				document.getElementById("third").innerHTML="";
+				
+				document.getElementById("opt1").innerHTML="Fight for freedom!";
+				document.getElementById("opt2").innerHTML="";
+				document.getElementById("opt3").innerHTML="";	
+				
+				changeTarget("opt1","javascript:frame18()");
+				changeTarget("opt2","");
+				changeTarget("opt3","");
+			}
+			function frame18()
+			{
+				document.getElementById("first").innerHTML="In a fit of rage, two of your captors are killed.";
+				document.getElementById("second").innerHTML="The rest vanished, after a while.";
+				document.getElementById("third").innerHTML="";
+				
+				document.getElementById("opt1").innerHTML="Walk home.";
+				document.getElementById("opt2").innerHTML="";
+				document.getElementById("opt3").innerHTML="";	
+				
+				changeTarget("opt1","javascript:frame19()");
+				changeTarget("opt2","");
+				changeTarget("opt3","");
+				
+				art(pallet1);
+			}
+			function frame19()
+			{
+				document.getElementById("first").innerHTML="";
+				document.getElementById("second").innerHTML="From that day forward, you'll have an amazing story to tell your friends.";
+				document.getElementById("third").innerHTML="";
+				
+				document.getElementById("opt1").innerHTML="Play Again.";
+				document.getElementById("opt2").innerHTML="";
+				document.getElementById("opt3").innerHTML="";	
+				
+				changeTarget("opt1","javascript:reset()");
+				changeTarget("opt2","");
+				changeTarget("opt3","");
+			}
+			function frame20()
+			{
+				document.getElementById("first").innerHTML="Hooded figures stand at your door.";
+				document.getElementById("second").innerHTML="\"Lay down your weapons.\"";
+				document.getElementById("third").innerHTML="";
+				
+				document.getElementById("opt1").innerHTML="Never!";
+				document.getElementById("opt2").innerHTML="Toss away your broom.";
+				document.getElementById("opt3").innerHTML="";	
+				
+				changeTarget("opt1","javascript:frame21()");
+				changeTarget("opt2","javascript:frame2()");
+				changeTarget("opt3","");
+				
+				art(pallet3);
+				
+				if(luck==99)
+				{
+					frame24();
+				}
+			}
+			function frame21()
+			{
+				document.getElementById("first").innerHTML="Too many.";
+				document.getElementById("second").innerHTML="The figures destroy everything you cherish.";
+				document.getElementById("third").innerHTML="";
+				
+				document.getElementById("opt1").innerHTML="Keep fighting.";
+				document.getElementById("opt2").innerHTML="Escape.";
+				document.getElementById("opt3").innerHTML="";	
+				
+				changeTarget("opt1","javascript:frame22()");
+				changeTarget("opt2","javascript:frame22()");
+				changeTarget("opt3","");
+				
+				art(pallet4);
+				
+				if(Math.floor(Math.random() * 2)==0)// 1/4 of the time...
+				{
+					changeTarget("opt2","javascript:frame23()");	
+				}
+			}
+			function frame22()
+			{
+				document.getElementById("first").innerHTML="Despite your efforts, you are killed.";
+				document.getElementById("second").innerHTML="All is black. Forever.";
+				document.getElementById("third").innerHTML="";
+				
+				document.getElementById("opt1").innerHTML="Play Again.";
+				document.getElementById("opt2").innerHTML="";
+				document.getElementById("opt3").innerHTML="";	
+				
+				changeTarget("opt1","javascript:reset()");
+				changeTarget("opt2","");
+				changeTarget("opt3","");
+			}
+			function frame23()
+			{
+				document.getElementById("first").innerHTML="You escape.";
+				document.getElementById("second").innerHTML="Your start your life over, hiding from the figures.";
+				document.getElementById("third").innerHTML="";
+				
+				document.getElementById("opt1").innerHTML="Play Again.";
+				document.getElementById("opt2").innerHTML="";
+				document.getElementById("opt3").innerHTML="";	
+				
+				changeTarget("opt1","javascript:reset()");
+				changeTarget("opt2","");
+				changeTarget("opt3","");
+				
+				art(pallet2);
+			}
+			function frame24()
+			{
+				document.getElementById("first").innerHTML="A knives salesman is at your door.";
+				document.getElementById("second").innerHTML="\"Do you have interest in defending yourself?\"";
+				document.getElementById("third").innerHTML="";
+				
+				document.getElementById("opt1").innerHTML="Slam the door.";
+				document.getElementById("opt2").innerHTML="";
+				document.getElementById("opt3").innerHTML="";	
+				
+				changeTarget("opt1","javascript:frame25()");
+				changeTarget("opt2","");
+				changeTarget("opt3","");
+				art(pallet1);
+			}
+			function frame25()
+			{
+				document.getElementById("first").innerHTML="You go back to bed.";
+				document.getElementById("second").innerHTML="You sleep in safety.";
+				document.getElementById("third").innerHTML="That was incredibly rare!";
+				
+				document.getElementById("opt1").innerHTML="Play Again.";
+				document.getElementById("opt2").innerHTML="";
+				document.getElementById("opt3").innerHTML="";	
+				
+				changeTarget("opt1","javascript:reset()");
+				changeTarget("opt2","");
+				changeTarget("opt3","");
+			}
+				
+		</script>
+		
 		<style>
-			/* CSS Document */
-			/* background is a dark sky-ish colour.*/
-		body{
+			
+		body
+		{
 			background-color:#2a202b;
 		}
-		h1{
+			
+		h1
+		{
 			color:#ffffff;
 		}
-		h2{
+			
+		h2
+		{
 			margin-top: -15px;
-		color:#ffffff;
+		    color:#ffffff;
 		}
-		h3{
-		color:#ffffff;
+			
+		h3
+		{
+			margin-top: -10px;
+			color:#50BE4F;
+			font-family: "Trebuchet MS";
 		}
-		/* display needs to be block to have its own line */
-		a{
+		
+		a
+		{
 			color:#FFFFD0;
 			display:block;
-			padding-top:8px;
+			padding-top:5px;
 			padding-bottom: 15px;
 		}
+			
 		</style>
 	</body>
 </html>
