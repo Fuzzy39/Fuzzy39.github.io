@@ -1,0 +1,172 @@
+@charset "UTF-8";
+body
+{
+	font-family:arial; 
+	color:#bbb;
+	background-image:url(https://bymyink.files.wordpress.com/2014/03/palmlixcom-night-sky-stars-background-psdgraphics.jpg);
+    background-size:cover;
+}
+.content
+{
+	margin:5%;
+	border-style:none;
+	background-color:rgba(125,125,125,0.7);
+	transition:2s;
+	box-shadow: 0px 0px 30px rgba(75,125,175,.5);
+}
+
+.content:hover
+{
+	background-color:rgba(125,125,125,0.9);
+	box-shadow: 0px 0px 20px rgba(100,150,200,.7);
+
+}
+
+.header
+{
+	width:100%;
+	text-align:center;
+}
+
+.title
+{
+	padding-top:0.6em;
+	margin-bottom:-1.5%;
+	font-size:170%;
+}
+
+.navBar
+{
+	padding-bottom:1%;
+}
+
+.navBar button
+{
+	border-style:solid;
+	border-color:dimgrey;
+	border-width:3px;
+	
+	background-color:gray;
+	height:4em;
+	width:22.5%;
+	opacity:0.7;
+	font-size:80%;
+	transition:1s;
+	margin:-2.22px;
+	margin-bottom:.5em;
+	color:white;
+	
+}
+
+.navBar button:hover
+{
+	background-color:lightgray;
+	opacity:1;
+	font-size:100%;
+	height:3.2em;
+	color:dimgrey;
+	
+}
+
+.navBar .selected
+{
+	background-color:dimgrey;
+	font-color:black;
+	opaciy:.9;
+}
+.body
+{
+	display:flex;
+	padding:3%;
+	
+}
+
+.mainContent
+{
+
+	padding:1%;   
+	
+}
+
+.mainContent button
+{
+	width:100%;
+	height:5em;
+	background-size:16em;
+	font-size:400%;
+	color:#4A7CF6;
+	text-shadow: 4px 4px 1px #104066;
+	filter:brightness(60%);
+	transition:1s;
+	border:none;
+	background-image:url(buttonbackground.jpg);
+	margin-bottom: 3%;
+	border-style:solid;
+	border-color:white;
+}
+
+.mainContent button:hover
+{
+	filter:brightness(100%);
+	font-size:500%;
+	height:4em;
+	border-color:#ccc;
+}
+	
+
+.sidebar
+{
+	width:30%;
+	padding:3%;
+	border-style:solid;
+	padding-top:0px;
+	float:right;
+	
+}
+
+.sidebar h3
+{
+	
+	margin-bottom:-5px;
+}
+
+.sidebar hr
+{
+	width:105%;
+}
+.footer
+{
+	text-align: center;
+	padding-bottom: .5em;
+}
+hr
+{
+  display:block;
+  height:3px;
+  background:#ccc;
+  width:95%;
+  border-style:none;
+}
+
+h1
+{
+	color:#4A7CF6;
+}
+
+h2
+{
+	color:#4A7CF6;
+	
+}
+h3
+{
+	color:#4A7CF6;
+}
+a
+{
+	color:#5A8CFF;	
+}
+li
+{
+	margin-bottom:.4em;
+}
