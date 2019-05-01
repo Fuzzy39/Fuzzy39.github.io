@@ -1,0 +1,96 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		 <link rel="stylesheet" type="text/css" href="Main.css">
+		
+		<title>Gold is good!</title>
+	</head>
+
+	<body>
+		<div class="mainContainer">
+			
+			
+			<div class="leftSidebar">
+				
+				<h1>Upgrades</h1>
+				<hr>
+				
+				<div class="upgradeOff" id="pickUpgrade" onClick="pickUp()">
+				
+				  <h3>Upgrade pickaxe</h3>
+					
+				  <p id="pickLevel">Level: 29</p>
+				  <p id="pickCost">Cost: 160</p>
+				  <p>+1 gold per click.</p>
+					
+				  <div class="progressBar">
+				  <div id="pickBar" class="progress"></div>
+					  
+				  </div>
+					
+				</div>	
+				
+				<hr>
+				
+				<div class="upgradeLocked" id="autolUpgrade2" onClick="autolUp2()">
+				
+				  <h3>Autominer Efficiency</h3>
+					
+				  <p id="autolUpLevel">Level: 0</p>
+				  <p id="autolUpCost">Cost: Kill a few children...</p>
+				  <p>Makes Autominers better.</p>
+					
+				  <div class="progressBar">
+				  	<div id="autolUpBar" class="progress"></div>
+					  
+				
+				  </div>
+				 <hr>
+				
+				
+					
+				</div>
+				
+				
+		  </div>
+			
+			
+			<div class="body">
+				
+			    <h1 id="goldCount">Gold: 121.25</h1>
+			    <h3 id="gps">gold/sec:</h3>
+				<button onClick="clickMain()">GOLD!</button>
+				
+			</div>
+			
+			
+			<div class="rightSidebar">
+				<h1>Autos</h1>
+				<hr>
+					
+				
+				<div class="upgradeOff" onClick="autolUp()" id="autolUpgrade">
+				
+					<h3>AutoMiner</h3>
+					
+				    <p id="autolAmmount">Count: 0</p>
+				    <p id="autolCost">Cost: 30</p>
+					<p  id="autolDesc">1 gold per second.</p>
+					
+					<div class="progressBar">
+						<div id="autolBar" class="progress"></div>
+				    </div>
+				
+				</div>
+				
+				<hr>
+			</div>
+			
+			
+		</div>
+		<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+		<script src="Main.js"></script>
+		
+	</body>
+</html>
