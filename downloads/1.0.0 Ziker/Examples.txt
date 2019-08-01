@@ -1,0 +1,153 @@
+Five examples of what Ziker mk3 can do:
+You can copy-paste these directly into the shell without that much weirdness.
+
+1) Hello World
+--------------
+
+"Hello World!"
+
+result:
+>: Hello World!
+
+- Standard hello world for Ziker.
+
+---------------
+
+
+
+
+
+2) Variables and operations:
+--------------
+
+var=2
+"Var times var is: " + var * var + "."
+
+result:
+>: Var times var is: 4.
+
+- This shows off math, variables and string concatination.
+--------------
+
+
+
+
+
+
+3) Read and recall:
+--------------
+while true
+	"What is your name?"
+	read name
+	"Hello, " + name + "."
+	end
+
+result:
+>: What is your name?
+? Mason 
+>: Hello, Mason.
+...
+
+- This shows off loops and the read command.
+It does have an infinite loop in it, so be weary.
+--------------
+
+
+
+
+
+
+4) Randomness and complex statements
+--------------
+
+notWinning = true
+while notWinning
+	random = rand 1 10
+	"I'm thinking of a random number between 1 and 10..."
+	readInt guess
+	if guess == random
+		"You're right! I was thinking of " + random + "!"
+		notWinning = false
+		end
+	if guess != random
+		"Nope! I was thinking of " + random + "!"
+		end
+	end
+
+
+result:
+
+>: I'm thinking of a random number between 1 and 10...
+? 9
+>: Nope! I was thinking of 4!
+
+...
+
+>: I'm thinking of a random number between 1 and 10...
+? 6
+>: You're right! I was thinking of 6!
+
+
+- This shows off loops, if statements  and randomness.
+--------------
+
+
+
+5) Primes to 100
+---------------------
+
+limit = 100
+counter = 2
+while counter <= limit
+	composite = false
+	counter2 = 2
+	while counter2 <= counter
+		counter3 = 2
+		while counter3 * counter2 <= counter
+			if counter3 * counter2 == counter
+				composite = true
+				end
+			counter3 = counter3 + 1
+			end
+		counter2 = counter2 + 1
+		end
+	if composite == false
+		counter
+		end
+	counter = counter + 1
+	end
+
+
+
+result:
+>: 2
+>: 3
+>: 5
+>: 7
+>: 11
+>: 13
+>: 17
+>: 19
+>: 23
+>: 29
+>: 31
+>: 37
+>: 41
+>: 43
+>: 47
+>: 53
+>: 59
+>: 61
+>: 67
+>: 71
+>: 73
+>: 79
+>: 83
+>: 89
+>: 97
+
+- This shows that ziker can be put to some use.
+- You're on your own now. Try using ziker for something if you want.
+-----------------------------------------
+   
+

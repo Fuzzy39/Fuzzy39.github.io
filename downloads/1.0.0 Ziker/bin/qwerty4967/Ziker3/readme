@@ -1,0 +1,89 @@
+
+  What's This? (Project)
+  -------------------------
+  Ziker 3 is a project made by me, Mason Hill, Starting sometime before May, 2019.
+  I was in 8th grade at the time this began.
+  
+  The aim of Ziker 3, and Ziker itself, is to make a programming shell.
+  I want to make something interactive like the Python interactive shell, in some crude way.
+  Basically, I want to make a programming language, just to see if I can.
+  
+  I am not aware exactly when I made Ziker 1 or 2. They were in 6th-7th grade (2016-2018).
+  Ziker 1 was an utter failure, and Ziker 2 is competent, but simple.
+  I hope to make something more complex.
+  
+  This documentation was written towards the end ( cough early middle cough ) of development.
+ 
+	
+
+  Specifications
+  -------------------------
+  
+ 
+  // Okay, okay, I got lazy, and this isn't written very well, you should use the examples.
+ 
+  
+  The goal here is a really bad form of java like thing. 
+  it is Strongly typed, as I understand it.
+  
+  it will also be fairly dumb, as this is practice and a proof of concept.
+  true != 1 ; false != 0
+  no for loops, use a while loop.
+  no functions. It would be somewhat awkward for a shell anyways.
+  
+  it has  7 keywords, and they are as follows:
+   help -- opens help system ( see line: 42 )
+   read -- syntax: ( read VARIABLE ) gets text from user, gives it to the variable.
+   readInt -- syntax: ( read VARIABLE ) gets only ints from user.
+   if  -- syntax: ( if CONDITION \n CODE \n end ) executes CODE if Condition evaluates true.
+   while -- syntax: ( while CONDITION \n CODE \n end ) executes CODE while Condition evaluates true.
+   end -- ends all program control stuff. (while, if)
+   rand -- syntax: ( rand inta intb ) results in a random number from inta to intb (inclusive)
+  
+  and two debug keywords
+   debug and vars. find out what they do if you care.
+   
+   
+   Interactive help mode:
+   
+   Typing 'help' into the shell activates Interactive help mode.
+   It includes various topics, covering everything currently in the shell.
+   
+   Types:
+ 	There are three types of data that Ziker 3 uses:
+ 	ints ( numbers )
+ 	strings "Hello World" for example.
+ 	boolean true or false
+ 	
+ 	
+   Variables:
+ 	you can declare a variable as so:
+ 	NAME = VALUE
+ 	value is any string, int or bool.
+ 	A variable type cannot be reassigned.
+
+  
+   So, How does this work?
+   --------------------------------
+   ( this section may be outdated. )
+   This Program is not very object oriented, and that is something I will change in Ziker 4, if I choose to 
+   make it. Probably. I might make Ziker 4 in C++. I will also might want to build a Ziker 3 remastered.
+        
+   There are several utility classes, such as:
+   variable, text, number, and boolean: these classes are used for variables.
+   objectWithID, Node, and Leaf: these classes are used for making a tree data structure, which is used for
+   making if and while statements function.
+   
+   There are also more important classes:
+   shell : the core class. everything, basically.
+   Error : this class mostly exists as a fault in OOP, and I shouldn't have made it. It handles errors.
+   
+   Here, we'll also go through the process the program takes to understand and execute user input.
+   Main, Main has the main loop which drives the program. It usually calls standardProcessing.
+   standardProcessing takes the line that main gets from the user and puts it though various interpretation processes.
+   lexical process finds strings and operators in the raw text, and creates tokens.
+   semantic process assigns meaning to each token.
+   pragmatic process does the rest, interpreting bigger picture things, as well as executing them.
+ 
+ 
+ 
