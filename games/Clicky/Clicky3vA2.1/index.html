@@ -48,12 +48,12 @@
 			icons=
 			[
 				PIXI.Texture.from('graphics/Gui/Icons/Pickaxe.png'),
-				PIXI.Texture.from('graphics/Gui/Icons/NoIcon.png'),
+				PIXI.Texture.from('graphics/Gui/Icons/iconHelmet.png'),
 				PIXI.Texture.from('graphics/Gui/Icons/NoIcon.png'),
 				PIXI.Texture.from('graphics/Gui/Icons/NoIcon.png'),
 				PIXI.Texture.from('graphics/Gui/Icons/Settings.png'),
 				
-				PIXI.Texture.from('graphics/Gui/Icons/newNode.png'),
+				PIXI.Texture.from('graphics/Gui/Icons/NewNode.png'),
 				PIXI.Texture.from('graphics/Gui/Icons/NoIcon.png'),
 				PIXI.Texture.from('graphics/Gui/Icons/Miner.png'),
 				PIXI.Texture.from('graphics/Gui/Icons/NoIcon.png'),
@@ -119,7 +119,57 @@
 			{  return Math.floor( Math.random( ) * ( max - min ) ) + min;  }
 			
 			
-			
+			function keyboard( value ) 
+			{
+			  let key = {};
+			  key.value = value;
+			  key.isDown = false;
+			  key.isUp = true;
+			  key.press = undefined;
+			  key.release = undefined;
+			  //The `downHandler`
+			  key.downHandler = event => 
+			  {
+				if (event.key === key.value) 
+				{
+				  if (key.isUp && key.press) key.press();
+				  key.isDown = true;
+				  key.isUp = false;
+				  event.preventDefault();
+				}
+			  };
+
+			  //The `upHandler`
+			  key.upHandler = event => 
+			  {
+				if (event.key === key.value) 
+				{
+				  if (key.isDown && key.release) key.release();
+				  key.isDown = false;
+				  key.isUp = true;
+				  event.preventDefault();
+				}
+			  };
+
+			  //Attach event listeners
+			  const downListener = key.downHandler.bind(key);
+			  const upListener = key.upHandler.bind(key);
+
+			  window.addEventListener(
+				"keydown", downListener, false
+			  );
+			  window.addEventListener(
+				"keyup", upListener, false
+			  );
+
+			  // Detach event listeners
+			  key.unsubscribe = () => {
+				window.removeEventListener("keydown", downListener);
+				window.removeEventListener("keyup", upListener);
+			  };
+
+			  return key;
+			}
 			
 			
 			
@@ -133,6 +183,7 @@
 				gold: 0,
 				antiCheat:0,
 				allTimeGold: 0,
+				GPS: 0,
 				node:
 				{
 					total: 5000,
@@ -151,9 +202,10 @@
 							{
 								
 								// Fills the node with gold.
-								Game.node.total=Game.node.left;
-								Game.node.total+=5000;
 								Game.node.left+=5000;
+								Game.node.total=Game.node.left;
+								
+								
 								
 								Game.gold-=Game.node.filler.cost;
 								Game.antiCheat-=Game.node.filler.cost;
@@ -180,7 +232,7 @@
 					amount: 1,
 					baseCost: 10, // This Might do something? I don't think so.
 					cost: 10,
-					costExponent: 2.5,
+					costExponent: 3,
 					baseGPS: 0, // no GPS.
 					GPS: 0,
 
@@ -202,7 +254,7 @@
 							Game.gold-=Game.Pickaxe.cost;
 							Game.antiCheat-=Game.Pickaxe.cost;
 							Game.Pickaxe.cost=Math.floor(Game.Pickaxe.cost*Game.Pickaxe.costExponent);
-							btnTexts[20].text=Game.Pickaxe.amount+" gps, cost: "+Game.Pickaxe.cost;
+							btnTexts[20].text=Game.Pickaxe.amount+" gpc, cost: "+Game.Pickaxe.cost;
 						}
 
 						else
@@ -215,10 +267,85 @@
 
 				Miner:
 				{
-					
+					//Game data:
+					amount: 0,
+					baseCost: 10, // This Might do something? I don't think so.
+					cost: 25,
+					costExponent: 1.1,
+					baseGPS: 1, 
+					GPS: 0,
+
+					// Text Data:
+					name: 'Miner',
+					info: 'Mines 1 gps.',
+					up: function()
+					{
+						buttons[7].children[0].texture=btntex[1];
+						// I'm going to do this the dirty way. Sorry.
+						// Only I care?
+						// Eh.
+						if(Game.gold>=Game.Miner.cost)
+						{
+							buttons[7].children[0].tint=0x55FF55;
+							Game.Miner.amount++;
+							Game.gold-=Game.Miner.cost;
+							Game.antiCheat-=Game.Miner.cost;
+							Game.Miner.cost=Math.floor(Game.Miner.cost*Game.Miner.costExponent);
+							Game.Miner.GPS = Game.Miner.baseGPS * Game.Miner.amount;
+							btnTexts[27].text=Game.Miner.GPS+" gps, cost: "+Game.Miner.cost;
+						}
+
+						else
+						{
+							buttons[7].children[0].tint=0xFFAAAA;
+						}
+					}
+
 				},
 				
-				
+				Helmet:
+				{
+					//Game data:
+					amount: 0,
+					baseCost: 500, // This Might do something? I don't think so.
+					cost: 500,
+					costExponent: 1.6,
+					
+
+					// Text Data:
+					name: 'Harder Hats',
+					info: '+1 to miner gps.',
+					
+					up: function()
+					{
+						buttons[1].children[0].texture=btntex[1];
+						// I'm going to do this the dirty way. Sorry.
+						// Only I care?
+						// Eh.
+						if(Game.gold>=Game.Helmet.cost)
+						{
+							buttons[1].children[0].tint=0x55FF55;
+							Game.Helmet.amount++;
+							Game.gold-=Game.Helmet.cost;
+							Game.antiCheat-=Game.Helmet.cost;
+							Game.Helmet.cost=Math.floor(Game.Helmet.cost*Game.Helmet.costExponent);
+							btnTexts[21].text="cost: "+Game.Helmet.cost;
+							
+							// change miner accordingly.
+							Game.Miner.baseGPS++;
+							btnTexts[17].text="Mines "+Game.Miner.baseGPS+" gps.";
+							Game.Miner.GPS = Game.Miner.baseGPS * Game.Miner.amount;
+							btnTexts[27].text=Game.Miner.GPS+" gps, cost: "+Game.Miner.cost;
+							
+						}
+
+						else
+						{
+							buttons[1].children[0].tint=0xFFAAAA;
+						}
+					}
+					
+				},
 				
 				init: function()
 				{
@@ -246,10 +373,12 @@
 
 					// load all nessecery files.
 					loader
+						.add("graphics/Background.png")
 						.add( "graphics/goldFrag.png" )
 						.add( "graphics/Gui/menu.png" )
 						.add( "graphics/Gui/header.png" )
 						.add( "graphics/Gui/vertBar.png")
+					
 						.load( graphicInit ); // setup Graphics.
 					
 					
@@ -336,6 +465,31 @@
 							console.log("But alas, no. You've been stopped in your tracks.");
 							
 						}
+						
+						// GPS calc:
+						Game.GPS = Game.Miner.GPS;
+						
+						// Perform Calc.
+						if(!Game.node.left==0)
+						{
+							if(Game.GPS/60>Game.node.left)
+							{
+								Game.gold+=Game.node.left
+								Game.antiCheat+=Game.node.left
+								Game.allTimeGold+=Game.node.left
+								Game.node.left=0
+							}
+							else
+							{
+								Game.gold+=Game.GPS/60;
+								Game.antiCheat+=Game.GPS/60;
+								Game.allTimeGold+=Game.GPS/60;
+								Game.node.left-=Game.GPS/60;
+							}
+							
+						}
+						
+						
 						// Check price:
 						if(Game.gold>=Game.Pickaxe.cost)
 						{
@@ -345,6 +499,16 @@
 						else
 						{
 							buttons[0].children[1].tint=0xBBBBBB;
+						}
+						
+						if(Game.gold>=Game.Helmet.cost)
+						{
+							buttons[1].children[1].tint=0xFFFFFF;
+							
+						}
+						else
+						{
+							buttons[1].children[1].tint=0xBBBBBB;
 						}
 						
 						
@@ -359,6 +523,16 @@
 							buttons[5].children[1].tint=0xBBBBBB;
 						}
 						
+						if(Game.gold>=Game.Miner.cost)
+						{
+							buttons[7].children[1].tint=0xFFFFFF;
+							
+						}
+						else
+						{
+							buttons[7].children[1].tint=0xBBBBBB;
+						}
+						
 						
 						// Unlocks:
 						
@@ -368,11 +542,19 @@
 							buttons[0].visible=true;
 						}
 						
-						// fake unlock miners.
-						if(Game.allTimeGold>=25)
+						// unlock miners.
+						if(Game.allTimeGold>=Game.Miner.cost)
 						{
 							buttons[7].visible=true;
 						}
+						
+						//unlock Helmets.
+						if(Game.allTimeGold>=Game.Helmet.cost*1.5)
+						{
+							buttons[1].visible=true;
+						}
+						
+						
 					}
 
 
@@ -412,6 +594,10 @@
 				
 				// Create pre-existing sprites
 				goldButton = new PIXI.Sprite( textures[ 0 ] );
+				back = new PIXI.Sprite
+				(
+					loader.resources["graphics/Background.png"].texture
+				);
 				menuLeft = new PIXI.Sprite
 				(
 					loader.resources["graphics/Gui/menu.png"].texture
@@ -458,7 +644,7 @@
 						.on( 'pointerup', onButtonUp )
 						.on( 'pointerover', onButtonOver )
 						.on( 'pointerout', onButtonOut );
-					buttons[i].scale.set(1.15,.95);
+					buttons[i].scale.set(1.144,.95);
 					btnBacks[i].tint=0xBBBBBB
 					btnImg[i].tint=0xBBBBBB;
 					center(buttons[i]);
@@ -469,56 +655,61 @@
 				
 				
 				// Make text.
-				mainText = new PIXI.Text( 'Mine for gold!', Title );
+				mainText = new PIXI.Text( 'Something has gone wrong.', Title );
+				gpsText = new PIXI.Text( 'oh no...', Normal )
 				leftHeader = new PIXI.Text( 'Upgrades', Title );
 				rightHeader = new PIXI.Text( 'Autominers', Title );
 				goneText = new PIXI.Text( 'Gold depleted!', Normal );
-				watermark = new PIXI.Text( 'Clicky 3 Alpha 3 ( Indev )', Small );
+				watermark = new PIXI.Text( 'Clicky 3 Alpha 3 by Mason Hill', Small );
 				
 				//button text
 				btnTexts[0]= new PIXI.Text( Game.Pickaxe.name, Normal );
-				btnTexts[1]= new PIXI.Text( '404', Normal );
+				btnTexts[1]= new PIXI.Text( Game.Helmet.name, Normal );
 				btnTexts[2]= new PIXI.Text( '404', Normal );
 				btnTexts[3]= new PIXI.Text( '404', Normal );
 				btnTexts[4]= new PIXI.Text( 'Coming Soon', Normal );
 				
 				btnTexts[5]= new PIXI.Text( Game.node.filler.name, Normal );
 				btnTexts[6]= new PIXI.Text( '200', Normal );
-				btnTexts[7]= new PIXI.Text( 'Coming soon', Normal );
+				btnTexts[7]= new PIXI.Text( Game.Miner.name, Normal );
 				btnTexts[8]= new PIXI.Text( '404', Normal );
 				btnTexts[9]= new PIXI.Text( '404', Normal );
 				
 				btnTexts[10]= new PIXI.Text( Game.Pickaxe.info, Small );
-				btnTexts[11]= new PIXI.Text( '404',Small );
+				btnTexts[11]= new PIXI.Text( Game.Helmet.info,Small );
 				btnTexts[12]= new PIXI.Text( '404', Small );
 				btnTexts[13]= new PIXI.Text( '404', Small );
 				btnTexts[14]= new PIXI.Text( 'See game stats', Small );
 				
 				btnTexts[15]= new PIXI.Text( Game.node.filler.info, Small );
 				btnTexts[16]= new PIXI.Text( '404', Small );
-				btnTexts[17]= new PIXI.Text( 'Mines for you.', Small );
+				btnTexts[17]= new PIXI.Text( Game.Miner.info, Small );
 				btnTexts[18]= new PIXI.Text( '404', Small );
 				btnTexts[19]= new PIXI.Text( '404', Small );
 				
 				btnTexts[20]= new PIXI.Text( Game.Pickaxe.amount + ' g/click, cost: ' + Game.Pickaxe.cost, Small );
-				btnTexts[21]= new PIXI.Text( '404',Small );
+				btnTexts[21]= new PIXI.Text( 'Cost: ' + Game.Helmet.cost,Small );
+				btnTexts[21]= new PIXI.Text( 'Cost: ' + Game.Helmet.cost,Small );
 				btnTexts[22]= new PIXI.Text( '404', Small );
 				btnTexts[23]= new PIXI.Text( '404', Small );
 				btnTexts[24]= new PIXI.Text( 'Coming soon', Small );
 				
 				btnTexts[25]= new PIXI.Text( 'Cost: '+Game.node.filler.cost, Small );
 				btnTexts[26]= new PIXI.Text( '404', Small );
-				btnTexts[27]= new PIXI.Text( 'coming soonz', Small );
+				btnTexts[27]= new PIXI.Text( 'Cost: 25', Small );
 				btnTexts[28]= new PIXI.Text( '404', Small );
 				btnTexts[29]= new PIXI.Text( '404', Small );
 				
 				// add everything
+				app.stage.addChild( back );
+				
 				app.stage.addChild( goldButton );
 				
 				app.stage.addChild( headerLeft);
 				app.stage.addChild( headerRight );
 				
 				app.stage.addChild( mainText );
+				app.stage.addChild( gpsText );
 				app.stage.addChild( leftHeader);
 				app.stage.addChild( rightHeader );
 				app.stage.addChild( goneText );
@@ -557,7 +748,9 @@
         			.on( 'pointerout', onMainOut );
 				
 				buttons[0].on('pointerdown', Game.Pickaxe.up);
+				buttons[1].on('pointerdown', Game.Helmet.up);
 				buttons[5].on('pointerdown', Game.node.filler.fill);
+				buttons[7].on('pointerdown', Game.Miner.up);
 				
 				// center stuff.
 				onMainOut();
@@ -567,11 +760,19 @@
 				centerX(mainText);
 				mainText.position.y=50;
 				
+				centerX(gpsText);
+				gpsText.position.y=100;
+				
 				centerX(goneText);
 				goneText.position.y=500;
 				goneText.visible=false;
 				
-				
+				let spaceMine = keyboard( " " );
+				spaceMine.press = () => 
+				{
+  					onMainDown();
+					Game.mine();
+				};
 				
 				// Menu.... Yeah.
 				menuRight.scale.set(1, .85);
@@ -597,8 +798,8 @@
 				rightHeader.position.x= (((app.renderer.width-(barRight.position.x+barRight.width))-rightHeader.width)/2)+barRight.position.x+barRight.width
 				
 				headerRight.x=barRight.position.x+barRight.width;
-				headerRight.scale.set(1, 1.1);
-				headerLeft.scale.set(1,1.1);
+				headerRight.scale.set(1.01, 1.1);
+				headerLeft.scale.set(1.01,1.1);
 				
 				watermark.position.set(menuLeft.width+barLeft.width+20,app.renderer.height-watermark.height-10);
 				
@@ -613,13 +814,6 @@
 				buttons[7].position.set(menuRight.x,menuLeft.position.y+(buttons[0].height*2)+15);
 				buttons[8].position.set(menuRight.x,menuLeft.position.y+(buttons[0].height*3)+15);
 				buttons[9].position.set(menuRight.x,menuLeft.position.y+(buttons[0].height*4)+15);
-				//Key stuff.
-				
-				/*let spaceMine = keyboard( " " );
-				spaceMine.press = () => 
-				{
-  					onMainDown();
-				};*/
 				
 
 				
@@ -723,13 +917,10 @@
 			
 			function onButtonUp()
 			{
-				this.children[0].texture=btntex[0]
+				this.children[0].texture=btntex[0];
 			}
 			
-			function onButtonPick()
-			{
-				
-			}
+			
 			
 			
 			
@@ -744,8 +935,10 @@
 				
 				// update Text:
 				
-				mainText.text = "Gold: "+Game.gold;
+				mainText.text = "Gold: "+Math.floor(Game.gold);
 				centerX(mainText);
+				gpsText.text = "Gps: "+Math.floor(Game.GPS);
+				centerX(gpsText);
 				
 				
 				// animate main button.
