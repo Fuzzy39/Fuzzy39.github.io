@@ -5,7 +5,12 @@ Polish:
  - make the text look better?
  - give the button a shining light halo.
  - perhaps make the button Bub up and down?
- - create a background picture
+
 
 Progress
- - You know...
+ - cheat detection
+ - saving
+ - complete content
+ - progressive background
+ - prospector
+ - dododo

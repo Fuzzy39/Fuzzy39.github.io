@@ -20,6 +20,8 @@
 			let type = "WebGL"
 			let loader = PIXI.Loader.shared
 			var gold = undefined; // Heheh...
+			var frameCount = 0;
+			var strength = ["Paper","Cardboard","Plastic","Copper","Bronze","Gilded Bronze","Pig Iron","Cast Iron","Gilded Iron","Steel","Tempered Steel","Gilded Steel","Tungsten","Gilden Tungsten","Titanium","Titanium Alloy","Gilded Titanium","Gold","Pure Gold ","Gilden Gold"];
 			
 			// buttons:
 			buttons = [];
@@ -31,6 +33,9 @@
 			goldButton = undefined;
 			mainOver=false;
 			goldFrags = [];
+			
+			//menu
+			statsTxt=[];
 			
 			textures=
 			[
@@ -45,6 +50,7 @@
 				PIXI.Texture.from('graphics/Gui/button.png'),
 				PIXI.Texture.from('graphics/Gui/buttonOn.png'),
 			]
+			
 			icons=
 			[
 				PIXI.Texture.from('graphics/Gui/Icons/Pickaxe.png'),
@@ -53,10 +59,10 @@
 				PIXI.Texture.from('graphics/Gui/Icons/NoIcon.png'),
 				PIXI.Texture.from('graphics/Gui/Icons/Settings.png'),
 				
-				PIXI.Texture.from('graphics/Gui/Icons/NewNode.png'),
+				PIXI.Texture.from('graphics/Gui/Icons/newNode.png'),
 				PIXI.Texture.from('graphics/Gui/Icons/NoIcon.png'),
 				PIXI.Texture.from('graphics/Gui/Icons/Miner.png'),
-				PIXI.Texture.from('graphics/Gui/Icons/NoIcon.png'),
+				PIXI.Texture.from('graphics/Gui/Icons/iconDrill.png'),
 				PIXI.Texture.from('graphics/Gui/Icons/NoIcon.png'),	
 			
 			]
@@ -188,37 +194,60 @@
 				{
 					total: 5000,
 					left:  5000,
+					costs: [1000,100000],
 					filler:
 					{
-						name: 'Fill Gold',
-						info: 'Get more gold.',
+						name: 'Prospect',
+						info: 'look for more gold.',
 						
-						cost: 500,
-						fill: function()
+						
+						open: function()
 						{
 							buttons[5].children[0].texture=btntex[1];
 							
-							if(Game.gold>= Game.node.filler.cost )
+								
+							goldButton.visible=! goldButton.visible;	
+							goldMenu.visible=! goldMenu.visible;	
+							settingsMenu.visible=false;
+								
+								
+							
+
+						
+						},
+						
+						Alaska: function()
+						{
+							
+							if(Game.gold >= Game.node.costs[0])
 							{
-								
-								// Fills the node with gold.
-								Game.node.left+=5000;
+								Alaska.tint=0xAAFFAA;
+								Game.gold-=Game.node.costs[0];
+								Game.antiCheat-=Game.node.costs[0];
+								Game.node.left+=10000;
 								Game.node.total=Game.node.left;
-								
-								
-								
-								Game.gold-=Game.node.filler.cost;
-								Game.antiCheat-=Game.node.filler.cost;
-								
-								buttons[5].children[0].tint=0x55FF55;
-								
 							}
 							else
 							{
-								buttons[5].children[0].tint=0xFFAAAA;
+								Alaska.tint=0xFFAAAA;
 							}
-
+						},
 						
+						California: function()
+						{
+							
+							if(Game.gold >= Game.node.costs[1])
+							{
+								California.tint=0xAAFFAA;
+								Game.gold-=Game.node.costs[1];
+								Game.antiCheat-=Game.node.costs[1];
+								Game.node.left+=1100000;
+								Game.node.total=Game.node.left;
+							}
+							else
+							{
+								California.tint=0xFFAAAA;
+							}
 						}
 					}
 				},
@@ -264,6 +293,24 @@
 					}
 
 				},
+				
+				Settings:
+				{
+					display:function()
+					{
+						// quick test.
+						
+						buttons[4].children[0].texture=btntex[1];
+						buttons[4].children[0].tint=0xAAAAAA;
+						
+						goldButton.visible=!goldButton.visible;
+						goldMenu.visible=false;
+						settingsMenu.visible=!settingsMenu.visible;
+						
+						
+						
+					}
+				}, 
 
 				Miner:
 				{
@@ -298,6 +345,44 @@
 						else
 						{
 							buttons[7].children[0].tint=0xFFAAAA;
+						}
+					}
+
+				},
+				
+				Drill:
+				{
+					//Game data:
+					amount: 0,
+					baseCost: 10, // This Might do something? I don't think so.
+					cost: 1000,
+					costExponent: 1.1,
+					baseGPS: 10, 
+					GPS: 0,
+
+					// Text Data:
+					name: 'Drill',
+					info: 'Drills 10 gps.',
+					up: function()
+					{
+						buttons[8].children[0].texture=btntex[1];
+						// I'm going to do this the dirty way. Sorry.
+						// Only I care?
+						// Eh.
+						if(Game.gold>=Game.Miner.cost)
+						{
+							buttons[8].children[0].tint=0x55FF55;
+							Game.Drill.amount++;
+							Game.gold-=Game.Drill.cost;
+							Game.antiCheat-=Game.Drill.cost;
+							Game.Drill.cost=Math.floor(Game.Drill.cost*Game.Drill.costExponent);
+							Game.Drill.GPS = Game.Drill.baseGPS * Game.Drill.amount;
+							btnTexts[28].text=Game.Drill.GPS+" gps, cost: "+Game.Drill.cost;
+						}
+
+						else
+						{
+							buttons[8].children[0].tint=0xFFAAAA;
 						}
 					}
 
@@ -357,7 +442,7 @@
 
 
 					
-
+					
 
 					// Make it stylish.
 					app.renderer.backgroundColor = 0xFF5555;
@@ -378,8 +463,10 @@
 						.add( "graphics/Gui/menu.png" )
 						.add( "graphics/Gui/header.png" )
 						.add( "graphics/Gui/vertBar.png")
-					
-						.load( graphicInit ); // setup Graphics.
+						.add("graphics/Gui/menuBack.png")
+						.add("graphics/Gui/Icons/iconAlaska.png")
+						.add("graphics/Gui/Icons/iconCalifornia.png")
+						.load( Graphics.init ); // setup Graphics.
 					
 					
 					
@@ -419,7 +506,7 @@
 							}
 						}
 						
-						onMainDown();
+						Graphics.Main.Down();
 					},
 				
 				
@@ -429,7 +516,39 @@
 					update: function( delta )
 					{
 						buttons[4].visible=true;
+						frameCount++;
 						
+						// once/Sec
+						if( frameCount % 60 == 0)
+						{
+							
+							// update stats ( even if invisible. )
+							if(Math.log(Game.Pickaxe.amount) / Math.log(2)>strength.length)
+							{
+								var one = "Devine Gold";	
+							}
+							else
+							{
+								var one = strength[Math.log(Game.Pickaxe.amount) / Math.log(2)];
+							}
+							   
+							if(Game.Helmet.amount > strength.length)
+							{
+								var two = "Devine Gold";	
+							}
+							else
+							{
+								var two = strength[Game.Helmet.amount];
+							}
+										
+							statsTxt[0].text="- Current Gold: " + Math.floor(Game.gold);
+							statsTxt[1].text="- All Time Gold: " + Math.floor(Game.allTimeGold);
+							statsTxt[2].text="- Spent Gold: " + Math.floor(Game.allTimeGold-Game.gold);
+							statsTxt[5].text="- Pick strength: " + one;
+							statsTxt[6].text="- Miner amount: " + Game.Miner.amount;
+							statsTxt[7].text="- Helmet strength: " + two;
+							statsTxt[8].text="- Drill amount: " + Game.Drill.amount;
+						}
 						
 						
 						//cheat detection.
@@ -467,7 +586,7 @@
 						}
 						
 						// GPS calc:
-						Game.GPS = Game.Miner.GPS;
+						Game.GPS = Game.Miner.GPS + Game.Drill.GPS;
 						
 						// Perform Calc.
 						if(!Game.node.left==0)
@@ -513,15 +632,8 @@
 						
 						
 						
-					 	if(Game.gold>=Game.node.filler.cost)
-						{
-							buttons[5].children[1].tint=0xFFFFFF;
-							
-						}
-						else
-						{
-							buttons[5].children[1].tint=0xBBBBBB;
-						}
+					 
+						
 						
 						if(Game.gold>=Game.Miner.cost)
 						{
@@ -531,6 +643,16 @@
 						else
 						{
 							buttons[7].children[1].tint=0xBBBBBB;
+						}
+						
+						if(Game.gold>=Game.Drill.cost)
+						{
+							buttons[8].children[1].tint=0xFFFFFF;
+							
+						}
+						else
+						{
+							buttons[8].children[1].tint=0xBBBBBB;
 						}
 						
 						
@@ -549,9 +671,15 @@
 						}
 						
 						//unlock Helmets.
-						if(Game.allTimeGold>=Game.Helmet.cost*1.5)
+						if(Game.allTimeGold>=Game.Helmet.cost*1.5 & Game.Miner.amount>0)
 						{
 							buttons[1].visible=true;
+						}
+						
+						//unlock Helmets.
+						if(Game.Miner.cost>600)
+						{
+							buttons[8].visible=true;
 						}
 						
 						
@@ -575,435 +703,578 @@
 			
 			
 			
+			
+			
+			
+			
+			
+			
+			var Graphics = 
+			{
+			
+			
+			
+			//set everything up.    
+				init: function( ) 
+				{
+					// Make containers:
+					centerStuff = new PIXI.Container();
+					settingsMenu = new PIXI.Container();
+					goldMenu = new PIXI.Container();
+						
+					// Create pre-existing sprites
+					goldButton = new PIXI.Sprite( textures[ 0 ] );
+					back = new PIXI.Sprite
+					(
+						loader.resources["graphics/Background.png"].texture
+					);
+					menuLeft = new PIXI.Sprite
+					(
+						loader.resources["graphics/Gui/menu.png"].texture
+					);
+					menuRight = new PIXI.Sprite
+					(
+						loader.resources["graphics/Gui/menu.png"].texture
+					);
+					barLeft = new PIXI.Sprite
+					(
+						loader.resources["graphics/Gui/vertBar.png"].texture
+					);
+					barRight = new PIXI.Sprite
+					(
+						loader.resources["graphics/Gui/vertBar.png"].texture
+					);
+					headerLeft = new PIXI.Sprite
+					(
+						loader.resources["graphics/Gui/header.png"].texture
+					);
+					headerRight = new PIXI.Sprite
+					(
+						loader.resources["graphics/Gui/header.png"].texture
+					);
+					menuBack = new PIXI.Sprite
+					(
+						loader.resources["graphics/Gui/menuBack.png"].texture
+					);
+					menuBack2 = new PIXI.Sprite
+					(
+						loader.resources["graphics/Gui/menuBack.png"].texture
+					);
+
+					Alaska = new PIXI.Sprite
+					(
+						loader.resources["graphics/Gui/Icons/iconAlaska.png"].texture
+					);
+					
+					California = new PIXI.Sprite
+					(
+						loader.resources["graphics/Gui/Icons/iconCalifornia.png"].texture
+					);
+
+
+					// buttons!
+					for( i = 0; i<10; i++)
+					{
+
+						buttons[i] = new PIXI.Container
+						btnBacks[i]= new PIXI.Sprite(btntex[0]);
+
+						btnImg[i] = new PIXI.Sprite(icons[i]);
+
+
+						buttons[i].addChild(btnBacks[i]);
+						buttons[i].addChild(btnImg[i]);
+
+						buttons[i].visible = false;
+						buttons[i].interactive = true;
+						buttons[i].buttonMode = true;
+						buttons[i]
+							.on( 'pointerup', Graphics.onButtonUp )
+							.on( 'pointerover', Graphics.onButtonOver )
+							.on( 'pointerout', Graphics.onButtonOut );
+						buttons[i].scale.set(1.144,.95);
+						btnBacks[i].tint=0xBBBBBB
+						btnImg[i].tint=0xBBBBBB;
+						center(buttons[i]);
+
+
+					}
+
+
+
+					// Make text.
+					mainText = new PIXI.Text( 'Something has gone wrong.', Title );
+					gpsText = new PIXI.Text( 'oh no...', Normal )
+					leftHeader = new PIXI.Text( 'Upgrades', Title );
+					rightHeader = new PIXI.Text( 'Autominers', Title );
+					goneText = new PIXI.Text( 'Gold depleted!', Normal );
+					watermark = new PIXI.Text( 'Clicky 3 Beta 1', Small );
+
+					//button text
+					btnTexts[0]= new PIXI.Text( Game.Pickaxe.name, Normal );
+					btnTexts[1]= new PIXI.Text( Game.Helmet.name, Normal );
+					btnTexts[2]= new PIXI.Text( '404', Normal );
+					btnTexts[3]= new PIXI.Text( '404', Normal );
+					btnTexts[4]= new PIXI.Text( 'Stats', Normal );
+
+					btnTexts[5]= new PIXI.Text( Game.node.filler.name, Normal );
+					btnTexts[6]= new PIXI.Text( '200', Normal );
+					btnTexts[7]= new PIXI.Text( Game.Miner.name, Normal );
+					btnTexts[8]= new PIXI.Text( Game.Drill.name, Normal );
+					btnTexts[9]= new PIXI.Text( '404', Normal );
+
+					btnTexts[10]= new PIXI.Text( Game.Pickaxe.info, Small );
+					btnTexts[11]= new PIXI.Text( Game.Helmet.info,Small );
+					btnTexts[12]= new PIXI.Text( '404', Small );
+					btnTexts[13]= new PIXI.Text( '404', Small );
+					btnTexts[14]= new PIXI.Text( 'See game stats', Small );
+
+					btnTexts[15]= new PIXI.Text( Game.node.filler.info, Small );
+					btnTexts[16]= new PIXI.Text( '404', Small );
+					btnTexts[17]= new PIXI.Text( Game.Miner.info, Small );
+					btnTexts[18]= new PIXI.Text( Game.Drill.info, Small );
+					btnTexts[19]= new PIXI.Text( '404', Small );
+
+					btnTexts[20]= new PIXI.Text( Game.Pickaxe.amount + ' g/click, cost: ' + Game.Pickaxe.cost, Small );
+					btnTexts[21]= new PIXI.Text( 'Cost: ' + Game.Helmet.cost,Small );
+					btnTexts[21]= new PIXI.Text( 'Cost: ' + Game.Helmet.cost,Small );
+					btnTexts[22]= new PIXI.Text( '404', Small );
+					btnTexts[23]= new PIXI.Text( '404', Small );
+					btnTexts[24]= new PIXI.Text( '', Small );
+
+					btnTexts[25]= new PIXI.Text( '', Small );
+					btnTexts[26]= new PIXI.Text( '404', Small );
+					btnTexts[27]= new PIXI.Text( 'Cost: 25', Small );
+					btnTexts[28]= new PIXI.Text( 'Cost: 1000', Small );
+					btnTexts[29]= new PIXI.Text( '404', Small );
+					
+					statsHeader= new PIXI.Text('Game Stats', Title);
+					statsTxt[0] = new PIXI.Text('- Current Gold : IDK',Normal);
+					statsTxt[1] = new PIXI.Text('- all time Gold : IDK',Normal);
+					statsTxt[2] = new PIXI.Text('- Spent gold: IDK',Normal);
+					statsTxt[3] = new PIXI.Text('',Normal);
+					statsTxt[4] = new PIXI.Text('Upgrades:',Normal);
+					statsTxt[5] = new PIXI.Text('- Pick Strength: IDK',Normal);
+					statsTxt[6] = new PIXI.Text('- Miners: IDK',Normal);
+					statsTxt[7] = new PIXI.Text('- Hat strength: IDK',Normal);
+					statsTxt[8] = new PIXI.Text('- Drill Amount: IDK',Normal);
+					
+					goldHeader= new PIXI.Text('Prospect for gold:', Title);
+					
+					AlaskaHeader= new PIXI.Text('Alaska', Normal);
+					AlaskaCost= new PIXI.Text('Cost: 1,000', Small);
+					
+					CaliforniaHeader= new PIXI.Text('California', Normal);
+					CaliforniaCost= new PIXI.Text('Cost: 100,000', Small);
+
+					// add everything
+					
+					app.stage.addChild( back );
+					
+					centerStuff.addChild(goldButton);
+					centerStuff.addChild(mainText);
+					centerStuff.addChild(gpsText);
+					app.stage.addChild(centerStuff);
+					
+					
+					settingsMenu.addChild(menuBack);
+					settingsMenu.addChild(statsHeader);
+					for( i in statsTxt )
+					{
+						settingsMenu.addChild(statsTxt[i]);
+					}
+					app.stage.addChild(settingsMenu);
+					
+					goldMenu.addChild(menuBack2);
+					goldMenu.addChild(goldHeader);
+					goldMenu.addChild(Alaska);
+					goldMenu.addChild(California);
+					goldMenu.addChild(AlaskaHeader);
+					goldMenu.addChild(CaliforniaHeader);
+					goldMenu.addChild(AlaskaCost);
+					goldMenu.addChild(CaliforniaCost);
+					app.stage.addChild(goldMenu);
+					
+
+					app.stage.addChild( headerLeft);
+					app.stage.addChild( headerRight );
+
+					app.stage.addChild( leftHeader);
+					app.stage.addChild( rightHeader );
+					app.stage.addChild( goneText );
+					app.stage.addChild( watermark );
+
+					app.stage.addChild( menuRight );
+					app.stage.addChild( menuLeft );
+					app.stage.addChild( barRight );
+					app.stage.addChild( barLeft );
+
+					for( i = 0; i<10; i++)
+					{
+						buttons[i].addChild( btnTexts[i]);
+						btnTexts[i].position.set(15,15);
+						buttons[i].addChild( btnTexts[i+10]);
+						btnTexts[i+10].position.set(20,60);
+						buttons[i].addChild( btnTexts[i+20]);
+						btnTexts[i+20].position.set(20,80);
+						app.stage.addChild( buttons[i] );
+
+						btnImg[i].scale.set(.62,.64);
+						btnImg[i].position.set(150,15);
+
+					}
+
+
+
+					// phase two...
+					// click stuff
+					goldButton.interactive = true;
+					goldButton.buttonMode = true;
+					goldButton
+						.on( 'pointerdown', Game.mine )
+						.on( 'pointerup', Graphics.Main.Up )
+						.on( 'pointerover', Graphics.Main.Over )
+						
+						.on( 'pointerout', Graphics.Main.Out );
+
+					Alaska.interactive=true;
+					Alaska.buttonMode=true;
+					Alaska
+						.on( 'pointerup', Graphics.onButtonUp )
+						.on( 'pointerover', Graphics.onButtonOver )
+						.on( 'pointerdown', Game.node.filler.Alaska )
+						.on( 'pointerout', Graphics.onButtonOut );
+					Alaska.tint=(0xBBBBBB);
+					
+					California.interactive=true;
+					California.buttonMode=true;
+					California
+						.on( 'pointerdown', Game.node.filler.California )
+						.on( 'pointerup', Graphics.onButtonUp )
+						.on( 'pointerover', Graphics.onButtonOver )
+						
+						.on( 'pointerout', Graphics.onButtonOut );
+					
+					California.tint=(0xBBBBBB);
+					
+					buttons[0].on('pointerdown', Game.Pickaxe.up);
+					buttons[1].on('pointerdown', Game.Helmet.up);
+					buttons[4].on('pointerdown', Game.Settings.display); 
+					buttons[5].on('pointerdown', Game.node.filler.open);
+					buttons[7].on('pointerdown', Game.Miner.up);
+					buttons[8].on('pointerdown', Game.Drill.up);
+
+					// center stuff.
+					Graphics.Main.Out();
+					goldButton.scale.set(.22, .22);
+					center(goldButton);
+
+					centerX(mainText);
+					mainText.position.y=50;
+
+					centerX(gpsText);
+					gpsText.position.y=100;
+
+					centerX(goneText);
+					goneText.position.y=500;
+					goneText.visible=false;
+					
+					menuBack.scale.set(2.9,3);
+					center(settingsMenu);
+					settingsMenu.y+=20;
+					settingsMenu.visible=false;
+					
+					menuBack2.scale.set(2.9,3);
+					center(goldMenu);
+					goldMenu.y+=20;
+					goldMenu.visible=false;
+					
+					statsHeader.position.x = (menuBack.width-statsHeader.width)/2;
+					statsHeader.position.y =  20;
+					for ( i in statsTxt )
+					{
+						statsTxt[i].position.y=80+i*20;
+						statsTxt[i].position.x= 20;
+					}
+					
+					
+					goldHeader.position.x = (menuBack2.width-goldHeader.width)/2;
+					goldHeader.position.y =  20;
+					
+					goldmiddle = menuBack2.width/2;
+					
+					Alaska.position.y=((menuBack2.height/2)-Alaska.width/2);
+					California.position.y=((menuBack2.height/2)-Alaska.width/2);
+					Alaska.position.x=(goldmiddle-Alaska.width)/2;
+					California.position.x=goldmiddle+((goldmiddle-California.width)/2);
+					
+					AlaskaHeader.position.y=290;
+					CaliforniaHeader.position.y=290;
+					AlaskaHeader.position.x=(goldmiddle-AlaskaHeader.width)/2;
+					CaliforniaHeader.position.x=goldmiddle+((goldmiddle-CaliforniaHeader.width)/2);
+					
+					AlaskaCost.position.y=310;
+					CaliforniaCost.position.y=310;
+					AlaskaCost.position.x=(goldmiddle-AlaskaCost.width)/2;
+					CaliforniaCost.position.x=goldmiddle+((goldmiddle-CaliforniaCost.width)/2);
+					
+					let spaceMine = keyboard( " " );
+					spaceMine.press = () => 
+					{
+						Game.mine();
+					};
+
+					// Menu.... Yeah.
+					menuRight.scale.set(1, .85);
+					menuLeft.scale.set(1, .85);
+
+					menuRight.position.x=app.renderer.width-menuLeft.width;
+					menuRight.position.y=app.renderer.height-menuLeft.height;
+
+					menuLeft.position.y=app.renderer.height-menuRight.height;
+
+
+
+					barLeft.position.x = menuLeft.width;
+					barRight.position.x = app.renderer.width-(menuRight.width+barRight.width);
+
+
+
+
+					leftHeader.position.y=20;
+					rightHeader.position.y=20;
+
+					leftHeader.position.x=(barLeft.position.x - leftHeader.width)/2
+					rightHeader.position.x= (((app.renderer.width-(barRight.position.x+barRight.width))-rightHeader.width)/2)+barRight.position.x+barRight.width
+
+					headerRight.x=barRight.position.x+barRight.width;
+					headerRight.scale.set(1.01, 1.1);
+					headerLeft.scale.set(1.01,1.1);
+
+					watermark.position.set(menuLeft.width+barLeft.width+20,app.renderer.height-watermark.height-10);
+
+					buttons[0].position.set(0,menuLeft.position.y+15);
+					buttons[1].position.set(0,menuLeft.position.y+buttons[0].height+15);
+					buttons[2].position.set(0,menuLeft.position.y+(buttons[0].height*2)+15);
+					buttons[3].position.set(0,menuLeft.position.y+(buttons[0].height*3)+15);
+					buttons[4].position.set(0,menuLeft.position.y+(buttons[0].height*4)+15);
+
+					buttons[5].position.set(menuRight.x,menuLeft.position.y+15);
+					buttons[6].position.set(menuRight.x,menuLeft.position.y+buttons[0].height+15);
+					buttons[7].position.set(menuRight.x,menuLeft.position.y+(buttons[0].height*2)+15);
+					buttons[8].position.set(menuRight.x,menuLeft.position.y+(buttons[0].height*3)+15);
+					buttons[9].position.set(menuRight.x,menuLeft.position.y+(buttons[0].height*4)+15);
+
+
+
+					// Ticker...
+					app.ticker.add(delta => Game.update(delta));
+					app.ticker.add(delta => Graphics.update(delta));
+				},
+
+
+
+
+
+				newGoldFrag: function( )
+				{
+
+					//Create a new gold Frag.
+					goldFrags[ goldFrags.length ] = new PIXI.Sprite
+					(
+						loader.resources["graphics/goldFrag.png"].texture
+					);
+
+
+					app.stage.addChild(goldFrags[goldFrags.length-1]);
+
+					goldFrags[ goldFrags.length-1 ].position.set
+					( 
+						app.renderer.plugins.interaction.mouse.global.x,
+						app.renderer.plugins.interaction.mouse.global.y 
+					);
+					goldFrags[goldFrags.length-1].scale.set(.125, .125);
+					goldFrags[goldFrags.length-1].velY=getRndInteger(-8,-15);
+					goldFrags[goldFrags.length-1].velX=getRndInteger(-5,5);
+					goldFrags[goldFrags.length-1].anchor.x = 0.5;
+					goldFrags[goldFrags.length-1].anchor.y = 0.5;
+					goldFrags[goldFrags.length-1].rotation=Math.random()*6;
+					if(Game.node.left<=0)
+					{
+						goldFrags[goldFrags.length-1].tint=0x8888FF
+					}
+
+				},
+
+
+				Main:
+				{
+					Down: function()
+					{
+
+
+
+						//mess with the button.
+						goldButton.scale.set(.22,.22);
+						goldButton.tint=0xEEEECC;
+						center(goldButton);
+						Graphics.newGoldFrag();
+
+
+					},
+
+					Up: function()
+					{
+						goldButton.tint=0xFFFFFF;
+					},
+
+					Over: function()
+					{
+						goldButton.tint=0xFFFFFF;
+						mainOver=true;
+					},
+
+					Out:function()
+					{	
+						goldButton.tint=0xEEEECC;
+						mainOver=false;
+					}
+
+				},
+
+
+
+
+
+
+				onButtonOver:function ()
+				{
+					if( this.children.length == 0 )
+					{
+						this.tint=0xFFFFFF;
+					}
+					else
+					{
+						this.children[0].tint=0xFFFFFF;
+						this.children[1].tint=0xFFFFFF;
+					}
+				},
+
+				onButtonOut:function ()
+				{
+					if( this.children.length == 0 )
+					{
+						this.tint=0xCCCCCC;
+					}
+					else
+					{
+					this.children[0].tint=0xCCCCCC;
+					this.children[1].tint=0xCCCCCC;
+					}
+				},
+
+				onButtonUp: function()
+				{
+					if( this.children.length == 0 )
+					{
+						//this.tint=0xFFFFFF;
+						
+					}
+					else
+					{
+						this.children[0].texture=btntex[0];
+					}
+				},
+
+
+
+
+
+
+
+
+				update:function  ( delta )
+				{
+
+
+					//////////[ Graphics ]/////////////
+
+					// update Text:
+
+					mainText.text = "Gold: "+Math.floor(Game.gold);
+					centerX(mainText);
+					gpsText.text = "Gps: "+Math.floor(Game.GPS);
+					centerX(gpsText);
+
+
+					// animate main button.
+					if( mainOver & goldButton.scale.x < .25)
+					{
+
+						goldButton.scale.x = Math.round((goldButton.scale.x+.005)* 1000) / 1000
+						goldButton.scale.y = Math.round((goldButton.scale.y+.005)* 1000) / 1000
+						center( goldButton );
+
+					}
+					else if ( ! mainOver & goldButton.scale.x > .22 )
+					{
+						goldButton.scale.x = Math.round((goldButton.scale.x-.005)* 1000) / 1000
+						goldButton.scale.y = Math.round((goldButton.scale.y-.005)* 1000) / 1000
+
+						center( goldButton );
+
+					}
+
+					if(Game.node.left>0)
+					{
+						goneText.visible=false;
+					}
+
+					if(Game.node.left>2*(Game.node.total/3))
+					{
+						goldButton.texture=textures[0];
+					}
+
+					//Choose which graphic to show.
+					if(Game.node.left<=0)
+					{
+						goldButton.texture=textures[3];
+						goneText.visible=true;
+
+
+					}
+					else if(Game.node.left<=Game.node.total/3)
+					{
+						goldButton.texture=textures[2];
+						buttons[5].visible=true;
+
+					}
+					else if(Game.node.left<=2*(Game.node.total/3))
+					{
+						goldButton.texture=textures[1];
+
+					}
+
+
+					// Make goldFrags fall.
+					for( i = 0; i < goldFrags.length; i++ )
+					{
+						goldFrags[ i ].velY++;
+						goldFrags[ i ].position.y += goldFrags[ i ].velY;
+						goldFrags[ i ].position.x += goldFrags[ i ].velX;
+
+
+
+					}
+
+				}
+					
+			}
 			//############# Init ################\\
 			//Start the game:
 			Game.init();
 			
 			
-			
-			
-			
-			
-			
-			
-			
-			//set everything up.
-			function graphicInit( ) 
-			{
-				
-				
-				// Create pre-existing sprites
-				goldButton = new PIXI.Sprite( textures[ 0 ] );
-				back = new PIXI.Sprite
-				(
-					loader.resources["graphics/Background.png"].texture
-				);
-				menuLeft = new PIXI.Sprite
-				(
-					loader.resources["graphics/Gui/menu.png"].texture
-				);
-				menuRight = new PIXI.Sprite
-				(
-					loader.resources["graphics/Gui/menu.png"].texture
-				);
-				barLeft = new PIXI.Sprite
-				(
-					loader.resources["graphics/Gui/vertBar.png"].texture
-				);
-				barRight = new PIXI.Sprite
-				(
-					loader.resources["graphics/Gui/vertBar.png"].texture
-				);
-				headerLeft = new PIXI.Sprite
-				(
-					loader.resources["graphics/Gui/header.png"].texture
-				);
-				headerRight = new PIXI.Sprite
-				(
-					loader.resources["graphics/Gui/header.png"].texture
-				);
-				
-				
-				// buttons!
-				for( i = 0; i<10; i++)
-				{
-					
-					buttons[i] = new PIXI.Container
-					btnBacks[i]= new PIXI.Sprite(btntex[0]);
-					
-					btnImg[i] = new PIXI.Sprite(icons[i]);
-					
-					
-					buttons[i].addChild(btnBacks[i]);
-					buttons[i].addChild(btnImg[i]);
-					
-					buttons[i].visible = false;
-					buttons[i].interactive = true;
-					buttons[i].buttonMode = true;
-					buttons[i]
-						.on( 'pointerup', onButtonUp )
-						.on( 'pointerover', onButtonOver )
-						.on( 'pointerout', onButtonOut );
-					buttons[i].scale.set(1.144,.95);
-					btnBacks[i].tint=0xBBBBBB
-					btnImg[i].tint=0xBBBBBB;
-					center(buttons[i]);
-					
-					
-				}
-				
-				
-				
-				// Make text.
-				mainText = new PIXI.Text( 'Something has gone wrong.', Title );
-				gpsText = new PIXI.Text( 'oh no...', Normal )
-				leftHeader = new PIXI.Text( 'Upgrades', Title );
-				rightHeader = new PIXI.Text( 'Autominers', Title );
-				goneText = new PIXI.Text( 'Gold depleted!', Normal );
-				watermark = new PIXI.Text( 'Clicky 3 Alpha 3 by Mason Hill', Small );
-				
-				//button text
-				btnTexts[0]= new PIXI.Text( Game.Pickaxe.name, Normal );
-				btnTexts[1]= new PIXI.Text( Game.Helmet.name, Normal );
-				btnTexts[2]= new PIXI.Text( '404', Normal );
-				btnTexts[3]= new PIXI.Text( '404', Normal );
-				btnTexts[4]= new PIXI.Text( 'Coming Soon', Normal );
-				
-				btnTexts[5]= new PIXI.Text( Game.node.filler.name, Normal );
-				btnTexts[6]= new PIXI.Text( '200', Normal );
-				btnTexts[7]= new PIXI.Text( Game.Miner.name, Normal );
-				btnTexts[8]= new PIXI.Text( '404', Normal );
-				btnTexts[9]= new PIXI.Text( '404', Normal );
-				
-				btnTexts[10]= new PIXI.Text( Game.Pickaxe.info, Small );
-				btnTexts[11]= new PIXI.Text( Game.Helmet.info,Small );
-				btnTexts[12]= new PIXI.Text( '404', Small );
-				btnTexts[13]= new PIXI.Text( '404', Small );
-				btnTexts[14]= new PIXI.Text( 'See game stats', Small );
-				
-				btnTexts[15]= new PIXI.Text( Game.node.filler.info, Small );
-				btnTexts[16]= new PIXI.Text( '404', Small );
-				btnTexts[17]= new PIXI.Text( Game.Miner.info, Small );
-				btnTexts[18]= new PIXI.Text( '404', Small );
-				btnTexts[19]= new PIXI.Text( '404', Small );
-				
-				btnTexts[20]= new PIXI.Text( Game.Pickaxe.amount + ' g/click, cost: ' + Game.Pickaxe.cost, Small );
-				btnTexts[21]= new PIXI.Text( 'Cost: ' + Game.Helmet.cost,Small );
-				btnTexts[21]= new PIXI.Text( 'Cost: ' + Game.Helmet.cost,Small );
-				btnTexts[22]= new PIXI.Text( '404', Small );
-				btnTexts[23]= new PIXI.Text( '404', Small );
-				btnTexts[24]= new PIXI.Text( 'Coming soon', Small );
-				
-				btnTexts[25]= new PIXI.Text( 'Cost: '+Game.node.filler.cost, Small );
-				btnTexts[26]= new PIXI.Text( '404', Small );
-				btnTexts[27]= new PIXI.Text( 'Cost: 25', Small );
-				btnTexts[28]= new PIXI.Text( '404', Small );
-				btnTexts[29]= new PIXI.Text( '404', Small );
-				
-				// add everything
-				app.stage.addChild( back );
-				
-				app.stage.addChild( goldButton );
-				
-				app.stage.addChild( headerLeft);
-				app.stage.addChild( headerRight );
-				
-				app.stage.addChild( mainText );
-				app.stage.addChild( gpsText );
-				app.stage.addChild( leftHeader);
-				app.stage.addChild( rightHeader );
-				app.stage.addChild( goneText );
-				app.stage.addChild( watermark );
-				
-				app.stage.addChild( menuRight );
-				app.stage.addChild( menuLeft );
-				app.stage.addChild( barRight );
-				app.stage.addChild( barLeft );
-				
-				for( i = 0; i<10; i++)
-				{
-					buttons[i].addChild( btnTexts[i]);
-					btnTexts[i].position.set(15,15);
-					buttons[i].addChild( btnTexts[i+10]);
-					btnTexts[i+10].position.set(20,60);
-					buttons[i].addChild( btnTexts[i+20]);
-					btnTexts[i+20].position.set(20,80);
-					app.stage.addChild( buttons[i] );
-					
-					btnImg[i].scale.set(.62,.64);
-					btnImg[i].position.set(150,15);
-					
-				}
-				
-				
-				
-				// phase two...
-				// click stuff
-				goldButton.interactive = true;
-				goldButton.buttonMode = true;
-				goldButton
-					.on( 'pointerdown', Game.mine )
-					.on( 'pointerup', onMainUp )
-					.on( 'pointerover', onMainOver )
-        			.on( 'pointerout', onMainOut );
-				
-				buttons[0].on('pointerdown', Game.Pickaxe.up);
-				buttons[1].on('pointerdown', Game.Helmet.up);
-				buttons[5].on('pointerdown', Game.node.filler.fill);
-				buttons[7].on('pointerdown', Game.Miner.up);
-				
-				// center stuff.
-				onMainOut();
-				goldButton.scale.set(.22, .22);
-				center(goldButton);
-				
-				centerX(mainText);
-				mainText.position.y=50;
-				
-				centerX(gpsText);
-				gpsText.position.y=100;
-				
-				centerX(goneText);
-				goneText.position.y=500;
-				goneText.visible=false;
-				
-				let spaceMine = keyboard( " " );
-				spaceMine.press = () => 
-				{
-  					onMainDown();
-					Game.mine();
-				};
-				
-				// Menu.... Yeah.
-				menuRight.scale.set(1, .85);
-				menuLeft.scale.set(1, .85);
-				
-				menuRight.position.x=app.renderer.width-menuLeft.width;
-				menuRight.position.y=app.renderer.height-menuLeft.height;
-				
-				menuLeft.position.y=app.renderer.height-menuRight.height;
-				
-				
-				
-				barLeft.position.x = menuLeft.width;
-				barRight.position.x = app.renderer.width-(menuRight.width+barRight.width);
-				
-				
-				
-				
-				leftHeader.position.y=20;
-				rightHeader.position.y=20;
-				
-				leftHeader.position.x=(barLeft.position.x - leftHeader.width)/2
-				rightHeader.position.x= (((app.renderer.width-(barRight.position.x+barRight.width))-rightHeader.width)/2)+barRight.position.x+barRight.width
-				
-				headerRight.x=barRight.position.x+barRight.width;
-				headerRight.scale.set(1.01, 1.1);
-				headerLeft.scale.set(1.01,1.1);
-				
-				watermark.position.set(menuLeft.width+barLeft.width+20,app.renderer.height-watermark.height-10);
-				
-				buttons[0].position.set(0,menuLeft.position.y+15);
-				buttons[1].position.set(0,menuLeft.position.y+buttons[0].height+15);
-				buttons[2].position.set(0,menuLeft.position.y+(buttons[0].height*2)+15);
-				buttons[3].position.set(0,menuLeft.position.y+(buttons[0].height*3)+15);
-				buttons[4].position.set(0,menuLeft.position.y+(buttons[0].height*4)+15);
-				
-				buttons[5].position.set(menuRight.x,menuLeft.position.y+15);
-				buttons[6].position.set(menuRight.x,menuLeft.position.y+buttons[0].height+15);
-				buttons[7].position.set(menuRight.x,menuLeft.position.y+(buttons[0].height*2)+15);
-				buttons[8].position.set(menuRight.x,menuLeft.position.y+(buttons[0].height*3)+15);
-				buttons[9].position.set(menuRight.x,menuLeft.position.y+(buttons[0].height*4)+15);
-				
-
-				
-				// Ticker...
-				app.ticker.add(delta => Game.update(delta));
-				app.ticker.add(delta => updateGraphic(delta));
-			}
-			
-			
-			
-			
-			
-			function newGoldFrag( )
-			{
-				
-				//Create a new gold Frag.
-				goldFrags[ goldFrags.length ] = new PIXI.Sprite
-				(
-					loader.resources["graphics/goldFrag.png"].texture
-				);
-				
-				
-				app.stage.addChild(goldFrags[goldFrags.length-1]);
-				
-				goldFrags[ goldFrags.length-1 ].position.set
-				( 
-					app.renderer.plugins.interaction.mouse.global.x,
-					app.renderer.plugins.interaction.mouse.global.y 
-				);
-				goldFrags[goldFrags.length-1].scale.set(.125, .125);
-				goldFrags[goldFrags.length-1].velY=getRndInteger(-8,-15);
-				goldFrags[goldFrags.length-1].velX=getRndInteger(-5,5);
-				goldFrags[goldFrags.length-1].anchor.x = 0.5;
-				goldFrags[goldFrags.length-1].anchor.y = 0.5;
-				goldFrags[goldFrags.length-1].rotation=Math.random()*6;
-				if(Game.node.left<=0)
-				{
-					goldFrags[goldFrags.length-1].tint=0x8888FF
-				}
-				
-			}
-			
-			
-			
-			
-			
-			function onMainDown( )
-			{
-				// update the text.
-			
-				
-				
-				//mess with the button.
-				goldButton.scale.set(.22,.22);
-				goldButton.tint=0xEEEECC;
-				center(goldButton);
-				newGoldFrag();
-				
-				
-				
-				
-			}
-			
-			function onMainUp( )
-			{
-				goldButton.tint=0xFFFFFF;
-			}
-			
-			function onMainOver( )
-			{
-				
-				
-			
-				goldButton.tint=0xFFFFFF;
-				mainOver=true;
-				
-			}
-			
-			function onMainOut( )
-			{
-				
-				
-				
-				goldButton.tint=0xEEEECC;
-				mainOver=false;
-				
-			}
-			
-			
-			function onButtonOver()
-			{
-				this.children[0].tint=0xFFFFFF
-				this.children[1].tint=0xFFFFFF;
-			}
-			
-			function onButtonOut()
-			{
-				this.children[0].tint=0xCCCCCC
-				this.children[1].tint=0xCCCCCC;
-			}
-			
-			function onButtonUp()
-			{
-				this.children[0].texture=btntex[0];
-			}
-			
-			
-			
-			
-			
-			
-			
-			
-			function updateGraphic ( delta )
-			{
-				
-				   
-				//////////[ Graphics ]/////////////
-				
-				// update Text:
-				
-				mainText.text = "Gold: "+Math.floor(Game.gold);
-				centerX(mainText);
-				gpsText.text = "Gps: "+Math.floor(Game.GPS);
-				centerX(gpsText);
-				
-				
-				// animate main button.
-				if( mainOver & goldButton.scale.x < .25)
-				{
-					
-					goldButton.scale.x = Math.round((goldButton.scale.x+.005)* 1000) / 1000
-					goldButton.scale.y = Math.round((goldButton.scale.y+.005)* 1000) / 1000
-					center( goldButton );
-					
-				}
-				else if ( ! mainOver & goldButton.scale.x > .22 )
-				{
-					goldButton.scale.x = Math.round((goldButton.scale.x-.005)* 1000) / 1000
-					goldButton.scale.y = Math.round((goldButton.scale.y-.005)* 1000) / 1000
-					
-					center( goldButton );
-				
-				}
-				
-				if(Game.node.left>0)
-				{
-					goneText.visible=false;
-				}
-				
-				if(Game.node.left>2*(Game.node.total/3))
-				{
-					goldButton.texture=textures[0];
-				}
-				
-				//Choose which graphic to show.
-				if(Game.node.left<=0)
-				{
-					goldButton.texture=textures[3];
-					goneText.visible=true;
-						
-				   	
-				}
-				else if(Game.node.left<=Game.node.total/3)
-				{
-					goldButton.texture=textures[2];
-					buttons[5].visible=true;
-				   	
-				}
-				else if(Game.node.left<=2*(Game.node.total/3))
-				{
-					goldButton.texture=textures[1];
-								   
-				}
-				
-				
-				// Make goldFrags fall.
-				for( i = 0; i < goldFrags.length; i++ )
-				{
-					goldFrags[ i ].velY++;
-					goldFrags[ i ].position.y += goldFrags[ i ].velY;
-					goldFrags[ i ].position.x += goldFrags[ i ].velX;
-					
-					
-					
-				}
-				
-				
-				// yes, at the end of the code.
-			}
 		</script>
 		<style>body{Padding-left:5%;}</style>
 	</body>
