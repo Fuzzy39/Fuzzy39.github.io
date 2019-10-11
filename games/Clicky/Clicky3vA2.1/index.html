@@ -14,14 +14,16 @@
 			console.log("Are you trying to cheat?");
 			
 			
-			
+			// Welcome to a burning hellscape!
 			// Everything here is a mess...
 			// Going further may cause pain.
+			
+			
 			let type = "WebGL"
 			let loader = PIXI.Loader.shared
 			var gold = undefined; // Heheh...
 			var frameCount = 0;
-			var strength = ["Paper","Cardboard","Plastic","Copper","Bronze","Gilded Bronze","Pig Iron","Cast Iron","Gilded Iron","Steel","Tempered Steel","Gilded Steel","Tungsten","Gilden Tungsten","Titanium","Titanium Alloy","Gilded Titanium","Gold","Pure Gold ","Gilden Gold"];
+			var strength = ["Paper","Cardboard","Plastic","Copper","Bronze","Gilded Bronze","Pig Iron","Cast Iron","Gilded Iron","Steel","Tempered Steel","Gilded Steel","Tungsten","Gilden Tungsten","Titanium","Titanium Alloy","Gilded Titanium","Gold","Pure Gold","Gilden Gold"];
 			
 			// buttons:
 			buttons = [];
@@ -55,15 +57,15 @@
 			[
 				PIXI.Texture.from('graphics/Gui/Icons/Pickaxe.png'),
 				PIXI.Texture.from('graphics/Gui/Icons/iconHelmet.png'),
-				PIXI.Texture.from('graphics/Gui/Icons/NoIcon.png'),
-				PIXI.Texture.from('graphics/Gui/Icons/NoIcon.png'),
+				PIXI.Texture.from('graphics/Gui/Icons/iconDrillUp.png'),
+				PIXI.Texture.from('graphics/Gui/Icons/iconBrain.png'),
 				PIXI.Texture.from('graphics/Gui/Icons/Settings.png'),
 				
 				PIXI.Texture.from('graphics/Gui/Icons/newNode.png'),
 				PIXI.Texture.from('graphics/Gui/Icons/NoIcon.png'),
 				PIXI.Texture.from('graphics/Gui/Icons/Miner.png'),
 				PIXI.Texture.from('graphics/Gui/Icons/iconDrill.png'),
-				PIXI.Texture.from('graphics/Gui/Icons/NoIcon.png'),	
+				PIXI.Texture.from('graphics/Gui/Icons/iconLazer.png'),	
 			
 			]
 			
@@ -94,7 +96,7 @@
 			({
 				
 				fontFamily: 'Arial',
-				fontSize: 15,
+				fontSize: 12.5,
 				
 				fill: 'White',
 				
@@ -124,7 +126,24 @@
 			function getRndInteger( min, max ) 
 			{  return Math.floor( Math.random( ) * ( max - min ) ) + min;  }
 			
-			
+			function pp ( num ) // makes numbers nice.
+			{
+				if(num>=1000000)
+				{
+					return (num/1000000).toFixed(3) + "M";
+				}
+				else	
+				{
+					if(num>=1000)
+					{
+						return (num/1000).toFixed(2) + "K";
+					}
+					else
+					{
+						return num;
+					}
+				}
+			}
 			function keyboard( value ) 
 			{
 			  let key = {};
@@ -186,9 +205,11 @@
 			// Everything that is not graphical, mostly.
 			var Game =
 			{
+				saving: 0,
 				gold: 0,
 				antiCheat:0,
 				allTimeGold: 0,
+				spent:0,
 				GPS: 0,
 				node:
 				{
@@ -226,6 +247,7 @@
 								Game.antiCheat-=Game.node.costs[0];
 								Game.node.left+=10000;
 								Game.node.total=Game.node.left;
+								Game.spent+=Game.node.costs[0];
 							}
 							else
 							{
@@ -243,6 +265,7 @@
 								Game.antiCheat-=Game.node.costs[1];
 								Game.node.left+=1100000;
 								Game.node.total=Game.node.left;
+								Game.spent+=Game.node.costs[1];
 							}
 							else
 							{
@@ -278,14 +301,16 @@
 						// Eh.
 						if(Game.gold>=Game.Pickaxe.cost)
 						{
+							Game.spent+=Game.Pickaxe.cost;
+						
 							buttons[0].children[0].tint=0x55FF55;
 							Game.Pickaxe.amount*=2;
 							Game.gold-=Game.Pickaxe.cost;
 							Game.antiCheat-=Game.Pickaxe.cost;
 							Game.Pickaxe.cost=Math.floor(Game.Pickaxe.cost*Game.Pickaxe.costExponent);
-							btnTexts[20].text=Game.Pickaxe.amount+" gpc, cost: "+Game.Pickaxe.cost;
+							btnTexts[20].text=pp(Game.Pickaxe.amount)+" gpc, cost: "+pp(Game.Pickaxe.cost);
+							
 						}
-
 						else
 						{
 							buttons[0].children[0].tint=0xFFAAAA;
@@ -333,13 +358,15 @@
 						// Eh.
 						if(Game.gold>=Game.Miner.cost)
 						{
+							Game.spent+=Game.Miner.cost;
 							buttons[7].children[0].tint=0x55FF55;
 							Game.Miner.amount++;
 							Game.gold-=Game.Miner.cost;
 							Game.antiCheat-=Game.Miner.cost;
 							Game.Miner.cost=Math.floor(Game.Miner.cost*Game.Miner.costExponent);
 							Game.Miner.GPS = Game.Miner.baseGPS * Game.Miner.amount;
-							btnTexts[27].text=Game.Miner.GPS+" gps, cost: "+Game.Miner.cost;
+							btnTexts[27].text=pp(Game.Miner.GPS)+" gps, cost: "+pp(Game.Miner.cost);
+							
 						}
 
 						else
@@ -369,15 +396,17 @@
 						// I'm going to do this the dirty way. Sorry.
 						// Only I care?
 						// Eh.
-						if(Game.gold>=Game.Miner.cost)
+						if(Game.gold>=Game.Drill.cost)
 						{
+							Game.spent+=Game.Drill.cost;
 							buttons[8].children[0].tint=0x55FF55;
 							Game.Drill.amount++;
 							Game.gold-=Game.Drill.cost;
 							Game.antiCheat-=Game.Drill.cost;
 							Game.Drill.cost=Math.floor(Game.Drill.cost*Game.Drill.costExponent);
 							Game.Drill.GPS = Game.Drill.baseGPS * Game.Drill.amount;
-							btnTexts[28].text=Game.Drill.GPS+" gps, cost: "+Game.Drill.cost;
+							btnTexts[28].text=pp(Game.Drill.GPS)+" gps, cost: "+pp(Game.Drill.cost);
+							
 						}
 
 						else
@@ -387,6 +416,47 @@
 					}
 
 				},
+				
+				Laser:
+				{
+					//Game data:
+					amount: 0,
+					baseCost: 10, // This Might do something? I don't think so.
+					cost: 30000,
+					costExponent: 1.1,
+					baseGPS: 100, 
+					GPS: 0,
+
+					// Text Data:
+					name: 'Laser',
+					info: 'Zaps 100 gps.',
+					up: function()
+					{
+						buttons[9].children[0].texture=btntex[1];
+						// I'm going to do this the dirty way. Sorry.
+						// Only I care?
+						// Eh.
+						if(Game.gold>=Game.Laser.cost)
+						{
+							Game.spent+=Game.Laser.cost;
+							buttons[9].children[0].tint=0x55FF55;
+							Game.Laser.amount++;
+							Game.gold-=Game.Laser.cost;
+							Game.antiCheat-=Game.Laser.cost;
+							Game.Laser.cost=Math.floor(Game.Laser.cost*Game.Laser.costExponent);
+							Game.Laser.GPS = Game.Laser.baseGPS * Game.Laser.amount;
+							btnTexts[29].text=pp(Game.Laser.GPS)+" gps, cost: "+pp(Game.Laser.cost);
+							
+						}
+
+						else
+						{
+							buttons[9].children[0].tint=0xFFAAAA;
+						}
+					}
+
+				},
+				
 				
 				Helmet:
 				{
@@ -409,18 +479,20 @@
 						// Eh.
 						if(Game.gold>=Game.Helmet.cost)
 						{
+							Game.spent+=Game.Helmet.cost;
 							buttons[1].children[0].tint=0x55FF55;
 							Game.Helmet.amount++;
 							Game.gold-=Game.Helmet.cost;
 							Game.antiCheat-=Game.Helmet.cost;
 							Game.Helmet.cost=Math.floor(Game.Helmet.cost*Game.Helmet.costExponent);
-							btnTexts[21].text="cost: "+Game.Helmet.cost;
+							btnTexts[21].text="cost: "+pp(Game.Helmet.cost);
 							
 							// change miner accordingly.
 							Game.Miner.baseGPS++;
 							btnTexts[17].text="Mines "+Game.Miner.baseGPS+" gps.";
 							Game.Miner.GPS = Game.Miner.baseGPS * Game.Miner.amount;
-							btnTexts[27].text=Game.Miner.GPS+" gps, cost: "+Game.Miner.cost;
+							btnTexts[27].text=pp(Game.Miner.GPS)+" gps, cost: "+pp(Game.Miner.cost);
+							
 							
 						}
 
@@ -431,6 +503,154 @@
 					}
 					
 				},
+				
+				Parts:
+				{
+					//Game data:
+					amount: 0,
+					baseCost: 500, // This Might do something? I don't think so.
+					cost: 5000,
+					costExponent: 1.6,
+					
+
+					// Text Data:
+					name: 'Faster Drills',
+					info: '+10 to Drill gps.',
+					
+					up: function()
+					{
+						buttons[2].children[0].texture=btntex[1];
+						// I'm going to do this the dirty way. Sorry.
+						// Only I care?
+						// Eh.
+						if(Game.gold>=Game.Parts.cost)
+						{
+							
+							Game.spent+=Game.Parts.cost;
+							buttons[2].children[0].tint=0x55FF55;
+							Game.Parts.amount++;
+							Game.gold-=Game.Parts.cost;
+							Game.antiCheat-=Game.Parts.cost;
+							Game.Parts.cost=Math.floor(Game.Parts.cost*Game.Parts.costExponent);
+							btnTexts[22].text="cost: "+pp(Game.Parts.cost);
+							
+							// change drilr accordingly.
+							Game.Drill.baseGPS+=10;
+							btnTexts[18].text="Mines "+Game.Drill.baseGPS+" gps.";
+							Game.Drill.GPS = Game.Drill.baseGPS * Game.Drill.amount;
+							btnTexts[28].text=pp(Game.Drill.GPS)+" gps, cost: "+pp(Game.Drill.cost);
+							
+							
+						}
+
+						else
+						{
+							buttons[2].children[0].tint=0xFFAAAA;
+						}
+					}
+					
+				},
+				
+				Brain:
+				{
+					//Game data:
+					amount: 0,
+					baseCost: 500, // This Might do something? I don't think so.
+					cost: 50000,
+					costExponent: 1.6,
+					
+
+					// Text Data:
+					name: 'Smarter Lasers',
+					info: '+100 to Laser gps.',
+					
+					up: function()
+					{
+						buttons[3].children[0].texture=btntex[1];
+						// I'm going to do this the dirty way. Sorry.
+						// Only I care?
+						// Eh.
+						if(Game.gold>=Game.Brain.cost)
+						{
+							
+							Game.spent+=Game.Brain.cost;
+							buttons[3].children[0].tint=0x55FF55;
+							Game.Brain.amount++;
+							Game.gold-=Game.Brain.cost;
+							Game.antiCheat-=Game.Brain.cost;
+							Game.Brain.cost=Math.floor(Game.Brain.cost*Game.Brain.costExponent);
+							btnTexts[23].text="cost: "+pp(Game.Brain.cost);
+							
+							
+						
+							// change drilr accordingly.
+							Game.Laser.baseGPS+=100;
+							btnTexts[19].text="Zaps "+Game.Laser.baseGPS+" gps.";
+							Game.Laser.GPS = Game.Laser.baseGPS * Game.Laser.amount;
+							btnTexts[29].text=pp(Game.Laser.GPS)+" gps, cost: "+pp(Game.Laser.cost);
+							
+							
+						}
+
+						else
+						{
+							buttons[2].children[0].tint=0xFFAAAA;
+						}
+					}
+					
+				},
+				Prospector:
+				{
+					on:false,
+					owned:false,
+					cost: 500000,
+					
+					name: "???",
+					info: "What's this?",
+					up: function()
+					{
+						buttons[6].children[0].texture=btntex[1];
+						if(Game.gold>=Game.Prospector.cost)
+						{
+							buttons[6].children[2].text="Prospector";
+							buttons[6].children[3].text="an auto-Prospector";
+							buttons[6].children[4].text="On. Click to toggle";
+							buttons[6].children[1].texture=PIXI.Texture.from("graphics/Gui/Icons/iconProspector.png");
+							buttons[6].children[0].tint=0x55FF55;
+						
+							Game.spent+=Game.Prospector.cost;
+							Game.gold-=Game.Prospector.cost;
+							Game.antiCheat-=Game.Prospector.cost;
+							
+							Game.Prospector.owned=true;
+							Game.Prospector.on=true;
+							Game.Prospector.cost=Infinity;
+							buttons[6].on('pointerdown', Game.Prospector.toggle);
+						}
+						else
+						{
+							buttons[6].children[0].tint=0xFFAAAA;
+						}
+						
+					},
+					
+					toggle: function()
+					{
+						console.log("Toggled prospector?");
+						
+						Game.Prospector.on=!Game.Prospector.on;
+						if(Game.Prospector.on)
+						{
+							buttons[6].children[4].text="On. Click to toggle";
+						}
+						else
+						{
+							buttons[6].children[4].text="Off. Click to toggle";
+						}
+					},
+				
+				},
+				
 				
 				init: function()
 				{
@@ -466,6 +686,7 @@
 						.add("graphics/Gui/menuBack.png")
 						.add("graphics/Gui/Icons/iconAlaska.png")
 						.add("graphics/Gui/Icons/iconCalifornia.png")
+						.add("graphics/Gui/Icons/iconProspector.png")
 						.load( Graphics.init ); // setup Graphics.
 					
 					
@@ -505,6 +726,21 @@
 								
 							}
 						}
+						else
+						{
+							if(Game.gold<1000)
+							{
+								Game.saving++
+							}
+							
+							if(Game.saving>=30)
+							{
+								Game.saving=0;
+								Game.node.total=5001;
+								Game.node.left=Game.node.costs[0]-Game.gold;
+								
+							}
+						}
 						
 						Graphics.Main.Down();
 					},
@@ -517,6 +753,15 @@
 					{
 						buttons[4].visible=true;
 						frameCount++;
+						
+						if( !settingsMenu.visible & !goldMenu.visible )
+						{
+							goldButton.visible=true;
+						}
+						else
+						{
+							goldButton.visible=false;	
+						}
 						
 						// once/Sec
 						if( frameCount % 60 == 0)
@@ -540,15 +785,37 @@
 							{
 								var two = strength[Game.Helmet.amount];
 							}
+							
+							if(Game.Parts.amount > strength.length)
+							{
+								var three = "Devine Gold";	
+							}
+							else
+							{
+								var three = strength[Game.Parts.amount];
+							}
+							
+							if(Game.Brain.amount > strength.length)
+							{
+								var four = "Devine Gold";	
+							}
+							else
+							{
+								var four = strength[Game.Brain.amount];
+							}
 										
-							statsTxt[0].text="- Current Gold: " + Math.floor(Game.gold);
-							statsTxt[1].text="- All Time Gold: " + Math.floor(Game.allTimeGold);
-							statsTxt[2].text="- Spent Gold: " + Math.floor(Game.allTimeGold-Game.gold);
+							statsTxt[0].text="- Current Gold: " + pp(Game.gold);
+							statsTxt[1].text="- All Time Gold: " + pp(Game.allTimeGold);
+							statsTxt[2].text="- Spent Gold: " + pp(Game.spent);
 							statsTxt[5].text="- Pick strength: " + one;
 							statsTxt[6].text="- Miner amount: " + Game.Miner.amount;
 							statsTxt[7].text="- Helmet strength: " + two;
 							statsTxt[8].text="- Drill amount: " + Game.Drill.amount;
+							statsTxt[9].text="- Drill Strength: " + three;
+							statsTxt[10].text="- Laser amount: " + Game.Laser.amount;
+							statsTxt[11].text="- Brain Smartness Rank: " + four;
 						}
+						
 						
 						
 						//cheat detection.
@@ -573,20 +840,43 @@
 							
 						}
 						
-						if( Game.gold > Game.antiCheat )
+						if(Math.round(Game.spent+Game.gold)!=Math.round(Game.allTimeGold) && Math.round(Game.spent+Game.gold)+1!=Math.round(Game.allTimeGold) && Math.round(Game.spent+Game.gold)-1!=Math.round(Game.allTimeGold))
 						{
-
-							Game.gold = Game.antiCheat;
 							
-							// If you're reading this comment, you get a cookie.
-							// Now you can probably cheat.
-							console.log(" \"Ah!\" you say, \" I must have done it now!\" ")
-							console.log("But alas, no. You've been stopped in your tracks.");
+							console.log(" Well, you're getting closer, but not by much.");
+							console.log(Math.round(Game.spent+Game.gold)+" all: "+Math.round(Game.allTimeGold))
+							Game.gold=Game.allTimeGold-Game.spent;
+							Game.antiCheat=Game.gold;
 							
 						}
+						else
+						{
+							if( Game.gold != Game.antiCheat )
+							{
+
+								if(Game.gold < Game.antiCheat)
+								{
+									Game.antiCheat=Game.gold;
+								}
+								else
+								{
+									Game.gold=Game.antiCheat;
+								}
+
+								// If you're reading this comment, you get a cookie.
+								// Now you can probably cheat.
+								console.log(" \"Ah!\" you say, \" I must have done it now!\" ")
+								console.log("But alas, no. You've been stopped in your tracks.");
+
+							}
+						}
+						
+						
+						
+						
 						
 						// GPS calc:
-						Game.GPS = Game.Miner.GPS + Game.Drill.GPS;
+						Game.GPS = Game.Miner.GPS + Game.Drill.GPS + Game.Laser.GPS;
 						
 						// Perform Calc.
 						if(!Game.node.left==0)
@@ -604,6 +894,28 @@
 								Game.antiCheat+=Game.GPS/60;
 								Game.allTimeGold+=Game.GPS/60;
 								Game.node.left-=Game.GPS/60;
+							}
+							
+						}
+						
+						// Prospector.
+						if(Game.Prospector.on)
+						{
+							
+							//we need gold.
+							if(Game.node.left<=Game.node.total/2)
+							{
+								if(Game.gold>=Game.node.costs[1])
+								{
+									Game.node.filler.California();
+								}
+								else
+								{
+									if(Game.gold>=Game.node.costs[0])
+									{
+										Game.node.filler.Alaska();
+									}
+								}
 							}
 							
 						}
@@ -655,6 +967,45 @@
 							buttons[8].children[1].tint=0xBBBBBB;
 						}
 						
+						if(Game.gold>=Game.Laser.cost)
+						{
+							buttons[9].children[1].tint=0xFFFFFF;
+							
+						}
+						else
+						{
+							buttons[9].children[1].tint=0xBBBBBB;
+						}
+						
+						if(Game.gold>=Game.Parts.cost)
+						{
+							buttons[2].children[1].tint=0xFFFFFF;
+							
+						}
+						else
+						{
+							buttons[2].children[1].tint=0xBBBBBB;
+						}
+						
+						if(Game.gold>=Game.Brain.cost)
+						{
+							buttons[3].children[1].tint=0xFFFFFF;
+							
+						}
+						else
+						{
+							buttons[3].children[1].tint=0xBBBBBB;
+						}
+						
+						if(Game.gold>=Game.Prospector.cost||Game.Prospector.on==true)
+						{
+							buttons[6].children[1].tint=0xFFFFFF;
+							
+						}
+						else
+						{
+							buttons[6].children[1].tint=0xBBBBBB;
+						}
 						
 						// Unlocks:
 						
@@ -671,15 +1022,39 @@
 						}
 						
 						//unlock Helmets.
-						if(Game.allTimeGold>=Game.Helmet.cost*1.5 & Game.Miner.amount>0)
+						if(Game.Miner.amount>=5)
 						{
 							buttons[1].visible=true;
 						}
 						
 						//unlock Helmets.
-						if(Game.Miner.cost>600)
+						if(Game.Drill.amount>=5)
+						{
+							buttons[2].visible=true;
+						}
+						
+						//unlock Helmets.
+						if(Game.Miner.amount>39)
 						{
 							buttons[8].visible=true;
+						}
+						
+						//unlock Laser
+						if(Game.Drill.amount>24)
+						{
+							buttons[9].visible=true;
+						}
+						
+						//unlock Laser
+						if(Game.Laser.amount>=3)
+						{
+							buttons[3].visible=true;
+						}
+						
+						//unlock Laser
+						if(Game.Laser.amount>=5)
+						{
+							buttons[6].visible=true;
 						}
 						
 						
@@ -808,45 +1183,44 @@
 					leftHeader = new PIXI.Text( 'Upgrades', Title );
 					rightHeader = new PIXI.Text( 'Autominers', Title );
 					goneText = new PIXI.Text( 'Gold depleted!', Normal );
-					watermark = new PIXI.Text( 'Clicky 3 Beta 1', Small );
+					watermark = new PIXI.Text( 'Clicky 3 Beta 2 By Mason Hill', Small );
 
 					//button text
 					btnTexts[0]= new PIXI.Text( Game.Pickaxe.name, Normal );
 					btnTexts[1]= new PIXI.Text( Game.Helmet.name, Normal );
-					btnTexts[2]= new PIXI.Text( '404', Normal );
-					btnTexts[3]= new PIXI.Text( '404', Normal );
+					btnTexts[2]= new PIXI.Text( Game.Parts.name, Normal );
+					btnTexts[3]= new PIXI.Text( 'Smart Lasers', Normal );
 					btnTexts[4]= new PIXI.Text( 'Stats', Normal );
 
 					btnTexts[5]= new PIXI.Text( Game.node.filler.name, Normal );
-					btnTexts[6]= new PIXI.Text( '200', Normal );
+					btnTexts[6]= new PIXI.Text( Game.Prospector.name, Normal );
 					btnTexts[7]= new PIXI.Text( Game.Miner.name, Normal );
 					btnTexts[8]= new PIXI.Text( Game.Drill.name, Normal );
-					btnTexts[9]= new PIXI.Text( '404', Normal );
+					btnTexts[9]= new PIXI.Text( Game.Laser.name, Normal );
 
 					btnTexts[10]= new PIXI.Text( Game.Pickaxe.info, Small );
 					btnTexts[11]= new PIXI.Text( Game.Helmet.info,Small );
-					btnTexts[12]= new PIXI.Text( '404', Small );
-					btnTexts[13]= new PIXI.Text( '404', Small );
+					btnTexts[12]= new PIXI.Text( Game.Parts.info, Small );
+					btnTexts[13]= new PIXI.Text( Game.Brain.info, Small );
 					btnTexts[14]= new PIXI.Text( 'See game stats', Small );
 
 					btnTexts[15]= new PIXI.Text( Game.node.filler.info, Small );
-					btnTexts[16]= new PIXI.Text( '404', Small );
+					btnTexts[16]= new PIXI.Text( Game.Prospector.info, Small );
 					btnTexts[17]= new PIXI.Text( Game.Miner.info, Small );
 					btnTexts[18]= new PIXI.Text( Game.Drill.info, Small );
-					btnTexts[19]= new PIXI.Text( '404', Small );
+					btnTexts[19]= new PIXI.Text( Game.Laser.info, Small );
 
 					btnTexts[20]= new PIXI.Text( Game.Pickaxe.amount + ' g/click, cost: ' + Game.Pickaxe.cost, Small );
 					btnTexts[21]= new PIXI.Text( 'Cost: ' + Game.Helmet.cost,Small );
-					btnTexts[21]= new PIXI.Text( 'Cost: ' + Game.Helmet.cost,Small );
-					btnTexts[22]= new PIXI.Text( '404', Small );
-					btnTexts[23]= new PIXI.Text( '404', Small );
+					btnTexts[22]= new PIXI.Text( 'Cost: 5.00K', Small );
+					btnTexts[23]= new PIXI.Text( 'Cost: '+pp(Game.Brain.cost), Small );
 					btnTexts[24]= new PIXI.Text( '', Small );
 
-					btnTexts[25]= new PIXI.Text( '', Small );
-					btnTexts[26]= new PIXI.Text( '404', Small );
+					btnTexts[25]= new PIXI.Text( 'even if you have some.', Small );
+					btnTexts[26]= new PIXI.Text( 'Cost: ' + pp(Game.Prospector.cost), Small );
 					btnTexts[27]= new PIXI.Text( 'Cost: 25', Small );
-					btnTexts[28]= new PIXI.Text( 'Cost: 1000', Small );
-					btnTexts[29]= new PIXI.Text( '404', Small );
+					btnTexts[28]= new PIXI.Text( 'Cost: 1.00K', Small );
+					btnTexts[29]= new PIXI.Text( 'Cost: '+pp(Game.Laser.cost), Small );
 					
 					statsHeader= new PIXI.Text('Game Stats', Title);
 					statsTxt[0] = new PIXI.Text('- Current Gold : IDK',Normal);
@@ -858,6 +1232,10 @@
 					statsTxt[6] = new PIXI.Text('- Miners: IDK',Normal);
 					statsTxt[7] = new PIXI.Text('- Hat strength: IDK',Normal);
 					statsTxt[8] = new PIXI.Text('- Drill Amount: IDK',Normal);
+					statsTxt[9] = new PIXI.Text('- Drill Strength: IDK',Normal);
+					statsTxt[10] = new PIXI.Text('- Laser Amount: IDK',Normal);
+					statsTxt[11] = new PIXI.Text('- Laser goodness: IDK',Normal);
+					
 					
 					goldHeader= new PIXI.Text('Prospect for gold:', Title);
 					
@@ -959,10 +1337,14 @@
 					
 					buttons[0].on('pointerdown', Game.Pickaxe.up);
 					buttons[1].on('pointerdown', Game.Helmet.up);
+					buttons[2].on('pointerdown', Game.Parts.up);
+					buttons[3].on('pointerdown', Game.Brain.up);
 					buttons[4].on('pointerdown', Game.Settings.display); 
 					buttons[5].on('pointerdown', Game.node.filler.open);
+					buttons[6].on('pointerdown', Game.Prospector.up);
 					buttons[7].on('pointerdown', Game.Miner.up);
 					buttons[8].on('pointerdown', Game.Drill.up);
+					buttons[9].on('pointerdown', Game.Laser.up);
 
 					// center stuff.
 					Graphics.Main.Out();
@@ -1200,10 +1582,42 @@
 					//////////[ Graphics ]/////////////
 
 					// update Text:
-
-					mainText.text = "Gold: "+Math.floor(Game.gold);
+					if(Game.allTimeGold==0)
+					{
+							mainText.text="Mine for Gold!";
+					
+					}
+					else
+					{
+						if(Game.gold>=1000000000)
+						{
+							//Math.round(num * 100) / 100
+							mainText.text = "Gold: " + (Game.gold/1000000000).toFixed(3) + "B";
+						}
+						else
+						{	
+							if(Game.gold>=1000000)
+							{
+								//Math.round(num * 100) / 100
+								mainText.text = "Gold: " + (Game.gold/1000000).toFixed(3) + "M";
+							}
+							else
+							{	
+								if(Game.gold>=10000)
+								{
+									//Math.round(num * 100) / 100
+									mainText.text = "Gold: " + (Game.gold/1000).toFixed(2) + "K";
+								}
+								else
+								{
+									mainText.text = "Gold: " + Math.floor(Game.gold);
+								}
+							}
+						}	
+					}
+					
 					centerX(mainText);
-					gpsText.text = "Gps: "+Math.floor(Game.GPS);
+					gpsText.text = "Gps: "+pp(Game.GPS);
 					centerX(gpsText);
 
 
@@ -1265,6 +1679,17 @@
 
 
 
+					}
+					
+					// misc:
+					if(Game.node.total==5001)
+					{
+						goneText.visible=true;
+						goneText.text="Lucky Break!"
+					}
+					else
+					{
+						goneText.text="Gold Depleted!"
 					}
 
 				}
