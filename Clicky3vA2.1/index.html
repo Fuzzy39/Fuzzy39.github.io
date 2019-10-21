@@ -22,6 +22,7 @@
 			let type = "WebGL"
 			let loader = PIXI.Loader.shared
 			var gold = undefined; // Heheh...
+			var loaded = false;
 			var frameCount = 0;
 			var strength = ["Paper","Cardboard","Plastic","Copper","Bronze","Gilded Bronze","Pig Iron","Cast Iron","Gilded Iron","Steel","Tempered Steel","Gilded Steel","Tungsten","Gilden Tungsten","Titanium","Titanium Alloy","Gilded Titanium","Gold","Pure Gold","Gilden Gold"];
 			
@@ -128,19 +129,26 @@
 			
 			function pp ( num ) // makes numbers nice.
 			{
-				if(num>=1000000)
+				if(num>=1000000000)
 				{
-					return (num/1000000).toFixed(3) + "M";
+					return (num/1000000000).toFixed(3) + "B";
 				}
 				else	
 				{
-					if(num>=1000)
+					if(num>=1000000)
 					{
-						return (num/1000).toFixed(2) + "K";
+						return (num/1000000).toFixed(3) + "M";
 					}
-					else
+					else	
 					{
-						return num;
+						if(num>=1000)
+						{
+							return (num/1000).toFixed(2) + "K";
+						}
+						else
+						{
+							return num;
+						}
 					}
 				}
 			}
@@ -211,6 +219,7 @@
 				allTimeGold: 0,
 				spent:0,
 				GPS: 0,
+				version:0,
 				node:
 				{
 					total: 5000,
@@ -650,7 +659,28 @@
 					},
 				
 				},
-				
+				Deleter:
+				{
+					open:function()
+					{
+						settingsMenu.visible=false;
+						goldMenu.visible=false;
+						goldButton.visible=false;
+						deleteMenu.visible=true;
+						
+					},
+					
+					close:function()
+					{
+						deleteMenu.visible=false;
+					},
+					
+					delete:function()
+					{
+						localStorage.clear();
+						document.location.reload();
+					}
+				},
 				
 				init: function()
 				{
@@ -673,12 +703,12 @@
 					//Add the canvas that Pixi automatically created for you to the HTML document
 					document.body.appendChild( app.view );
 
-
-
+					
 
 					// load all nessecery files.
 					loader
 						.add("graphics/Background.png")
+						.add("graphics/Glow.png")
 						.add( "graphics/goldFrag.png" )
 						.add( "graphics/Gui/menu.png" )
 						.add( "graphics/Gui/header.png" )
@@ -690,6 +720,7 @@
 						.load( Graphics.init ); // setup Graphics.
 					
 					
+
 					
 					
 					},
@@ -754,7 +785,105 @@
 						buttons[4].visible=true;
 						frameCount++;
 						
-						if( !settingsMenu.visible & !goldMenu.visible )
+						if(loaded==false)
+						{
+							loaded=true;
+							// Load savegame:
+							if( localStorage.getItem("version") == Game.version )
+							{
+
+								Game.gold=parseInt(localStorage.getItem("allTimeGold"));
+								Game.allTimeGold=parseInt(localStorage.getItem("allTimeGold"));
+
+								for( i=0; i<Math.log(parseInt(localStorage.getItem("pick"))) / Math.log(2); i++)
+								{
+									Game.Pickaxe.up();
+									buttons[0].visible=true;
+									buttons[0].children[0].tint=0xbbbbbb;
+									buttons[0].children[0].texture=btntex[0];
+								}
+								
+								
+								for( i=0; i<parseInt(localStorage.getItem("hat")); i++)
+								{
+									Game.Helmet.up();
+									buttons[1].visible=true;
+									buttons[1].children[0].tint=0xbbbbbb;
+									buttons[1].children[0].texture=btntex[0];
+								}
+								buttons[1].tint=0xbbbbbb;
+								
+								for( i=0; i<parseInt(localStorage.getItem("part")); i++)
+								{
+									Game.Parts.up();
+									buttons[2].visible=true;
+									buttons[2].children[0].tint=0xbbbbbb;
+									buttons[2].children[0].texture=btntex[0];
+								}
+								buttons[2].tint=0xbbbbbb;
+								
+								for( i=0; i<parseInt(localStorage.getItem("brain")); i++)
+								{
+									Game.Brain.up();
+									buttons[3].visible=true;
+									buttons[3].children[0].tint=0xbbbbbb;
+									buttons[3].children[0].texture=btntex[0];
+								}
+								buttons[3].tint=0xbbbbbb;
+								
+								if(Game.allTimeGold>=3000)
+								{
+								   buttons[5].visible=true;
+								}
+								
+								if(localStorage.getItem("prospector")=="true")
+								{
+									buttons[6].visible=true;
+									Game.Prospector.up();
+								}
+								
+								for( i=0; i<parseInt(localStorage.getItem("miner")); i++)
+								{
+									Game.Miner.up();
+									buttons[7].visible=true;
+									buttons[7].children[0].tint=0xbbbbbb;
+									buttons[7].children[0].texture=btntex[0];
+								}
+								buttons[7].tint=0xbbbbbb;
+								
+								for( i=0; i<parseInt(localStorage.getItem("drill")); i++)
+								{
+									Game.Drill.up();
+									buttons[8].visible=true;
+									buttons[8].children[0].tint=0xbbbbbb;
+									buttons[8].children[0].texture=btntex[0];
+								}
+								buttons[8].tint=0xbbbbbb;
+								
+								for( i=0; i<parseInt(localStorage.getItem("laser")); i++)
+								{
+									Game.Laser.up();
+									buttons[9].visible=true;
+									buttons[9].children[0].tint=0xbbbbbb;
+									buttons[9].children[0].texture=btntex[0];
+								}
+								buttons[9].tint=0xbbbbbb;
+								
+								Game.node.total=parseInt(localStorage.getItem("nodeTotal"))
+								Game.node.left=parseInt(localStorage.getItem("nodeLeft"))
+								
+								Game.spent=parseInt(localStorage.getItem("spent"));
+								Game.gold=Game.allTimeGold-Game.spent;
+								Game.antiCheat=Game.gold;
+							}
+							else
+							{
+								// set up new save.
+								localStorage.setItem("version", Game.version);
+							}
+						}
+						
+						if( !settingsMenu.visible & !goldMenu.visible & !deleteMenu.visible )
 						{
 							goldButton.visible=true;
 						}
@@ -814,6 +943,24 @@
 							statsTxt[9].text="- Drill Strength: " + three;
 							statsTxt[10].text="- Laser amount: " + Game.Laser.amount;
 							statsTxt[11].text="- Brain Smartness Rank: " + four;
+							
+							// save game.
+							localStorage.setItem("allTimeGold",Game.allTimeGold);
+							localStorage.setItem("spent",Game.spent);
+							
+							localStorage.setItem("nodeTotal",Game.node.total);
+							localStorage.setItem("nodeLeft",Game.node.left);
+							
+							localStorage.setItem("pick",Game.Pickaxe.amount);
+							localStorage.setItem("hat",Game.Helmet.amount);
+							localStorage.setItem("part",Game.Parts.amount);
+							localStorage.setItem("brain",Game.Brain.amount);
+							
+							localStorage.setItem("prospector",Game.Prospector.owned);
+							localStorage.setItem("miner",Game.Miner.amount);
+							localStorage.setItem("drill",Game.Drill.amount);
+							localStorage.setItem("laser",Game.Laser.amount);
+							
 						}
 						
 						
@@ -1096,12 +1243,17 @@
 					centerStuff = new PIXI.Container();
 					settingsMenu = new PIXI.Container();
 					goldMenu = new PIXI.Container();
+					deleteMenu = new PIXI.Container();
 						
 					// Create pre-existing sprites
 					goldButton = new PIXI.Sprite( textures[ 0 ] );
 					back = new PIXI.Sprite
 					(
 						loader.resources["graphics/Background.png"].texture
+					);
+					glow = new PIXI.Sprite
+					(
+						loader.resources["graphics/Glow.png"].texture
 					);
 					menuLeft = new PIXI.Sprite
 					(
@@ -1135,6 +1287,11 @@
 					(
 						loader.resources["graphics/Gui/menuBack.png"].texture
 					);
+					
+					menuBack3 = new PIXI.Sprite
+					(
+						loader.resources["graphics/Gui/menuBack.png"].texture
+					);
 
 					Alaska = new PIXI.Sprite
 					(
@@ -1145,7 +1302,10 @@
 					(
 						loader.resources["graphics/Gui/Icons/iconCalifornia.png"].texture
 					);
-
+					
+					saveButton = new PIXI.Sprite(btntex[0]);
+					yesButton = new PIXI.Sprite(btntex[0]);
+					noButton = new PIXI.Sprite(btntex[0]);
 
 					// buttons!
 					for( i = 0; i<10; i++)
@@ -1183,7 +1343,7 @@
 					leftHeader = new PIXI.Text( 'Upgrades', Title );
 					rightHeader = new PIXI.Text( 'Autominers', Title );
 					goneText = new PIXI.Text( 'Gold depleted!', Normal );
-					watermark = new PIXI.Text( 'Clicky 3 Beta 2 By Mason Hill', Small );
+					watermark = new PIXI.Text( 'Clicky 3 Beta 3', Small );
 
 					//button text
 					btnTexts[0]= new PIXI.Text( Game.Pickaxe.name, Normal );
@@ -1202,7 +1362,7 @@
 					btnTexts[11]= new PIXI.Text( Game.Helmet.info,Small );
 					btnTexts[12]= new PIXI.Text( Game.Parts.info, Small );
 					btnTexts[13]= new PIXI.Text( Game.Brain.info, Small );
-					btnTexts[14]= new PIXI.Text( 'See game stats', Small );
+					btnTexts[14]= new PIXI.Text( 'See game stats.', Small );
 
 					btnTexts[15]= new PIXI.Text( Game.node.filler.info, Small );
 					btnTexts[16]= new PIXI.Text( Game.Prospector.info, Small );
@@ -1244,11 +1404,17 @@
 					
 					CaliforniaHeader= new PIXI.Text('California', Normal);
 					CaliforniaCost= new PIXI.Text('Cost: 100,000', Small);
-
+					
+					saveLabel= new PIXI.Text('Wipe Save', Normal);
+					
+					deleteTitle= new PIXI.Text('Wipe Save?', Title);
+					deleteMessage= new PIXI.Text('This will erase all game data. Are you sure?', Normal);
+					yesLabel= new PIXI.Text('Yes', Title);
+					noLabel= new PIXI.Text('No', Title);
 					// add everything
 					
 					app.stage.addChild( back );
-					
+					app.stage.addChild( glow );
 					centerStuff.addChild(goldButton);
 					centerStuff.addChild(mainText);
 					centerStuff.addChild(gpsText);
@@ -1261,7 +1427,19 @@
 					{
 						settingsMenu.addChild(statsTxt[i]);
 					}
+					settingsMenu.addChild(saveButton);
+					settingsMenu.addChild(saveLabel);
 					app.stage.addChild(settingsMenu);
+					
+				
+					deleteMenu.addChild(menuBack3);
+					deleteMenu.addChild(yesButton);
+					deleteMenu.addChild(noButton);
+					deleteMenu.addChild(noLabel);
+					deleteMenu.addChild(yesLabel);
+					deleteMenu.addChild(deleteTitle);
+					deleteMenu.addChild(deleteMessage);
+					app.stage.addChild(deleteMenu);
 					
 					goldMenu.addChild(menuBack2);
 					goldMenu.addChild(goldHeader);
@@ -1330,10 +1508,36 @@
 						.on( 'pointerdown', Game.node.filler.California )
 						.on( 'pointerup', Graphics.onButtonUp )
 						.on( 'pointerover', Graphics.onButtonOver )
-						
 						.on( 'pointerout', Graphics.onButtonOut );
 					
 					California.tint=(0xBBBBBB);
+					
+					saveButton.interactive=true;
+					saveButton.buttonMode=true;
+					saveButton
+						.on( 'pointerup', Graphics.onButtonUp )
+						.on( 'pointerover', Graphics.onButtonOver )
+						.on( 'pointerdown', Game.Deleter.open )
+						.on( 'pointerout', Graphics.onButtonOut );
+					saveButton.tint=(0xBBBBBB);
+					
+					yesButton.interactive=true;
+					yesButton.buttonMode=true;
+					yesButton
+						.on( 'pointerup', Graphics.onButtonUp )
+						.on( 'pointerover', Graphics.onButtonOver )
+						.on( 'pointerdown', Game.Deleter.delete )
+						.on( 'pointerout', Graphics.onButtonOut );
+					yesButton.tint=(0xBBBBBB);
+					
+					noButton.interactive=true;
+					noButton.buttonMode=true;
+					noButton
+						.on( 'pointerup', Graphics.onButtonUp )
+						.on( 'pointerover', Graphics.onButtonOver )
+						.on( 'pointerdown', Game.Deleter.close)
+						.on( 'pointerout', Graphics.onButtonOut );
+					noButton.tint=(0xBBBBBB);
 					
 					buttons[0].on('pointerdown', Game.Pickaxe.up);
 					buttons[1].on('pointerdown', Game.Helmet.up);
@@ -1347,6 +1551,13 @@
 					buttons[9].on('pointerdown', Game.Laser.up);
 
 					// center stuff.
+					
+					glow.anchor.x = 0.5;
+					glow.anchor.y = 0.5;
+					glow.position.x=app.renderer.width/2;
+					glow.position.y=app.renderer.height/2;
+					glow.scale.set(.8,.8)
+					
 					Graphics.Main.Out();
 					goldButton.scale.set(.22, .22);
 					center(goldButton);
@@ -1365,6 +1576,14 @@
 					center(settingsMenu);
 					settingsMenu.y+=20;
 					settingsMenu.visible=false;
+					
+					saveButton.scale.set(.5,1);
+					saveButton.position.y=(menuBack.height-saveButton.height)/2
+					saveButton.position.x=(menuBack.width-saveButton.width)/4+ menuBack.width/2
+					
+					saveLabel.position.y=((menuBack.height-saveButton.height)/2)-25
+					saveLabel.position.x=(menuBack.width-saveButton.width)/4+ menuBack.width/2 + 10
+					
 					
 					menuBack2.scale.set(2.9,3);
 					center(goldMenu);
@@ -1399,6 +1618,22 @@
 					CaliforniaCost.position.y=310;
 					AlaskaCost.position.x=(goldmiddle-AlaskaCost.width)/2;
 					CaliforniaCost.position.x=goldmiddle+((goldmiddle-CaliforniaCost.width)/2);
+					
+					menuBack3.scale.set(2.9,3);
+					center(deleteMenu);
+					deleteMenu.y+=20;
+					deleteMenu.visible=false;
+					
+					deleteTitle.position.x=(menuBack3.width-deleteTitle.width)/2;
+					deleteTitle.position.y=20
+					
+					deleteMessage.position.x=(menuBack3.width-deleteMessage.width)/2;
+					deleteMessage.position.y=80
+					
+					yesButton.position.set((menuBack3.width-yesButton.width)/2,140);
+					yesLabel.position.set((menuBack3.width-yesLabel.width)/2,yesButton.position.y+((noButton.height-yesLabel.height)/2));
+					noButton.position.set((menuBack3.width-yesButton.width)/2,290);
+					noLabel.position.set((menuBack3.width-noLabel.width)/2,noButton.position.y+((noButton.height-yesLabel.height)/2));
 					
 					let spaceMine = keyboard( " " );
 					spaceMine.press = () => 
@@ -1580,7 +1815,19 @@
 
 
 					//////////[ Graphics ]/////////////
-
+					
+					// update glow
+					glow.scale.set(1.5+(Math.log(Game.allTimeGold)*.1),1.5+(Math.log(Game.allTimeGold)*.1));
+					glow.rotation+=.02;
+					
+					if(Game.node.left==0)
+					{
+						glow.visible=false; 
+					}
+					else
+					{
+						glow.visible=true; 
+					}
 					// update Text:
 					if(Game.allTimeGold==0)
 					{
