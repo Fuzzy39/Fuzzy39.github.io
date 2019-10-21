@@ -870,6 +870,7 @@
 								
 								Game.node.total=parseInt(localStorage.getItem("nodeTotal"))
 								Game.node.left=parseInt(localStorage.getItem("nodeLeft"))
+								
 								Game.spent=parseInt(localStorage.getItem("spent"));
 								Game.gold=Game.allTimeGold-Game.spent;
 								Game.antiCheat=Game.gold;
@@ -946,7 +947,7 @@
 							localStorage.setItem("allTimeGold",Game.allTimeGold);
 							localStorage.setItem("spent",Game.spent);
 							
-							localStorage.setItem("nodeTotal",Game.node.amount);
+							localStorage.setItem("nodeTotal",Game.node.total);
 							localStorage.setItem("nodeLeft",Game.node.left);
 							
 							localStorage.setItem("pick",Game.Pickaxe.amount);
