@@ -4,7 +4,7 @@ body
 	font-family:arial; 
 	color:#bbb;
 	background-image:url(https://bymyink.files.wordpress.com/2014/03/palmlixcom-night-sky-stars-background-psdgraphics.jpg);
-    background-size:cover;
+    background-size:contain;
 }
 .content
 {
@@ -172,6 +172,6 @@ li
 }
 .mainContent img
 {
-	height:10%;
+	height:5%;
 	margin:1em;
 }
