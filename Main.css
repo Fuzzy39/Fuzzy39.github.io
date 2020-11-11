@@ -2,9 +2,11 @@
 body
 {
 	font-family:arial; 
+	font-size:110%;
 	color:#bbb;
 	background-image:url(bg.jpg);
-    background-size:contain;
+   
+	 background-size: 100%;
 }
 .content
 {
@@ -31,7 +33,7 @@ body
 .title
 {
 	padding-top:0.6em;
-	margin-bottom:-1.5%;
+	
 	font-size:170%;
 }
 
@@ -50,7 +52,7 @@ body
 	height:50px;
 	width:22.5%;
 	opacity:0.7;
-	font-size:80%;
+	font-size:110%;
 	transition:1s;
 	margin:-2.22px;
 	margin-bottom:.5em;
@@ -62,7 +64,7 @@ body
 {
 	background-color:lightgray;
 	opacity:1;
-	font-size:125%;
+	font-size:130%;
 	color:dimgrey;
 	
 }
@@ -90,8 +92,7 @@ body
 .mainContent button
 {
 	width:100%;
-	height:5em;
-	max-height:5em;
+	height:250px;
 	background-size:16em;
 	font-size:400%;
 	color:#4A7CF6;
@@ -161,6 +162,11 @@ h2
 h3
 {
 	color:#4A7CF6;
+}
+h4
+{
+	margin-top:-1.5em;
+    font-size:75%;
 }
 a
 {
