@@ -24,6 +24,24 @@ body
 
 }
 
+.descriptor button
+{	
+	height:80%;
+}
+.descriptor p
+{
+	transition:.5s;
+	opacity:0.0;
+	font-size:0%;
+}
+
+.descriptor button:hover + p
+{
+	transition:.7s;
+	opacity:1;
+	font-size:100%;
+}	
+
 .header
 {
 	width:100%;
