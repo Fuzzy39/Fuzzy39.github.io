@@ -40,6 +40,42 @@ body
 	transition:.7s;
 	opacity:1;
 	font-size:100%;
+}
+	
+.img-descriptor 
+{
+	display:inline-block;
+	width: 300px;
+	height: 500px;
+		
+	
+}
+
+.img-descriptor img
+{	
+	width: 300px;
+	height: 400px;
+	opacity:.8;
+	transition:.7s;
+}
+
+.img-descriptor img:hover
+{
+	opacity:1;
+	transition:.7s;
+}
+.img-descriptor p
+{
+	transition:.7s;
+	opacity:0.0;
+	font-size:0%;
+}
+
+.img-descriptor img:hover + p
+{
+	transition:.7s;
+	opacity:1;
+	font-size:75%;
 }	
 
 .header
@@ -197,5 +233,6 @@ li
 .mainContent img
 {
 	
-	margin:1em;
+	margin:0em;
+
 }
