@@ -4,23 +4,21 @@ body
 	font-family:arial; 
 	font-size:110%;
 	color:#bbb;
-	background-image:url(bg.jpg);
-   
-	 background-size: 100%;
+	
 }
 .content
 {
 	margin:5%;
 	border-style:none;
-	background-color:rgba(125,125,125,0.7);
+	background-color:rgba(125,125,125,0.75);
 	transition:2s;
-	box-shadow: 0px 0px 30px rgba(75,125,175,.5);
+	
 }
 
 .content:hover
 {
 	background-color:rgba(125,125,125,0.9);
-	box-shadow: 0px 0px 20px rgba(100,150,200,.7);
+
 
 }
 
@@ -149,15 +147,12 @@ body
 	height:250px;
 	background-size:16em;
 	font-size:400%;
-	color:#4A7CF6;
-	text-shadow: 4px 4px 1px #104066;
 	filter:brightness(60%);
 	transition:1s;
-	border:none;
-	background-image:url(buttonbackground.jpg);
 	margin-bottom: 3%;
 	border-style:solid;
 	border-color:white;
+
 }
 
 .mainContent button:hover
@@ -203,29 +198,13 @@ hr
   border-style:none;
 }
 
-h1
-{
-	color:#4A7CF6;
-}
 
-h2
-{
-	color:#4A7CF6;
-	
-}
-h3
-{
-	color:#4A7CF6;
-}
 h4
 {
 	margin-top:-1.5em;
     font-size:75%;
 }
-a
-{
-	color:#5A8CFF;	
-}
+
 li
 {
 	margin-bottom:.4em;
