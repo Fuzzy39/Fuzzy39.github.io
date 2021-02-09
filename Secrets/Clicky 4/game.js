@@ -62,7 +62,7 @@ let upgradeLevels=["Base","Stone","Tin","Copper","Bronze","Iron","Cast Iron","St
 
 let upgrades =
 {
-	PickUp:new ClickyDrive.item('PickUp', {'gold':50}, 2.75,{"gold":0}),
+	PickUp:new ClickyDrive.item('PickUp', {'gold':50}, 2.7,{"gold":0}),
 	MinerUp:new ClickyDrive.item('MinerUp', {'gold':500}, 1.70, {"gold":0}),
 	DrillUp:new ClickyDrive.item('DrillUp', {'gold':5000}, 1.6, {"gold":0}),
 	LazerUp:new ClickyDrive.item('LazerUp', {'gold':100000}, 1.5, {"gold":0})
@@ -204,7 +204,7 @@ function updateLegacy()
 {
 	
 		
-	potentialLegacyBonus=((Math.log(gold.amountAllTime/10000000000)/Math.log(1.1))+100)/100;
+	potentialLegacyBonus=((Math.log(gold.amountAllTime/10000000000)/Math.log(1.075))+100)/100;
 	
 	if(potentialLegacyBonus<=0)
 	{
