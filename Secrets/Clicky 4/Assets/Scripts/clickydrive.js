@@ -171,6 +171,10 @@ var ClickyDrive =
 							ClickyDrive.items[i].onPurchase();
 						}
 					}
+					else
+					{
+						ClickyDrive.items[i].amount=goal;
+					}
 				}
 				
 				return true;

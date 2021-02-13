@@ -63,17 +63,17 @@ let upgradeLevels=["Base","Stone","Tin","Copper","Bronze","Iron","Cast Iron","St
 let upgrades =
 {
 	PickUp:new ClickyDrive.item('PickUp', {'gold':50}, 2.7,{"gold":0}),
-	MinerUp:new ClickyDrive.item('MinerUp', {'gold':500}, 1.70, {"gold":0}),
-	DrillUp:new ClickyDrive.item('DrillUp', {'gold':5000}, 1.6, {"gold":0}),
-	LazerUp:new ClickyDrive.item('LazerUp', {'gold':100000}, 1.5, {"gold":0})
+	MinerUp:new ClickyDrive.item('MinerUp', {'gold':500}, 1.5, {"gold":0}),
+	DrillUp:new ClickyDrive.item('DrillUp', {'gold':5000}, 1.46, {"gold":0}),
+	LazerUp:new ClickyDrive.item('LazerUp', {'gold':200000}, 1.42, {"gold":0})
 	 
 }
 
 // Define upgrade properties
-upgrades.PickUp.onPurchase=function(){ gold.perClick*=2; };
-upgrades.MinerUp.onPurchase=function(){ miners.Miner.basePerSecond.gold+=1; };
-upgrades.DrillUp.onPurchase=function(){ miners.Drill.basePerSecond.gold+=10; };
-upgrades.LazerUp.onPurchase=function(){ miners.Lazer.basePerSecond.gold+=100; };
+upgrades.PickUp.onPurchase=function(){ gold.perClick*=2; purchaseUpdate(); };
+upgrades.MinerUp.onPurchase=function(){ miners.Miner.basePerSecond.gold+=1; purchaseUpdate();};
+upgrades.DrillUp.onPurchase=function(){ miners.Drill.basePerSecond.gold+=10; purchaseUpdate();};
+upgrades.LazerUp.onPurchase=function(){ miners.Lazer.basePerSecond.gold+=100; purchaseUpdate(); };
 
 // prospecting options
 let alaska = new ClickyDrive.item("Alaska", {'gold':1000}, 1,{"gold":0});
@@ -85,18 +85,21 @@ california.isOneTime=true;
 california.onPurchase=function(){luckyBreak=false; gold.add(1100000)};
 
 
-let Prospector=new  ClickyDrive.item('prospector', {'gold':1000000}, 3,{"gold":100});
+let Prospector=new  ClickyDrive.item('prospector', {'gold':1000000}, 1.5,{"gold":100});
 let prospectorBonus=0;
 
 
 let miners =
 {
-	Miner:new ClickyDrive.item('Miner', {'gold':10}, 1.2,{"gold":1}),
-	Drill:new ClickyDrive.item('Drill', {'gold':2000}, 1.1,{"gold":10}),
-	Lazer:new ClickyDrive.item('Lazer', {'gold':30000}, 1.05,{"gold":100})
+	Miner:new ClickyDrive.item('Miner', {'gold':10}, 1.075,{"gold":1}),
+	Drill:new ClickyDrive.item('Drill', {'gold':2000}, 1.075,{"gold":10}),
+	Lazer:new ClickyDrive.item('Lazer', {'gold':25000}, 1.075,{"gold":100})
 }
 
 
+miners.Miner.onPurchase=function(){ purchaseUpdate();};
+miners.Drill.onPurchase=function(){ purchaseUpdate();};
+miners.Lazer.onPurchase=function(){ purchaseUpdate(); };
 
 
 // Main function, effectively
@@ -105,11 +108,9 @@ ClickyDrive.hookins.update = function(tickCounter)
 	
 	goldNode.glow.scale=2+(Math.log(gold.amountAllTime)/Math.log(500));
 	
+	
 	updateStats();
 	updateUnlocked();
-	updateUpgrades();
-	updateMiners();
-	updateProspector();
 	updateDepleted();
 	updateEvents();
 	saveGame(tickCounter);
@@ -138,6 +139,7 @@ ClickyDrive.hookins.create = function()
 		{
 			document.getElementById("legacyButton").classList.remove("hidden");
 		}
+		purchaseUpdate();
 		
 	}
 	
@@ -183,7 +185,7 @@ function updateEvents()
 					if(upgrades.LazerUp.amount>=1 && Math.random()<=.005){triggerEvent(i);}
 					break;
 				case "Victory":
-					if(upgrades.LazerUp.amount>=14 && upgrades.PickUp.amount >= 14 && upgrades.MinerUp.amount >= 14 && upgrades.PickUp.amount >= 14 && Math.random()<=.005)
+					if(upgrades.LazerUp.amount>=14 && upgrades.PickUp.amount >= 14 && upgrades.MinerUp.amount >= 14 && upgrades.PickUp.amount >= 14)
 					{
 						triggerEvent(i);
 						document.getElementById("legacyButton").classList.remove("hidden");
@@ -204,7 +206,7 @@ function updateLegacy()
 {
 	
 		
-	potentialLegacyBonus=((Math.log(gold.amountAllTime/10000000000)/Math.log(1.075))+100)/100;
+	potentialLegacyBonus=((Math.log(gold.amountAllTime/1000000)/Math.log(1.05)))/100;
 	
 	if(potentialLegacyBonus<=0)
 	{
@@ -231,6 +233,15 @@ function updateUpgrades()
 			case "PickUp":
 				document.getElementById(i+"Effect").innerHTML="Effect: "+prettyPrint(gold.perClick)+" Gold per click";
 				break;
+			case "MinerUp":
+				document.getElementById(i+"Effect").innerHTML="Effect: +"+prettyPrint(gold.perSecondMultiplier)+" GPS per Miner";
+				break;
+			case "DrillUp":
+				document.getElementById(i+"Effect").innerHTML="Effect: +"+prettyPrint(10*gold.perSecondMultiplier)+" GPS per Drill";
+				break;
+			case "LazerUp":
+				document.getElementById(i+"Effect").innerHTML="Effect: +"+prettyPrint(100*gold.perSecondMultiplier)+" GPS per Lazer";
+				break;
 
 			
 		}
@@ -239,6 +250,13 @@ function updateUpgrades()
 	
 }
 
+function purchaseUpdate()
+{
+	
+	updateUpgrades();
+	updateMiners();
+	updateProspector();
+}
 // now for miners
 
 
@@ -249,9 +267,9 @@ function updateMiners()
 		//get the cost Element
 		
 		document.getElementById(i+"Cost").innerHTML= "Cost: "+prettyPrint(miners[i].costs.gold)+inlineIcon;
-		let owned="Owned: "+miners[i].amount+" Total GPS: "+prettyPrint(miners[i].perSecond.gold);
+		let owned="Owned: "+miners[i].amount+" Total GPS: "+prettyPrint(miners[i].perSecond.gold*gold.perSecondMultiplier);
 		document.getElementById(i+"Owned").innerHTML=owned;
-		document.getElementById(i+"GPS").innerHTML="GPS: "+prettyPrint(miners[i].basePerSecond.gold);
+		document.getElementById(i+"GPS").innerHTML="GPS: "+prettyPrint(miners[i].basePerSecond.gold*gold.perSecondMultiplier);
 		
 	
 		
@@ -279,6 +297,7 @@ Prospector.onPurchase=function()
 		prospectorBonus+=.05;
 		prospectorBonus=Math.round(prospectorBonus * 100) / 100;
 	}
+	purchaseUpdate();
 
 }
 
@@ -346,7 +365,7 @@ function updateUnlocked()
 					if(miners.Lazer.amount>=5){unlock(unlockIDs[i]);}
 					break;
 				case unlockIDs.Miner:
-					if(gold.amount>=miners.Miner.costs.gold){unlock(unlockIDs[i]);}
+					if(gold.amount>=miners.Miner.costs.gold){unlock(unlockIDs[i]); purchaseUpdate();}
 					break;
 				case unlockIDs.Drill:
 					if(miners.Miner.amount>=25){unlock(unlockIDs[i]);}
@@ -417,6 +436,7 @@ function unlockAll() // this was a debug method, but
 		{
 			unlock(unlockIDs[i]);
 		}
+		document.getElementById("legacyButton").classList.remove("hidden");
 	}
 }
 
@@ -517,6 +537,11 @@ function updateStats()
 	ClickyDrive.ui.getChildByID("reserves").innerHTML=prettyPrint(gold.amountAvailable)+inlineIcon;
 	ClickyDrive.ui.getChildByID("reservesBar").style.width=((gold.amountAvailable/gold.totalAmountAvailable)*100)+"%";
 	
+	if( currentPanel=="prospect"& Prospector.amount>=1)
+	{
+		openPanel("prospect2");
+	}
+	
 	
 	
 }
@@ -527,13 +552,17 @@ function updateDepleted()
 	{
 		 document.getElementById("depletedText").innerHTML="Depleted!";
 		 document.getElementById("depleted").classList.remove("hidden");
-		 gold.clicks=0;
 		
+		 if (gold.clicks>=11)
+		 {
+			  gold.clicks=0;
+		 }
+		 
 		 if( gold.clicks>=10 && !luckyBreak && gold.amount<alaska.costs.gold )
 		 {
 			luckyBreak=true;
 			document.getElementById("depletedText").innerHTML="Lucky Break!";
-			gold.add(1000);
+			gold.add(1000-gold.amount);
 		 }
 	}
 	else
