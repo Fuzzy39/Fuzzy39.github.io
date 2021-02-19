@@ -50,13 +50,26 @@ let unlockIDs =
 }
 
 
+
 let eventIDs = 
 {
 	Welcome: 'false',
 	Goal:'false',
 	Victory:'false'
 }
-saveGame(0);
+
+
+function onPurchaseFail(i)
+{
+	
+	
+	let j = document.getElementById(i);
+	j.classList.add('purchaseFailed');
+	let k = document.getElementById(i+"Cost");
+	k.classList.add('red');
+	setTimeout(function(){j.classList.remove('purchaseFailed'); k.classList.remove('red');},400);
+}
+
 
 let upgradeLevels=["Base","Stone","Tin","Copper","Bronze","Iron","Cast Iron","Steel","Stainless Steel","Tungsten","Titanium","Composite","Carbon Fiber", "Pure Electrum","Devine Gold"];
 
@@ -75,6 +88,7 @@ upgrades.MinerUp.onPurchase=function(){ miners.Miner.basePerSecond.gold+=1; purc
 upgrades.DrillUp.onPurchase=function(){ miners.Drill.basePerSecond.gold+=10; purchaseUpdate();};
 upgrades.LazerUp.onPurchase=function(){ miners.Lazer.basePerSecond.gold+=100; purchaseUpdate(); };
 
+
 // prospecting options
 let alaska = new ClickyDrive.item("Alaska", {'gold':1000}, 1,{"gold":0});
 alaska.isOneTime=true;
@@ -85,7 +99,7 @@ california.isOneTime=true;
 california.onPurchase=function(){luckyBreak=false; gold.add(1100000)};
 
 
-let Prospector=new  ClickyDrive.item('prospector', {'gold':1000000}, 1.5,{"gold":100});
+let Prospector=new  ClickyDrive.item('Prospector', {'gold':1000000}, 1.5,{"gold":100});
 let prospectorBonus=0;
 
 
@@ -114,6 +128,10 @@ ClickyDrive.hookins.update = function(tickCounter)
 	updateDepleted();
 	updateEvents();
 	saveGame(tickCounter);
+	
+	if(tickCounter%60 == 0 ){updateLit();}
+	
+	
 	updateLegacy();
 	
 	// cheats?
@@ -122,6 +140,7 @@ ClickyDrive.hookins.update = function(tickCounter)
 	gold.perSecondMultiplier=1+prospectorBonus+legacyBonus;
 	
 }
+
 
 // efffectively just loading events.
 ClickyDrive.hookins.create = function()
@@ -143,7 +162,62 @@ ClickyDrive.hookins.create = function()
 		
 	}
 	
+	// staple animations to things.
+	for( let i in upgrades)
+	{
+		upgrades[i].graphicOnPurchaseFail=function(){ onPurchaseFail(i)}; 
+		
+	}
+	for( let i in miners)
+	{
+		miners[i].graphicOnPurchaseFail=function(){ onPurchaseFail(i)}; 
+	}
+	
+	Prospector.graphicOnPurchaseFail=function(){ onPurchaseFail("Prospector")}; 
 }
+
+
+
+
+
+function updateLit()
+{
+
+	// go through each object in the game...
+	// and light it up if it's purchasable
+	for( let i in upgrades )
+	{
+		
+		determineLit(upgrades[i]);
+	}
+	
+	for(let i in miners )
+	{
+		
+		determineLit(miners[i]);
+	}
+	
+	determineLit(Prospector);
+
+	
+}
+
+function determineLit(item)
+{
+	let itemIcon = document.getElementById(item.name+"Icon");
+	
+	if( gold.amount >= item.costs.gold)
+	{
+		
+		itemIcon.classList.add('lit');
+	}
+	else
+	{
+		itemIcon.classList.remove('lit');
+	}
+	
+}
+
 
 function saveGame(tickCounter)
 {
@@ -256,6 +330,7 @@ function purchaseUpdate()
 	updateUpgrades();
 	updateMiners();
 	updateProspector();
+	updateLit();
 }
 // now for miners
 
@@ -286,10 +361,10 @@ Prospector.onPurchase=function()
 		prospectorBonus=-.1;
 		gold.totalAmountAvailable=Infinity;
 		gold.amountAvailable=Infinity;
-		document.getElementById("prospectorName").innerHTML="Prospector";
-		document.getElementById("prospectorDesc").innerHTML="You no longer need to Prospect!";
-		document.getElementById("prospectorQuip").innerHTML="Need some help makin' gold?";
-		document.getElementById("prospectorIcon").src="Assets/Gui/Icons/Autos/iconProspector.png"
+		document.getElementById("ProspectorName").innerHTML="Prospector";
+		document.getElementById("ProspectorDesc").innerHTML="You no longer need to Prospect!";
+		document.getElementById("ProspectorQuip").innerHTML="Need some help makin' gold?";
+		document.getElementById("ProspectorIcon").src="Assets/Gui/Icons/Autos/iconProspector.png"
 		luckyBreak=false; 	
 	}
 	else if (Prospector.amount>1)
@@ -303,10 +378,10 @@ Prospector.onPurchase=function()
 
 function updateProspector()
 {
-	document.getElementById("prospectorCost").innerHTML="Cost: "+prettyPrint(Prospector.costs.gold)+inlineIcon;
+	document.getElementById("ProspectorCost").innerHTML="Cost: "+prettyPrint(Prospector.costs.gold)+inlineIcon;
 	if(Prospector.amount>=1)
 	{	
-		document.getElementById("prospectorEffect").innerHTML=(prospectorBonus>=0?"+":"-")+Math.abs(prospectorBonus)*100+"% of GPS. (+5% per level)"
+		document.getElementById("ProspectorEffect").innerHTML=(prospectorBonus>=0?"+":"-")+Math.abs(prospectorBonus)*100+"% of GPS. (+5% per level)"
 	}
 }
 

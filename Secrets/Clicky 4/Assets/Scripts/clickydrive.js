@@ -753,7 +753,7 @@ var ClickyDrive =
 		{
 			if(this.amount===this.maxAmount)
 			{
-				this.graphicFail();
+				this.graphicOnPurchaseFail();
 				return false;
 			}
 			
