@@ -18,7 +18,7 @@ let skinParticles =
 [
 	 skinDir+"Gold/goldFrag.png",
 	 skinDir+"Iron/goldFrag.png",
-	 skinDir+"Crab/crabFrag.png"
+	 skinDir+"Crab/CrabFrag.png"
 ]
 
 let skinGlows =
