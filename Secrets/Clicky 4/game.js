@@ -12,7 +12,7 @@ let skins =
 [
 	[skinDir+"Gold/gold0.png",skinDir+"Gold/gold1.png",skinDir+"Gold/gold2.png",skinDir+"Stone.png"],
 	[skinDir+"Iron/gold0.png",skinDir+"Iron/gold1.png",skinDir+"Iron/gold2.png",skinDir+"Stone.png"],
-	[skinDir+"Crab/crab0.png",skinDir+"Crab/crab1.png",skinDir+"Crab/crab2.png",skinDir+"Stone.png"]
+	[skinDir+"Crab/Crab0.png",skinDir+"Crab/Crab1.png",skinDir+"Crab/Crab2.png",skinDir+"Stone.png"]
 ]
 let skinParticles =
 [
