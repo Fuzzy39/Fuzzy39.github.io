@@ -277,7 +277,7 @@ function updateSecrets()
 				document.getElementById("burningLAME").innerHTML="Vickash's Minions";
 				break;
 			
-			case "dylanpalmer":
+			case "dylan":
 				console.log("(AKA Cosmic__Turtle) Follow him on Twitch!");
 				break;
 			
