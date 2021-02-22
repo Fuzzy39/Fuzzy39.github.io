@@ -229,7 +229,7 @@ function updateSecrets()
 	{
 		switch(cheat)
 		{
-			case "openseasame":
+			case "opensesame":
 					unlockAll();
 					console.log(" A whole new world opens before you!")
 				break;
