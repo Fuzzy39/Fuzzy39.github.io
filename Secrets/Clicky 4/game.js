@@ -93,7 +93,7 @@ let unlockIDs =
 
 let eventIDs = 
 {
-	Welcome: 'false',
+	Welcome: 'true',
 	Goal:'false',
 	Victory:'false'
 }
@@ -495,7 +495,7 @@ Prospector.onPurchase=function()
 	else if (Prospector.amount>1)
 	{
 		prospectorBonus+=.05;
-		prospectorBonus=Math.round(prospectorBonus * 100) / 100;
+		prospectorBonus=Math.round(prospectorBonus*legacyBonus* 100) / 100;
 	}
 	purchaseUpdate();
 
@@ -730,8 +730,8 @@ function updateStats()
 	
 	ClickyDrive.ui.getChildByID("listGold").innerHTML=prettyPrint(gold.amount)+inlineIcon;
 	ClickyDrive.ui.getChildByID("listAllTime").innerHTML=prettyPrint(gold.amountAllTime)+inlineIcon;
-	ClickyDrive.ui.getChildByID("listLegacy").innerHTML=Math.round(legacyBonus*100)+"%";
-	ClickyDrive.ui.getChildByID("listModifier").innerHTML=Math.round(gold.perSecondMultiplier*100)+"%";
+	ClickyDrive.ui.getChildByID("listLegacy").innerHTML=prettyPrint(Math.round(legacyBonus*100))+"%";
+	ClickyDrive.ui.getChildByID("listModifier").innerHTML=prettyPrint(Math.round(gold.perSecondMultiplier*100))+"%";
 	ClickyDrive.ui.getChildByID("listGPS").innerHTML=prettyPrint(gold.perSecond*gold.perSecondMultiplier)+inlineIcon+"/Sec";
 	
 	
