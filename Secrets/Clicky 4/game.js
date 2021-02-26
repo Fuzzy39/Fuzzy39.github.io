@@ -1,5 +1,5 @@
 "use strict";
-console.log(ClickyDrive.save);
+
 let skinDir = "Assets/Skins/";
 let code=-1;
 let cheat = "";
@@ -41,12 +41,12 @@ ClickyDrive.ui='UI.html';
 
 // enable Saving
 ClickyDrive.gameID="Clicky 4 saveCompatVer 0";
-console.log(ClickyDrive.save);
+
 // let's attempt to add a new resource, gold
 let gold = new ClickyDrive.resource("gold", 5000, true);
 
 
-console.log(ClickyDrive.save);
+
 if(ClickyDrive.save.getItem(ClickyDrive.gameID+".skin") != null)
 {
 	currentSkin = parseInt(ClickyDrive.save.getItem(ClickyDrive.gameID+".skin"));
@@ -252,9 +252,9 @@ function updateSecrets()
 				
 			case "billy":
 				console.log("hmm, need a different pick for your job?");
-				if(code<0)
+				if(code<0 || code>500)
 				{
-					console.log("That's not gonna work...");
+					console.log("That's not gonna work... (code is set to an improper value)");
 				}
 				else
 				{
@@ -265,6 +265,7 @@ function updateSecrets()
 					{
 						p.add();
 					}
+					document.getElementById("versionText").innerHTML= document.getElementById("versionText").textContent.replace(/v/g, "c");
 				}
 				break;
 			case "jacob":
@@ -280,6 +281,11 @@ function updateSecrets()
 			
 			case "dylanpalmer":
 				console.log("(AKA Cosmic__Turtle) Follow him on Twitch!");
+				break;
+			case "windfall":
+				console.log("A small gift, from a wealthy uncle who passed in curious circumstances...");
+				gold.amount+=gold.perSecond*600;
+				document.getElementById("versionText").innerHTML= document.getElementById("versionText").textContent.replace(/v/g, "c");
 				break;
 			
 			
@@ -390,7 +396,7 @@ function updateLegacy()
 {
 	
 		
-	potentialLegacyBonus=((Math.log(gold.amountAllTime/1000000)/Math.log(1.05)))/100;
+	potentialLegacyBonus=gold.amountAllTime/200000000; //1% = 2 million
 	
 	if(potentialLegacyBonus<=0)
 	{
@@ -430,10 +436,7 @@ function updateUpgrades()
 			
 		}
 		
-		document.getElementById("ProspectName").innerHTML="Buy more land and get " +skinNames[currentSkin]+"."		
-		document.getElementById("ProspectQuip").innerHTML="Thar be "+skinNames[currentSkin]+ " in 'dem hills!";
-		document.getElementById("list0").innerHTML="Current " +skinNames[currentSkin]+":"		
-		document.getElementById("list1").innerHTML="All Time "+skinNames[currentSkin]+ ":";
+		
 		
 	}
 	
@@ -446,6 +449,13 @@ function purchaseUpdate()
 	updateMiners();
 	updateProspector();
 	updateLit();
+	
+	document.getElementById("ProspectName").innerHTML="Buy more land and get " +skinNames[currentSkin]+"."		
+	document.getElementById("ProspectQuip").innerHTML="Thar be "+skinNames[currentSkin]+ " in 'dem hills!";
+	document.getElementById("list0").innerHTML="Current " +skinNames[currentSkin]+":"		
+	document.getElementById("list1").innerHTML="All Time "+skinNames[currentSkin]+ ":";
+	document.getElementById("prospect1").innerHTML="Cost: 1,000 " +inlineIcon;		
+	document.getElementById("prospect3").innerHTML="Cost: 100K "+inlineIcon;
 }
 // now for miners
 
@@ -512,6 +522,8 @@ function ascend()
 		}
 		
 		Prospector.amount=0;
+		alaska.amount=0;
+		california.amount=0;
 		
 		gold.amount=0;
 		gold.amountAllTime=0;
