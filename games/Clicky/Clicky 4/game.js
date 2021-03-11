@@ -177,7 +177,7 @@ ClickyDrive.hookins.update = function(tickCounter)
 	
 
 	
-	gold.perSecondMultiplier=1+(Math.round(prospectorBonus*legacyBonus* 100) / 100)+legacyBonus;
+	gold.perSecondMultiplier=1+(Math.round((prospectorBonus+1)*legacyBonus* 100) / 100)+legacyBonus;
 	
 }
 
@@ -375,7 +375,7 @@ function updateEvents()
 					if(upgrades.LazerUp.amount>=1 && Math.random()<=.005){triggerEvent(i);}
 					break;
 				case "Victory":
-					if(upgrades.LazerUp.amount>=14 && upgrades.PickUp.amount >= 14 && upgrades.MinerUp.amount >= 14 && upgrades.PickUp.amount >= 14)
+					if(upgrades.LazerUp.amount>=14 && upgrades.PickUp.amount >= 14 && upgrades.MinerUp.amount >= 14 && upgrades.DrillUp.amount >= 14)
 					{
 						triggerEvent(i);
 						document.getElementById("legacyButton").classList.remove("hidden");
@@ -494,7 +494,7 @@ Prospector.onPurchase=function()
 	}
 	else if (Prospector.amount>1)
 	{
-		console.log(prospectorBonus)
+	
 		prospectorBonus+=.05;
 		prospectorBonus=Math.round(prospectorBonus*100)/100;
 		
@@ -683,7 +683,7 @@ function openPanel(panel)
 
 function toggleSettings()
 {
-	if(currentPanel==""||currentPanel=="prospect"||currentPanel=="prospect2")
+	if(currentPanel==""||currentPanel=="prospect"||currentPanel=="prospect2"||currentPanel=="legacy")
 	{
 		openPanel("settings");
 	}
@@ -695,7 +695,7 @@ function toggleSettings()
 
 function toggleProspect()
 {
-	if(currentPanel==""||currentPanel=="settings")
+	if(currentPanel==""||currentPanel=="settings"||currentPanel=="legacy")
 	{
 		if(Prospector.amount==0)
 		{
