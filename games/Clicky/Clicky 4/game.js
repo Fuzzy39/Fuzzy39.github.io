@@ -356,6 +356,12 @@ function wipeSave()
 	location.reload();
 }
 
+function fix()
+{
+	gold.amount=0;
+	gold.amountAvailable=Infinity;
+}
+
 function updateEvents()
 {
 	for( let i in eventIDs )
