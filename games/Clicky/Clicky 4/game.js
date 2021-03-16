@@ -170,7 +170,7 @@ ClickyDrive.hookins.update = function(tickCounter)
 	updateSecrets();
 	saveGame(tickCounter);
 	
-	if(tickCounter%60 == 0 ){updateLit(); fix();}
+	if(tickCounter%60 == 0 ){updateLit(); fix(ticCounter%60);}
 	
 	
 	updateLegacy();
@@ -356,8 +356,13 @@ function wipeSave()
 	location.reload();
 }
 
-function fix()
-{
+function fix(tick)
+{	
+	if(tick!=0)
+	{
+		console.log("Don't try me, you dolt.");
+		return;
+	}
 	if(gold.amount == Infinity || gold.amount == NaN || gold.amount == undefined 
 	   || gold.perSecond == Infinity || gold.perSecond == NaN || gold.perSecond == undefined
 	  || gold.amountAvailable == NaN || gold.amountAvailable == undefined)
