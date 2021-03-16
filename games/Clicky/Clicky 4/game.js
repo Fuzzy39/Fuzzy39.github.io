@@ -170,7 +170,7 @@ ClickyDrive.hookins.update = function(tickCounter)
 	updateSecrets();
 	saveGame(tickCounter);
 	
-	if(tickCounter%60 == 0 ){updateLit(); fix(ticCounter%60);}
+	if(tickCounter%60 == 0 ){updateLit(); fix(tickCounter%60);}
 	
 	
 	updateLegacy();
