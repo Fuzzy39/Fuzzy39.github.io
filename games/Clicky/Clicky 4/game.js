@@ -364,8 +364,7 @@ function fix(tick)
 		return;
 	}
 	if(gold.amount == Infinity || gold.amount == NaN || gold.amount == undefined 
-	   || gold.perSecond == Infinity || gold.perSecond == NaN || gold.perSecond == undefined
-	  || gold.amountAvailable == NaN || gold.amountAvailable == undefined)
+	   || gold.perSecond == Infinity || gold.perSecond == NaN || gold.perSecond == undefined)
 	gold.amount=0;
 	if(Prospector.amount==0)
 	{
