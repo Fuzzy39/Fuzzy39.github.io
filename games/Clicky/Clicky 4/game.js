@@ -360,7 +360,7 @@ function fix()
 {
 	if(gold.amount == Infinity || gold.amount == NaN || gold.amount == undefined 
 	   || gold.perSecond == Infinity || gold.perSecond == NaN || gold.perSecond == undefined
-	   || gold.amountAvailable == Infinity || gold.amountAvailable == NaN || gold.amountAvailable == undefined)
+	  || gold.amountAvailable == NaN || gold.amountAvailable == undefined)
 	gold.amount=0;
 	if(Prospector.amount==0)
 	{
