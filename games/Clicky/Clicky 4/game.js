@@ -170,7 +170,7 @@ ClickyDrive.hookins.update = function(tickCounter)
 	updateSecrets();
 	saveGame(tickCounter);
 	
-	if(tickCounter%60 == 0 ){updateLit();}
+	if(tickCounter%60 == 0 ){updateLit(); fix();}
 	
 	
 	updateLegacy();
@@ -358,8 +358,19 @@ function wipeSave()
 
 function fix()
 {
+	if(gold.amount == Infinity || gold.amount == NaN || gold.amount == undefined 
+	   || gold.perSecond == Infinity || gold.perSecond == NaN || gold.perSecond == undefined
+	   || gold.amountAvailable == Infinity || gold.amountAvailable == NaN || gold.amountAvailable == undefined)
 	gold.amount=0;
-	gold.amountAvailable=Infinity;
+	if(Prospector.amount==0)
+	{
+		gold.amountAvailable=5000;
+	}
+	else
+	{
+		gold.amountAvailable=Infinity;
+	}
+	
 }
 
 function updateEvents()
