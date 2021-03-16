@@ -363,16 +363,20 @@ function fix(tick)
 		console.log("Don't try me, you dolt.");
 		return;
 	}
+	
 	if(gold.amount == Infinity || gold.amount == NaN || gold.amount == undefined 
 	   || gold.perSecond == Infinity || gold.perSecond == NaN || gold.perSecond == undefined)
-	gold.amount=0;
-	if(Prospector.amount==0)
 	{
-		gold.amountAvailable=5000;
-	}
-	else
-	{
-		gold.amountAvailable=Infinity;
+		console.log("AN ERROR OCCURED? Not again... I swore I dealt with this? guh.")
+		gold.amount=0
+		if(Prospector.amount==0)
+		{
+			gold.amountAvailable=5000;
+		}
+		else
+		{
+			gold.amountAvailable=Infinity;
+		}
 	}
 	
 }
