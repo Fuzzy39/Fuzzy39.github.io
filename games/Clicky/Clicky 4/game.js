@@ -415,10 +415,7 @@ function updateEvents()
 				case "error":
 					if(checkError())
 					{
-						if(legacyBonus>=1000)
-						{
-							document.getElementById("errorReason").innerHTML="This error may have been caused by an absurdly high legacy bonus.";
-						}
+						
 						triggerEvent(i);
 					}
 					break;
