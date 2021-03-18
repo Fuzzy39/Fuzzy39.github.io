@@ -10,7 +10,7 @@
 	</div>
 	
 	<div class="frostedGlass" style="font-size:90%; top:860px; left:415px; height:40px; width:225px;">
-		<h3 id="versionText" style="position: absolute;  left: 50%; top:50%; transform: translate(-50%, -50%); white-space: nowrap;">Clicky 4 v1.1.2</h3>
+		<h3 id="versionText" style="position: absolute;  left: 50%; top:50%; transform: translate(-50%, -50%); white-space: nowrap;">Clicky 4 v1.2</h3>
 	</div>
 	<div id="legacyButton" class="hidden">
 	
@@ -141,7 +141,40 @@
 	
 	<img class = "vertbar" src="Assets/Gui/vertBar.png" style="left:1185px;">
 	
-
+	<div id="template" class="hidden">
+		<img class="upperPanelBar panelBar" src="Assets/Gui/panelBar.png">
+		<div class="panelBackground">
+			<div class="smallHeader" style="left:250px; font-size:80%;"><h2>Header</h2></div>
+			<img class="closeButton" onclick="closeAllPanels();" src="Assets/Gui/Icons/close.png">
+			<div class="panelContent">
+				
+				<p>Content</p>
+			</div>
+		</div>
+		<img class="lowerPanelBar panelBar" src="Assets/Gui/panelBar.png">
+	</div>
+	
+	
+	<div id="error" class="hidden">
+		<img class="upperPanelBar panelBar" src="Assets/Gui/panelBar.png">
+		<div class="panelBackground">
+			<div class="smallHeader" style="left:250px; font-size:80%;"><h2>Not Again...</h2></div>
+			
+			<div class="panelContent">
+				
+				<br>
+				<p>Clicky has encountered an error, rendering your save unplayable.</p>
+				<br>
+				<br>
+				<p style="font-style:italic;" >Your save file must be deleted. :(</p>
+				
+			
+			
+				<div class="panelButton" style="left:225px; top:225px; width:250px;" onclick="wipeSave()"><h2>Wipe Save</h2></div>
+			</div>
+		</div>
+		<img class="lowerPanelBar panelBar" src="Assets/Gui/panelBar.png">
+	</div>
 
 	<div id="prospect2" class="hidden">
 		<img class="upperPanelBar panelBar" src="Assets/Gui/panelBar.png">
@@ -177,14 +210,17 @@
 	<div id="Welcome" class="hidden">
 		<img class="upperPanelBar panelBar" src="Assets/Gui/panelBar.png">
 		<div class="panelBackground">
-			<div class="smallHeader" style="left:250px; font-size:80%;"><h2>Welcome!</h2></div>
+			<div class="smallHeader" style="left:250px; font-size:80%;"><h2>V1.2</h2></div>
 			
 			<div class="panelContent">
+				
 				<br>
+				<p>What's new in v1.2?</p>
 				<br>
-				<p>Thanks for being a beta tester for Clicky 4!
-				Please report your general experience after beating the game, as well as any bugs or problems. 
-				If you have a small suggestion, feel free to share it too. I hope you enjoy the game!</p>
+				<p>-Clicky now can check for errors.</p>
+				<p>-Legacy bonus capped to 100M%</p>
+				<p>-'What's new' Screen added.</p>
+				
 				
 				<div class="panelButton" style="left:260px; top:225px;" onclick="closeAllPanels();"><h2>Play</h2></div>
 				

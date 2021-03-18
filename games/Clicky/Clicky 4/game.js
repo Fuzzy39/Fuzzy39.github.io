@@ -3,6 +3,7 @@
 let skinDir = "Assets/Skins/";
 let code=-1;
 let cheat = "";
+let version=1;
 let keyboard=false;
 let luckyBreak = false;
 let legacyBonus = 0.00;
@@ -93,9 +94,10 @@ let unlockIDs =
 
 let eventIDs = 
 {
-	Welcome: 'true',
+	Welcome: 'false',
 	Goal:'false',
-	Victory:'false'
+	Victory:'false',
+	error:'false',
 }
 
 
@@ -170,7 +172,7 @@ ClickyDrive.hookins.update = function(tickCounter)
 	updateSecrets();
 	saveGame(tickCounter);
 	
-	if(tickCounter%60 == 0 ){updateLit(); fix(tickCounter%60);}
+	if(tickCounter%60 == 0 ){updateLit();}
 	
 	
 	updateLegacy();
@@ -185,14 +187,18 @@ ClickyDrive.hookins.update = function(tickCounter)
 // efffectively just loading events.
 ClickyDrive.hookins.create = function()
 {
-	
+	let lastVersion;
 	// we are just loading things here.
 	if(ClickyDrive.save.getItem(ClickyDrive.gameID+".Event.Welcome")!=null)
 	{
 	
+		// I'm being lazy, yeah.
 		eventIDs.Welcome = ClickyDrive.save.getItem(ClickyDrive.gameID+".Event.Welcome");
 		eventIDs.Goal = ClickyDrive.save.getItem(ClickyDrive.gameID+".Event.Goal");
 		eventIDs.Victory = ClickyDrive.save.getItem(ClickyDrive.gameID+".Event.Victory");
+		eventIDs.Error = ClickyDrive.save.getItem(ClickyDrive.gameID+".Event.error");
+		lastVersion =  parseInt(ClickyDrive.save.getItem(ClickyDrive.gameID+".version"));
+
 		legacyBonus =  parseFloat(ClickyDrive.save.getItem(ClickyDrive.gameID+".LegacyBonus"));
 		
 		if(eventIDs.Victory=="true")
@@ -200,6 +206,13 @@ ClickyDrive.hookins.create = function()
 			document.getElementById("legacyButton").classList.remove("hidden");
 		}
 		purchaseUpdate();
+		
+		// open "what's new" screen
+		if( lastVersion < version || isNaN(lastVersion) )
+		{
+			triggerEvent("Welcome");
+		}
+	
 		
 	}
 	
@@ -215,6 +228,7 @@ ClickyDrive.hookins.create = function()
 	}
 	
 	Prospector.graphicOnPurchaseFail=function(){ onPurchaseFail("Prospector")}; 
+	
 	
 	
 	
@@ -344,7 +358,9 @@ function saveGame(tickCounter)
 		ClickyDrive.save.setItem(ClickyDrive.gameID+".Event.Welcome",eventIDs.Welcome);
 		ClickyDrive.save.setItem(ClickyDrive.gameID+".Event.Goal",eventIDs.Goal);
 		ClickyDrive.save.setItem(ClickyDrive.gameID+".Event.Victory",eventIDs.Victory);
+		ClickyDrive.save.setItem(ClickyDrive.gameID+".Event.error",eventIDs.error);
 		ClickyDrive.save.setItem(ClickyDrive.gameID+".LegacyBonus", legacyBonus);
+		ClickyDrive.save.setItem(ClickyDrive.gameID+".version", version);
 		
 	}
 }
@@ -356,28 +372,18 @@ function wipeSave()
 	location.reload();
 }
 
-function fix(tick)
+function checkError()
 {	
-	if(tick!=0)
-	{
-		console.log("Don't try me, you dolt.");
-		return;
-	}
 	
-	if(gold.amount == Infinity || gold.amount == NaN || gold.amount == undefined 
-	   || gold.perSecond == Infinity || gold.perSecond == NaN || gold.perSecond == undefined)
+	
+	if(gold.amount == Infinity || isNaN(gold.amount)|| gold.amount == undefined 
+	   || gold.perSecond == Infinity || isNaN(gold.perSecond) || gold.perSecond == undefined)
 	{
-		console.log("AN ERROR OCCURED? Not again... I swore I dealt with this? guh.")
-		gold.amount=0
-		if(Prospector.amount==0)
-		{
-			gold.amountAvailable=5000;
-		}
-		else
-		{
-			gold.amountAvailable=Infinity;
-		}
+		console.log("Oh No...")
+		
+		return true;
 	}
+	return false;
 	
 }
 
@@ -406,6 +412,16 @@ function updateEvents()
 						document.getElementById("legacyButton").classList.remove("hidden");
 					}
 					break;
+				case "error":
+					if(checkError())
+					{
+						if(legacyBonus>=1000)
+						{
+							document.getElementById("errorReason").innerHTML="This error may have been caused by an absurdly high legacy bonus.";
+						}
+						triggerEvent(i);
+					}
+					break;
 			}
 		}
 	}
@@ -420,15 +436,22 @@ function triggerEvent(Event)
 function updateLegacy()
 {
 	
-		
+	let maxing=false;
 	potentialLegacyBonus=gold.amountAllTime/200000000; //1% = 2 million
 	
 	if(potentialLegacyBonus<=0)
 	{
 		potentialLegacyBonus=0;
 	}
+	
+	if(potentialLegacyBonus+legacyBonus>=1000000) // Capping legacy to 100M%
+	{
+		potentialLegacyBonus=1000000-legacyBonus;
+		maxing=true;
+	}
+	
 	document.getElementById("legacy1").innerHTML="You will lose <em>ALL</em> of your "+skinNames[currentSkin]+", upgrades, and miners, but you will recive "+prettyPrint(potentialLegacyBonus*100)+"% bonus to GPS.";
-	document.getElementById("legacy2").innerHTML="Are you sure you want to ascend and have a total "+prettyPrint((legacyBonus+potentialLegacyBonus)*100)+"% legacy bonus?";
+	document.getElementById("legacy2").innerHTML="Are you sure you want to ascend and have a total "+prettyPrint((legacyBonus+potentialLegacyBonus)*100)+"%"+(maxing?" (MAXED)":"")+" legacy bonus?";
 }
 
 // updates upgrade buttons
@@ -672,7 +695,7 @@ function unlockAll() // this was a debug method, but
 
 
 // panel system
-let panelIDs =["settings","prospect","prospect2","wipeSave","Goal","Victory","legacy","Welcome"];
+let panelIDs =["settings","prospect","prospect2","wipeSave","Goal","Victory","legacy","Welcome","error"];
 
 let currentPanel = "";
 
