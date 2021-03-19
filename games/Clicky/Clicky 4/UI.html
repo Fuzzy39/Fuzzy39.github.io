@@ -14,7 +14,7 @@
 	</div>
 	<div id="legacyButton" class="hidden">
 	
-		<img onclick="openPanel(&quot;legacy&quot;)" class="prospectButton" style="position: absolute; top:765px; left:1050px; z-index:-1;"src="Assets/Gui/Icons/Legacy.png">
+		<img onclick="toggleLegacy()" class="prospectButton" style="position: absolute; top:765px; left:1050px; z-index:-1;"src="Assets/Gui/Icons/Legacy.png">
 		<h2 style="position: absolute; top:770px; left:880px; z-index:-1; font-size:250%; text-shadow:3px 3px 3px rgba(0, 0, 0, 0.5);">Legacy</h2>
 		<h2 style="position: absolute; top:820px; left:880px; width:200px; z-index:-1; font-size:125%; text-shadow:3px 3px 3px rgba(0, 0, 0, 0.5); white-space:normal;">Make your mark.</h2>
 	</div>
@@ -64,7 +64,7 @@
 			</div>
 			<img id="LazerUpIcon" class="icon" src="Assets/Gui/Icons/Upgrades/iconBrain.png">
 		</div>
-		<div class="button unlocked" style=" top:625px;" onClick="toggleSettings()" >
+		<div id="settingsButton" class="button unlocked" style=" top:625px;" onClick="toggleSettings()" >
 			<div class="buttonContent"><h3>Statistics</h3>
 				<br>
 				<p>See various game stats.</p>

@@ -8,6 +8,7 @@ let keyboard=false;
 let luckyBreak = false;
 let legacyBonus = 0.00;
 let potentialLegacyBonus=0.0;
+let locked = false; // is the game on lockdown?
 let skinIDs = {gold:0,iron:1,crab:2};
 let skins = 
 [
@@ -179,7 +180,7 @@ ClickyDrive.hookins.update = function(tickCounter)
 	
 
 	
-	gold.perSecondMultiplier=1+(Math.round((prospectorBonus+1)*legacyBonus* 100) / 100)+legacyBonus;
+	gold.perSecondMultiplier=1+(Math.round(prospectorBonus*(legacyBonus+1)* 100) / 100)+legacyBonus;
 	
 }
 
@@ -377,10 +378,11 @@ function checkError()
 	
 	
 	if(gold.amount == Infinity || isNaN(gold.amount)|| gold.amount == undefined 
-	   || gold.perSecond == Infinity || isNaN(gold.perSecond) || gold.perSecond == undefined)
+	   || gold.perSecond == Infinity || isNaN(gold.perSecond) || gold.perSecond == undefined 
+	   || legacyBonus== Infinity || isNaN(legacyBonus) || legacyBonus == undefined)
 	{
 		console.log("Oh No...")
-		
+		lockdown();
 		return true;
 	}
 	return false;
@@ -593,6 +595,10 @@ function ascend()
 
 function updateUnlocked()
 {
+	if(locked)
+	{
+		return;
+	}
 	for( let i in unlockIDs )
 	{
 		if(!isUnlocked(unlockIDs[i]))
@@ -671,10 +677,11 @@ function isUnlocked( unlockID )
 function unlock(unlockID)
 {
 	let element = document.getElementById(Object.keys(unlockIDs)[unlockID]);
-	
+
 	element.classList.remove('hidden');
-	
+
 	setTimeout(() => { element.classList.add('unlocked'); }, 50);
+	
 }
 
 function unlockAll() // this was a debug method, but 
@@ -688,7 +695,18 @@ function unlockAll() // this was a debug method, but
 	
 }
 
-
+function lockdown() // when an error is detected, make sure the user can't interact with anything
+{
+	for( let i in unlockIDs )
+	{
+		
+		
+		document.getElementById(i).classList.add('hidden');
+	}
+	document.getElementById("legacyButton").classList.add("hidden");
+	document.getElementById("settingsButton").classList.add("hidden");
+	locked=true;
+}
 
 
 // panel system
@@ -757,6 +775,18 @@ function toggleProspect()
 	}
 }
 
+function toggleLegacy()
+{
+	if(currentPanel==""||currentPanel=="prospect"||currentPanel=="prospect2"||currentPanel=="settings")
+	{
+		openPanel("legacy");
+	}
+	else if (currentPanel=="legacy")
+	{ 
+		closeAllPanels();
+	}
+}
+
 
 
 
@@ -768,6 +798,11 @@ function updateStats()
 	{
 		ClickyDrive.ui.getChildByID("gold").innerHTML="Mine for "+skinNames[currentSkin]+"!";
 		ClickyDrive.ui.getChildByID("gps").innerHTML="What could go wrong?";
+	}
+	else if(locked)
+	{
+		ClickyDrive.ui.getChildByID("gold").innerHTML="Game Locked";
+		ClickyDrive.ui.getChildByID("gps").innerHTML="uh-oh!";
 	}
 	else
 	{
@@ -796,7 +831,12 @@ function updateStats()
 
 function updateDepleted()
 {
-	if( gold.amountAvailable==0)
+	if(locked)
+	{
+		document.getElementById("depleted").classList.add("hidden");
+		return;
+	}
+	if( gold.amountAvailable==0 )
 	{
 		 document.getElementById("depletedText").innerHTML="Depleted!";
 		 document.getElementById("depleted").classList.remove("hidden");
@@ -815,10 +855,11 @@ function updateDepleted()
 	}
 	else
 	{
-		if(!luckyBreak)
+		if((!luckyBreak))
 		{
 			document.getElementById("depleted").classList.add("hidden");
 		}
+		
 		
 	}
 }
