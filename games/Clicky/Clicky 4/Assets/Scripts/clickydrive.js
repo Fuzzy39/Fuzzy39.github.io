@@ -3,9 +3,9 @@
 function getRndInteger( min, max ) {  return Math.floor( Math.random( ) * ( max - min ) ) + min;  }
 function prettyPrint(num) // format a large number nicely
 {
-	if (isNaN(num))
+	if (isNaN(num)|| num==Infinity || num==undefined)
 	{
-		return "ASHTON!!!";
+		return "ERROR";
 	}
 	
 	let toPrint = Math.floor(num);

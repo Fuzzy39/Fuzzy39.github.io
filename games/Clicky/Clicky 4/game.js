@@ -174,7 +174,11 @@ ClickyDrive.hookins.update = function(tickCounter)
 	updateSecrets();
 	saveGame(tickCounter);
 	
-	if(tickCounter%60 == 0 ){updateLit();}
+	if(tickCounter%60 == 2 ) // the 2, shockingly, is not arbitrary, but is also stupid.                        
+	{
+		updateLit();	
+		purchaseUpdate();
+	}
 	
 	
 	updateLegacy();
@@ -182,9 +186,11 @@ ClickyDrive.hookins.update = function(tickCounter)
 
 	
 	gold.perSecondMultiplier=1+(Math.round(prospectorBonus*(legacyBonus+1)* 100) / 100)+legacyBonus;
-	if(gold.amount>999000000000000) // 999 quadrillion
+	
+	// Cap the gold.
+	if(gold.amount>999990000000000000) // 999.99 quadrillion
 	{
-		gold.amount=999000000000000;
+		gold.amount=999990000000000000;
 	}
 	
 }
@@ -218,6 +224,8 @@ ClickyDrive.hookins.create = function()
 		{
 			triggerEvent("Welcome");
 		}
+		
+		
 	
 		
 	}
@@ -235,8 +243,9 @@ ClickyDrive.hookins.create = function()
 	
 	Prospector.graphicOnPurchaseFail=function(){ onPurchaseFail("Prospector")}; 
 	
-	
-	
+
+
+
 	
 	
 
@@ -614,7 +623,7 @@ function updateUnlocked()
 			{
 				
 				case unlockIDs.PickUp:
-					if(gold.amount>=upgrades.PickUp.baseCosts.gold||upgrades.PickUp.amount>=1){unlock(unlockIDs[i]);}
+					if(gold.amountAllTime>=upgrades.PickUp.baseCosts.gold||upgrades.PickUp.amount>=1){unlock(unlockIDs[i]);}
 					break;
 				case unlockIDs.MinerUp:
 					if(miners.Miner.amount>=10){unlock(unlockIDs[i]);}
@@ -626,7 +635,7 @@ function updateUnlocked()
 					if(miners.Lazer.amount>=5){unlock(unlockIDs[i]);}
 					break;
 				case unlockIDs.Miner:
-					if(gold.amount>=miners.Miner.costs.gold||miners.Miner.amount>=1){unlock(unlockIDs[i]); purchaseUpdate();}
+					if(gold.amountAllTime>=miners.Miner.costs.gold||miners.Miner.amount>=1){unlock(unlockIDs[i]); purchaseUpdate();}
 					break;
 				case unlockIDs.Drill:
 					if(miners.Miner.amount>=25){unlock(unlockIDs[i]);}
@@ -851,7 +860,7 @@ function updateDepleted()
 		 {
 			luckyBreak=true;
 			document.getElementById("depletedText").innerHTML="Lucky Break!";
-			gold.add(1000-gold.amount);
+			gold.add(1000.4-gold.amount);
 		 }
 	}
 	else
