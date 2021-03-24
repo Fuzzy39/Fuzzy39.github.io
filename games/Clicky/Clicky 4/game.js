@@ -3,13 +3,14 @@
 let skinDir = "Assets/Skins/";
 let code=-1;
 let cheat = "";
-let version=1;
-let keyboard=false;
-let luckyBreak = false;
+let version=1; // for version updates menu
+let keyboard=false; // spacebar to click?
+let luckyBreak = false; 
 let legacyBonus = 0.00;
 let potentialLegacyBonus=0.0;
 let locked = false; // is the game on lockdown?
 let skinIDs = {gold:0,iron:1,crab:2};
+
 let skins = 
 [
 	[skinDir+"Gold/gold0.png",skinDir+"Gold/gold1.png",skinDir+"Gold/gold2.png",skinDir+"Stone.png"],
@@ -181,6 +182,10 @@ ClickyDrive.hookins.update = function(tickCounter)
 
 	
 	gold.perSecondMultiplier=1+(Math.round(prospectorBonus*(legacyBonus+1)* 100) / 100)+legacyBonus;
+	if(gold.amount>999000000000000) // 999 quadrillion
+	{
+		gold.amount=999000000000000;
+	}
 	
 }
 
@@ -601,6 +606,7 @@ function updateUnlocked()
 	}
 	for( let i in unlockIDs )
 	{
+		//console.log(isUnlocked(unlockIDs[i]));
 		if(!isUnlocked(unlockIDs[i]))
 		{
 			
@@ -608,7 +614,7 @@ function updateUnlocked()
 			{
 				
 				case unlockIDs.PickUp:
-					if(gold.amount>=upgrades.PickUp.baseCosts.gold){unlock(unlockIDs[i]);}
+					if(gold.amount>=upgrades.PickUp.baseCosts.gold||upgrades.PickUp.amount>=1){unlock(unlockIDs[i]);}
 					break;
 				case unlockIDs.MinerUp:
 					if(miners.Miner.amount>=10){unlock(unlockIDs[i]);}
@@ -620,7 +626,7 @@ function updateUnlocked()
 					if(miners.Lazer.amount>=5){unlock(unlockIDs[i]);}
 					break;
 				case unlockIDs.Miner:
-					if(gold.amount>=miners.Miner.costs.gold){unlock(unlockIDs[i]); purchaseUpdate();}
+					if(gold.amount>=miners.Miner.costs.gold||miners.Miner.amount>=1){unlock(unlockIDs[i]); purchaseUpdate();}
 					break;
 				case unlockIDs.Drill:
 					if(miners.Miner.amount>=25){unlock(unlockIDs[i]);}
@@ -648,29 +654,24 @@ function updateUnlocked()
 // returns boolean.
 function isUnlocked( unlockID )
 {
-	for( let i in unlockIDs )
+	
+	
+	// nonsense.
+	if(document.getElementById(Object.keys(unlockIDs)[unlockID])==null)
 	{
-		if(unlockID==i)
-		{	
-			// nonsense.
-			if(document.getElementById(Object.keys(unlockIDs)[i])==null)
-			{
-				// seems bizare, but whatever
-				return true;
-			}
-
-			if(!document.getElementById(Object.keys(unlockIDs)[i]).classList.contains('hidden'))
-			{
-				return true;
-			}
-			else
-			{
-				return false;
-			}
-				
-		}
+		// seems bizare, but whatever
+		return true;
 	}
-	return false;
+
+	if(!document.getElementById(Object.keys(unlockIDs)[unlockID]).classList.contains('hidden'))
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+		
 }
 
 

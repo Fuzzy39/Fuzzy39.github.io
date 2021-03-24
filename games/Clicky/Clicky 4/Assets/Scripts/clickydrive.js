@@ -3,6 +3,11 @@
 function getRndInteger( min, max ) {  return Math.floor( Math.random( ) * ( max - min ) ) + min;  }
 function prettyPrint(num) // format a large number nicely
 {
+	if (isNaN(num))
+	{
+		return "ASHTON!!!";
+	}
+	
 	let toPrint = Math.floor(num);
 	if(toPrint < 1000)
 	{
@@ -29,8 +34,12 @@ function prettyPrint(num) // format a large number nicely
 	{
 		return (toPrint/1000000000.0).toFixed(2)+"B";
 	}
+	if(toPrint < 1000000000000000) // 1 quadrillion
+	{
+		return (toPrint/1000000000000.0).toFixed(2)+"T";
+	}
 	
-	return (toPrint/1000000000000.0).toFixed(2)+"T";
+	return (toPrint/1000000000000000.0).toFixed(2)+"Qa";
 	
 }
 
