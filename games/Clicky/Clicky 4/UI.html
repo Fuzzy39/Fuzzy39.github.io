@@ -10,7 +10,7 @@
 	</div>
 	
 	<div class="frostedGlass" style="font-size:90%; top:860px; left:415px; height:40px; width:225px;">
-		<h3 id="versionText" style="position: absolute;  left: 50%; top:50%; transform: translate(-50%, -50%); white-space: nowrap;">Clicky 4 v1.2.2</h3>
+		<h3 id="versionText" style="position: absolute;  left: 50%; top:50%; transform: translate(-50%, -50%); white-space: nowrap;">Clicky 4 v1.3.0</h3>
 	</div>
 	<div id="legacyButton" class="hidden">
 	
@@ -141,6 +141,11 @@
 	
 	<img class = "vertbar" src="Assets/Gui/vertBar.png" style="left:1185px;">
 	
+	
+	
+	
+	
+	
 	<div id="template" class="hidden">
 		<img class="upperPanelBar panelBar" src="Assets/Gui/panelBar.png">
 		<div class="panelBackground">
@@ -149,6 +154,64 @@
 			<div class="panelContent">
 				
 				<p>Content</p>
+			</div>
+		</div>
+		<img class="lowerPanelBar panelBar" src="Assets/Gui/panelBar.png">
+	</div>
+	
+	<div id="ascend" class="hidden">
+		<img class="upperPanelBar panelBar" src="Assets/Gui/panelBar.png">
+		<div class="panelBackground">
+			<div class="smallHeader" style="left:250px; font-size:80%;"><h2>This Again?</h2></div>
+			<div class="panelContent">
+				<br>
+				<p id="ascend1">You feel a bit light-headed...</p>
+				<p id="ascend2">It feels like you've been at this for a while, even though you just started...</p>
+				<br>
+				<p id="ascendGoal" style="font-style:italic;">GOAL</p>
+				<div class="panelButton" style="left:200px; top:240px; width:300px;" onclick="closeAllPanels()"><h2>Play</h2></div>
+			</div>
+		</div>
+		<img class="lowerPanelBar panelBar" src="Assets/Gui/panelBar.png">
+	</div>
+	
+	<div id="skins" class="hidden">
+		<img class="upperPanelBar panelBar" src="Assets/Gui/panelBar.png">
+		<div class="panelBackground">
+			<div class="smallHeader" style="left:250px; font-size:80%;"><h2>Skins</h2></div>
+			<img class="closeButton" onclick="closeAllPanels();" src="Assets/Gui/Icons/close.png">
+			<div class="panelContent">
+				
+				<p style="font-style:italic;" >Change what you're mining here:</p>
+				<img style="top:80px; left:50px;" class="prospectButton" src="Assets/Skins/Gold/goldSkin.png" onclick="setSkin(skinIDs.gold);">
+				<h3 style="position:absolute; width:128px; top:230px; left:50px; font-size:150%;">Gold</h3>
+				
+				
+				<img  style="top:80px; left:285px;"class="prospectButton" src="Assets/Skins/Iron/ironSkin.png" onclick="setSkin(skinIDs.iron);">
+				<h3 style="position:absolute; width:128px; top:230px; left:285px; font-size:150%;">Iron</h3>
+				
+				<img  style="top:80px; left:520px;"class="prospectButton" src="Assets/Skins/Crab/crabSkin.png" onclick="setSkin(skinIDs.crab);">
+				<h3 style="position:absolute; width:128px; top:230px; left:520px; font-size:150%;">Crabs</h3>
+				
+				
+			
+				
+			</div>
+		</div>
+		<img class="lowerPanelBar panelBar" src="Assets/Gui/panelBar.png">
+	</div>
+	
+	<div id="luckyBreak" class="hidden">
+		<img class="upperPanelBar panelBar" src="Assets/Gui/panelBar.png">
+		<div class="panelBackground">
+			<div class="smallHeader" style="left:250px; font-size:80%;"><h2>Crisis</h2></div>
+			<div class="panelContent">
+				
+				<p>The gold's dried up, and there aren't any more funds left to buy a new plot of land. Perhaps you'll end up like your grandfather: poor and destitute.</p>
+<br>			<br>
+				<p style="font-style:italic;" >Perhaps with some more mining you can get enough gold to prospect some more?</p>
+				
+				<div class="panelButton" style="left:200px; top:240px; width:300px;" onclick="closeAllPanels()"><h2>Let's hope...</h2></div>
 			</div>
 		</div>
 		<img class="lowerPanelBar panelBar" src="Assets/Gui/panelBar.png">
@@ -210,16 +273,17 @@
 	<div id="Welcome" class="hidden">
 		<img class="upperPanelBar panelBar" src="Assets/Gui/panelBar.png">
 		<div class="panelBackground">
-			<div class="smallHeader" style="left:250px; font-size:80%;"><h2>V1.2</h2></div>
+			<div class="smallHeader" style="left:250px; font-size:80%;"><h2>V1.3</h2></div>
 			
 			<div class="panelContent">
 				
 				<br>
-				<p>What's new in v1.2?</p>
+				<p>What's new in v1.3?</p>
 				<br>
-				<p>-Clicky now can check for errors.</p>
-				<p>-Legacy bonus capped to 100M%</p>
-				<p>-'What's new' Screen added.</p>
+				<p>-New events</p>
+				<p>-Some late-game goals</p>
+				<p>-Some late-game toys</p>
+				
 				
 				
 				<div class="panelButton" style="left:260px; top:225px;" onclick="closeAllPanels();"><h2>Play</h2></div>
@@ -306,6 +370,50 @@
 				</div>
 				<img  style="top:75px; left:500px;"class="prospectButton" src="Assets/Gui/Icons/nuke.png" onclick="openPanel(&quot;wipeSave&quot;)">
 				<h3 style="position:absolute; width:158px; top:210px; left:485px; font-size:140%;">Wipe Save</h3>
+				<p style="position:absolute; top:360px; font-size:60%;">Clicky 4 by Fuzzy39. Made with Clicky Drive Alpha 3.</p>
+			</div>
+		</div>
+		<img class="lowerPanelBar panelBar" src="Assets/Gui/panelBar.png">
+	</div>
+	
+	<div id="settings2" class="hidden">
+		<img class="upperPanelBar panelBar" src="Assets/Gui/panelBar.png">
+		<div class="panelBackground">
+			<div class="smallHeader" style="left:250px; font-size:80%;"><h2>Statistics</h2></div>
+			<img class="closeButton" style="" src="Assets/Gui/Icons/close.png" onclick="closeAllPanels()">
+			<div class="panelContent">
+				<div style="position:absolute; top:0px; left:0px; height:350px; width:60%; box-shadow:inset 0px 0px 15px 0px rgba(0, 0, 0, 0.5); ">
+					<div style="text-align:left; position:absolute; top:0px; left:0px; height:100%; width:50%;">
+						
+						<p id="list02" class="listDark" style="padding-left:10px;">Current Gold:</p>
+						
+						<p id="list12" class="listBright" style="padding-left:10px;">All Time Gold:</p>
+						
+						<p class="listDark" style="padding-left:10px;">Legacy Bonus:</p>
+						
+						<p class="listBright" style="padding-left:10px;">GPS Modifier:</p>
+						
+						<p class="listDark" style="padding-left:10px;">GPS:</p>
+						
+						
+					</div>
+					<div style="text-align:left; position:absolute; top:0px; left:50%; height:100%; width:50%;">
+						
+						<p id="listGold2" class="listDark">AMOUNT </p>
+						
+						<p id="listAllTime2" class="listBright">AMOUNT </p>
+						
+						<p id="listLegacy2" class="listDark">0%</p>
+						
+						<p id="listModifier2" class="listBright"> 100%</p>
+						
+						<p id="listGPS2" class="listDark">NUMBE/sec</p>
+					</div>
+				</div>
+				<img  style="top:0px; left:500px;"class="prospectButton" src="Assets/Gui/Icons/skins.png" onclick="openPanel(&quot;skins&quot;)">
+				<h3 style="position:absolute; width:158px; top:135px; left:485px; font-size:140%;">Skins</h3>
+				<img  style="top:200px; left:500px;"class="prospectButton" src="Assets/Gui/Icons/nuke.png" onclick="openPanel(&quot;wipeSave&quot;)">
+				<h3 style="position:absolute; width:158px; top:335px; left:485px; font-size:140%;">Wipe Save</h3>
 				<p style="position:absolute; top:360px; font-size:60%;">Clicky 4 by Fuzzy39. Made with Clicky Drive Alpha 3.</p>
 			</div>
 		</div>

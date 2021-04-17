@@ -3,11 +3,12 @@
 let skinDir = "Assets/Skins/";
 let code=-1;
 let cheat = "";
-let version=1; // for version updates menu
+let version=2; // for version updates menu
 let keyboard=false; // spacebar to click?
 let luckyBreak = false; 
 let legacyBonus = 0.00;
 let potentialLegacyBonus=0.0;
+let progression = 0; // Increases as the player hits various Legacy related milestones.
 let locked = false; // is the game on lockdown?
 let skinIDs = {gold:0,iron:1,crab:2};
 
@@ -100,6 +101,8 @@ let eventIDs =
 	Goal:'false',
 	Victory:'false',
 	error:'false',
+	ascend:"false",
+	luckyBreak:"false"
 }
 
 
@@ -210,7 +213,7 @@ ClickyDrive.hookins.create = function()
 		eventIDs.Victory = ClickyDrive.save.getItem(ClickyDrive.gameID+".Event.Victory");
 		eventIDs.Error = ClickyDrive.save.getItem(ClickyDrive.gameID+".Event.error");
 		lastVersion =  parseInt(ClickyDrive.save.getItem(ClickyDrive.gameID+".version"));
-
+		progression =  parseInt(ClickyDrive.save.getItem(ClickyDrive.gameID+".progress"));
 		legacyBonus =  parseFloat(ClickyDrive.save.getItem(ClickyDrive.gameID+".LegacyBonus"));
 		
 		if(eventIDs.Victory=="true")
@@ -225,7 +228,17 @@ ClickyDrive.hookins.create = function()
 			triggerEvent("Welcome");
 		}
 		
+		if( isNaN(progression))
+		{
+			progression=0
+		}
 		
+		if(legacyBonus>0 & gold.amount==0)
+		{
+			calcProgress();
+			onAscend();
+			triggerEvent("ascend");
+		}
 	
 		
 	}
@@ -251,7 +264,46 @@ ClickyDrive.hookins.create = function()
 
 }
 
-
+function calcProgress()
+{
+	
+	if(legacyBonus>=10)
+	{
+		progression=2;
+	}
+	else if(legacyBonus>=3)
+	{
+		progression=1;
+	}
+	else
+	{
+		progression=0;
+	}
+	ClickyDrive.save.setItem(ClickyDrive.gameID+".progress", progression);
+		
+}
+function onAscend()
+{
+	// update the ascend event pannel:
+	switch(progression)
+	{
+		case 0:
+			document.getElementById("ascend1").innerHTML="You feel a bit light-headed...";
+			document.getElementById("ascend2").innerHTML="It feels like you've been at this for a while, even though you just started...";
+			document.getElementById("ascendGoal").innerHTML="You wonder if you'll feel satisfied at 300% Legacy?";
+			break;
+		case 1:
+			document.getElementById("ascend1").innerHTML="You feel a bit dizzy...";
+			document.getElementById("ascend2").innerHTML="You've unlocked the ability to change the game's skin in settings!...";
+			document.getElementById("ascendGoal").innerHTML="You feel a growing need for more... 1,000%?";
+			break;
+		case 2:
+			document.getElementById("ascend1").innerHTML="You feel a bit light-headed...";
+			document.getElementById("ascend2").innerHTML="It feels like you've been doing this for a century, even though you just started...";
+			document.getElementById("ascendGoal").innerHTML="It's never enough... Is it?";
+			break;
+	}
+}
 
 function updateSecrets()
 {
@@ -262,21 +314,6 @@ function updateSecrets()
 			case "opensesame":
 					unlockAll();
 					console.log(" A whole new world opens before you!")
-				break;
-			case "ironking":
-				console.log("Well, what else would you expect? platinum?");
-				ClickyDrive.save.setItem(ClickyDrive.gameID+".skin", skinIDs.iron);
-				location.reload();
-				break;
-			case "dalton":
-				console.log("shelfish are far more valuable than gold...");
-				ClickyDrive.save.setItem(ClickyDrive.gameID+".skin", skinIDs.crab);
-				location.reload();
-				break;
-			case "fuzzy":
-				console.log("For gold, For Glory!");
-				ClickyDrive.save.setItem(ClickyDrive.gameID+".skin", skinIDs.gold);
-				location.reload();
 				break;
 				
 			case "billy":
@@ -323,6 +360,12 @@ function updateSecrets()
 		cheat="";
 		code=-1;
 	}
+}
+
+function setSkin( num )
+{
+	ClickyDrive.save.setItem(ClickyDrive.gameID+".skin", num);
+	location.reload();
 }
 
 function updateLit()
@@ -435,6 +478,7 @@ function updateEvents()
 						triggerEvent(i);
 					}
 					break;
+				// other events triggered elsewhere
 			}
 		}
 	}
@@ -442,8 +486,15 @@ function updateEvents()
 
 function triggerEvent(Event)
 {
-	eventIDs[Event]="true";
-	openPanel(Event);
+	if(eventIDs[Event]=="false")
+	{
+		
+		eventIDs[Event]="true";
+		openPanel(Event);
+		lockdown();
+	    return true;
+	}
+	return false;
 }
 
 function updateLegacy()
@@ -718,9 +769,22 @@ function lockdown() // when an error is detected, make sure the user can't inter
 	locked=true;
 }
 
+function unlockdown()
+{
+
+	locked=false;
+	// this is exceptionally shitty code, but I've scewed up here, and clicky is basically done...
+	if(upgrades.LazerUp.amount>=14 && upgrades.PickUp.amount >= 14 && upgrades.MinerUp.amount >= 14 && upgrades.DrillUp.amount >= 14 )
+	{
+		document.getElementById("legacyButton").classList.remove("hidden");
+	}
+	document.getElementById("settingsButton").classList.remove("hidden");
+
+}
+
 
 // panel system
-let panelIDs =["settings","prospect","prospect2","wipeSave","Goal","Victory","legacy","Welcome","error"];
+let panelIDs =["settings","prospect","prospect2","wipeSave","Goal","Victory","legacy","Welcome","error","ascend","skins","luckyBreak","settings2"];
 
 let currentPanel = "";
 
@@ -738,6 +802,7 @@ function closeAllPanels()
 		
 		currentPanel="";
 		gold.enabled=true;
+		unlockdown();
 	}
 	
 }
@@ -758,9 +823,16 @@ function toggleSettings()
 {
 	if(currentPanel==""||currentPanel=="prospect"||currentPanel=="prospect2"||currentPanel=="legacy")
 	{
-		openPanel("settings");
+		if(progression==0)
+		{
+			openPanel("settings");
+		}
+		else
+		{
+			openPanel("settings2");
+		}
 	}
-	else if (currentPanel=="settings")
+	else if (currentPanel=="settings"||currentPanel=="settings2")
 	{ 
 		closeAllPanels();
 	}
@@ -768,7 +840,7 @@ function toggleSettings()
 
 function toggleProspect()
 {
-	if(currentPanel==""||currentPanel=="settings"||currentPanel=="legacy")
+	if(currentPanel==""||currentPanel=="settings"||currentPanel=="legacy"||currentPanel=="settings2")
 	{
 		if(Prospector.amount==0)
 		{
@@ -787,7 +859,7 @@ function toggleProspect()
 
 function toggleLegacy()
 {
-	if(currentPanel==""||currentPanel=="prospect"||currentPanel=="prospect2"||currentPanel=="settings")
+	if(currentPanel==""||currentPanel=="prospect"||currentPanel=="prospect2"||currentPanel=="settings"||currentPanel=="settings2")
 	{
 		openPanel("legacy");
 	}
@@ -809,11 +881,6 @@ function updateStats()
 		ClickyDrive.ui.getChildByID("gold").innerHTML="Mine for "+skinNames[currentSkin]+"!";
 		ClickyDrive.ui.getChildByID("gps").innerHTML="What could go wrong?";
 	}
-	else if(locked)
-	{
-		ClickyDrive.ui.getChildByID("gold").innerHTML="Game Locked";
-		ClickyDrive.ui.getChildByID("gps").innerHTML="uh-oh!";
-	}
 	else
 	{
 		ClickyDrive.ui.getChildByID("gold").innerHTML=skinNames[currentSkin]+": "+prettyPrint(gold.amount);
@@ -825,7 +892,13 @@ function updateStats()
 	ClickyDrive.ui.getChildByID("listLegacy").innerHTML=prettyPrint(Math.round(legacyBonus*100))+"%";
 	ClickyDrive.ui.getChildByID("listModifier").innerHTML=prettyPrint(Math.round(gold.perSecondMultiplier*100))+"%";
 	ClickyDrive.ui.getChildByID("listGPS").innerHTML=prettyPrint(gold.perSecond*gold.perSecondMultiplier)+inlineIcon+"/Sec";
-	
+	// bad code, yeah, I know.
+	// I'm lazy though, so...
+	ClickyDrive.ui.getChildByID("listGold2").innerHTML=prettyPrint(gold.amount)+inlineIcon;
+	ClickyDrive.ui.getChildByID("listAllTime2").innerHTML=prettyPrint(gold.amountAllTime)+inlineIcon;
+	ClickyDrive.ui.getChildByID("listLegacy2").innerHTML=prettyPrint(Math.round(legacyBonus*100))+"%";
+	ClickyDrive.ui.getChildByID("listModifier2").innerHTML=prettyPrint(Math.round(gold.perSecondMultiplier*100))+"%";
+	ClickyDrive.ui.getChildByID("listGPS2").innerHTML=prettyPrint(gold.perSecond*gold.perSecondMultiplier)+inlineIcon+"/Sec";
 	
 	ClickyDrive.ui.getChildByID("reserves").innerHTML=prettyPrint(gold.amountAvailable)+inlineIcon;
 	ClickyDrive.ui.getChildByID("reservesBar").style.width=((gold.amountAvailable/gold.totalAmountAvailable)*100)+"%";
@@ -846,22 +919,29 @@ function updateDepleted()
 		document.getElementById("depleted").classList.add("hidden");
 		return;
 	}
+
 	if( gold.amountAvailable==0 )
 	{
-		 document.getElementById("depletedText").innerHTML="Depleted!";
-		 document.getElementById("depleted").classList.remove("hidden");
+		document.getElementById("depletedText").innerHTML="Depleted!";
+		document.getElementById("depleted").classList.remove("hidden");
 		
-		 if (gold.clicks>=11)
-		 {
-			  gold.clicks=0;
-		 }
-		 
-		 if( gold.clicks>=10 && !luckyBreak && gold.amount<alaska.costs.gold )
-		 {
+		if(gold.clicks>=11)
+		{
+			gold.clicks=0;
+			
+		}
+
+		if(gold.amount<alaska.costs.gold)
+		{
+			triggerEvent("luckyBreak"); // this is a hint, not the full thing.
+		}
+		
+		if( gold.clicks>=10 && !luckyBreak && gold.amount<alaska.costs.gold )
+		{
 			luckyBreak=true;
 			document.getElementById("depletedText").innerHTML="Lucky Break!";
 			gold.add(1000.4-gold.amount);
-		 }
+		}
 	}
 	else
 	{
