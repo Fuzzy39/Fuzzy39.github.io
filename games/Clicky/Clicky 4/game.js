@@ -3,7 +3,7 @@
 let skinDir = "Assets/Skins/";
 let code=-1;
 let cheat = "";
-let version=2; // for version updates menu
+let version=3; // for version updates menu
 let keyboard=false; // spacebar to click?
 let luckyBreak = false; 
 let legacyBonus = 0.00;
@@ -118,7 +118,7 @@ function onPurchaseFail(i)
 }
 
 
-let upgradeLevels=["Base","Stone","Tin","Copper","Bronze","Iron","Cast Iron","Steel","Stainless Steel","Tungsten","Titanium","Composite","Carbon Fiber", "Pure Electrum","Devine Gold"];
+let upgradeLevels=["Base","Stone","Copper","Bronze","Iron","Steel","Tungsten","Titanium","Carbon Fiber", "Pure Electrum","Devine Gold"];
 
 let upgrades =
 {
@@ -465,7 +465,7 @@ function updateEvents()
 					if(upgrades.LazerUp.amount>=1 && Math.random()<=.005){triggerEvent(i);}
 					break;
 				case "Victory":
-					if(upgrades.LazerUp.amount>=14 && upgrades.PickUp.amount >= 14 && upgrades.MinerUp.amount >= 14 && upgrades.DrillUp.amount >= 14)
+					if(upgrades.LazerUp.amount>=10 && upgrades.PickUp.amount >= 10 && upgrades.MinerUp.amount >= 10 && upgrades.DrillUp.amount >= 10)
 					{
 						triggerEvent(i);
 						document.getElementById("legacyButton").classList.remove("hidden");
@@ -774,7 +774,7 @@ function unlockdown()
 
 	locked=false;
 	// this is exceptionally shitty code, but I've scewed up here, and clicky is basically done...
-	if(upgrades.LazerUp.amount>=14 && upgrades.PickUp.amount >= 14 && upgrades.MinerUp.amount >= 14 && upgrades.DrillUp.amount >= 14 )
+	if(upgrades.LazerUp.amount>=10 && upgrades.PickUp.amount >= 10 && upgrades.MinerUp.amount >= 10 && upgrades.DrillUp.amount >= 10 )
 	{
 		document.getElementById("legacyButton").classList.remove("hidden");
 	}
