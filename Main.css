@@ -12,17 +12,17 @@ body
 	margin:3%;
 	width:90%;
 	border-style:solid;
-	border-color:#666;
+	border-color:#777;
 	border-width:5px;
-	background-color:rgba(125,125,125,0.65);
+	background-color:rgba(100,100,100,0.8);
 	border-radius: 15px;
 	transition:2s;
 }
 
 .content:hover
 {
-	background-color:rgba(125,125,125,0.9);
-
+	background-color:rgba(100,100,100,0.9);
+	border-color:#999;
 
 }
 
