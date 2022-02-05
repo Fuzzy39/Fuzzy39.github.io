@@ -1,0 +1,115 @@
+<!doctype html>
+<html>
+	<head>
+		
+		<meta charset="UTF-8">
+		<link rel="stylesheet" type="text/css" href="../../Main.css">
+		<link rel="stylesheet" type="text/css" href="../../DefaultStyle.css">
+		<script src="../../main.js"></script>
+		<title>Qwerty4967: AFL</title>
+		
+	</head>
+
+	<body>
+		<div class="content">
+			
+			<div class="header">
+			
+				<div class="title">
+				
+					<h1>AFL</h1>
+					<h4 style = "font-style:italic;">Arguably Functional Language</h4>
+					<br>
+					
+				
+				</div>
+				<div class="navBar">
+				
+					<button oncLick="nav(&#34;../../index.html&#34;)">Back</button>
+					<button oncLick="nav(&#34;../../AFL/index.html&#34;)"  >AFL Home</button>
+					<button oncLick="nav(&#34;../../AFL/docs/index.html&#34;)" >Docs</button>
+					
+					
+				</div>
+			
+				<hr>
+			</div>
+		
+			<div class= "body"style = "display:flex;" >
+				<div style="margin-right:3em;">
+					<h1 style ="font-size:220%;">AFL Documentation</h1>
+				
+					<div class = "sidebar">
+							<p><a href="index.html">Welcome to the AFL Docs</a></p>
+							<p><a href="1.html">General Info</a></p>
+							<p><a href="2.html">AFL Basics</a></p>
+							<p><a href="3.html">Data Types</a></p>
+							<p>Variables</p>
+							<p><a href="5.html">Operators</a></p>
+							<p><a href="6.html">Control Statements</a></p>
+							<p><a href="7.html">Functions</a></p>
+							<p><a href="8.html">Arrays</a></p>
+							<p><a href="9.html">Components</a></p>
+							<p><a href="10.html">Escape Sequences</a></p>
+							<p><a href="11.html">Command Line Arguments</a></p>
+							<p><a href="12.html">Code Examples</a></p>
+							<p><a href="13.html">Function Index</a></p>
+							<p><a href="14.html">Core Functions</a></p>
+							<p><a href="15.html">Util Component</a></p>
+							<p><a href="16.html">Math Component</a></p>
+						
+							
+					</div>
+				</div>
+				
+				<div class="AFLdocs" >
+
+					<h2> Variables
+					</h2><hr>
+					<p>AFL supports variables, which are used to store values. Assigning a variable is fairly 
+simple:</p>
+					<div class="code"><p>name = value or expression</p></div>
+					<p>Valid names are of any length, and only consist of upper and lower case letters. The
+recommended way to capitalize variables is camelCase or UpperCamelCase.
+some examples of variable assigning:</p>
+					<div class="code"><p>x=12;
+output = "The answer is: "+27.5+'!'
+someNumber=pi*sqrt(2)</p></div>
+					<p>Variables can be recalled by using their name in place of a constant value. For full 
+clarity, here is an example:</p>
+					<div class="code"><p>x=27;
+x=x+1;
+# Expected value is 28
+x</p></div>
+					
+					<h3>Variable Scoping</h3>
+					<p>Variables are scoped by functions. This means that a variable first declared outside a 
+function is available to all functions, but a variable declared inside a function is only
+accessible within that function. If that variable is used in another function, it refers
+to an unrelated value. A variable cannot be first declared in a function, then used outside
+of one.</p>
+					<p>Here is an example:</p>
+					<div class="code"><p># this code will produce an error, as x is undefined in function b.
+function("a" 0);
+    x=201;
+end();
+function("b" 0);
+    x;
+end();
+a();
+b()</p></div>
+				
+					
+				
+				</div>
+			</div>
+
+			<hr>
+			<div class="footer">
+				<p>2022</p>
+			</div>
+		</div>
+	</body>
+	
+</html>
+

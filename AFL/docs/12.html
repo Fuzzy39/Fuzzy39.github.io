@@ -1,0 +1,221 @@
+<!doctype html>
+<html>
+	<head>
+		
+		<meta charset="UTF-8">
+		<link rel="stylesheet" type="text/css" href="../../Main.css">
+		<link rel="stylesheet" type="text/css" href="../../DefaultStyle.css">
+		<script src="../../main.js"></script>
+		<title>Qwerty4967: AFL</title>
+		
+	</head>
+
+	<body>
+		<div class="content">
+			
+			<div class="header">
+			
+				<div class="title">
+				
+					<h1>AFL</h1>
+					<h4 style = "font-style:italic;">Arguably Functional Language</h4>
+					<br>
+					
+				
+				</div>
+				<div class="navBar">
+				
+					<button oncLick="nav(&#34;../../index.html&#34;)">Back</button>
+					<button oncLick="nav(&#34;../../AFL/index.html&#34;)"  >AFL Home</button>
+					<button oncLick="nav(&#34;../../AFL/docs/index.html&#34;)" >Docs</button>
+					
+					
+				</div>
+			
+				<hr>
+			</div>
+		
+			<div class= "body"style = "display:flex;" >
+				<div style="margin-right:3em;">
+					<h1 style ="font-size:220%;">AFL Documentation</h1>
+				
+					<div class = "sidebar">
+							<p><a href="index.html">Welcome to the AFL Docs</a></p>
+							<p><a href="1.html">General Info</a></p>
+							<p><a href="2.html">AFL Basics</a></p>
+							<p><a href="3.html">Data Types</a></p>
+							<p><a href="4.html">Variables</a></p>
+							<p><a href="5.html">Operators</a></p>
+							<p><a href="6.html">Control Statements</a></p>
+							<p><a href="7.html">Functions</a></p>
+							<p><a href="8.html">Arrays</a></p>
+							<p><a href="9.html">Components</a></p>
+							<p><a href="10.html">Escape Sequences</a></p>
+							<p><a href="11.html">Command Line Arguments</a></p>
+							<p>Code Examples</p>
+							<p><a href="13.html">Function Index</a></p>
+							<p><a href="14.html">Core Functions</a></p>
+							<p><a href="15.html">Util Component</a></p>
+							<p><a href="16.html">Math Component</a></p>
+						
+							
+					</div>
+				</div>
+				
+				<div class="AFLdocs">
+
+					<h2> Code Examples
+					</h2><hr>
+					<p>This entry contains a few examples of AFL code, to show what AFL is capable of.</p>
+					
+					<h3>Parrot</h3>
+					<div class="code"><p># This program asks for the user's name and repeats it.
+
+"What's your name?";
+name=input(); # Get input from the user
+
+# output
+"Hi, "+name+". It's nice to meet you!"   </p></div>
+
+					
+					<h3>Guessing game</h3>
+					<div class="code"><p># This program lets you play a guessing game.
+# it demonstrates functions and some utility functions
+
+function("guess"1);
+
+	limit = arrayGet(params 0); # get the high bound for our game
+	
+	number = truncate(random(1 limit+1)); # figure out the number we are thinking of
+	
+	# get the game started!
+	"I'm thinking of a number between 1 and "+limit+"...";
+	guess=neg(1);
+	
+	# keep asking for guesses until the player gets it right
+	while(guess!=number);
+		
+		# prompt the player for a guess
+		"Make a guess!";
+		guess = truncate(numInput());
+		
+		# the player won! congratulate them
+		if(guess==number);
+			"Good job!";
+			break();
+		end();
+		
+		# nudge the player in the right direction
+		if(guess>number);
+			"Your guess was bigger than the number...";
+		end();
+		else();
+			"Your guess was less than the number...";
+		end();
+		
+	end();
+end()   </p></div>
+
+					<p>Play the guessing game with guess(num), where the num is the high limit on the number!</p>
+					
+					<h3>Prime Numbers</h3>
+					<div class="code"><p># This program prints prime numbers smaller than 100.
+
+limit = 100; # if you want more numbers, you can just adjust this variable.
+
+# toCheck represents the current number we are looking at, which may or may not be prime.
+toCheck = 2;
+
+# toCheckBy represents a number we are using to check whether toCheck is prime.
+toCheckBy = 2;
+
+"Here are the prime numbers smaller than "+limit+":";
+
+while(toCheck < limit);
+	toCheckBy = 2;
+	
+	isPrime = true; # whether the number in question is prime. We start off assuming it is.
+	
+	while(toCheckBy < toCheck);
+		# Check whether toCheck/toCheckBy is a whole number.
+		# if it is, the number is not prime.
+		
+		if((toCheck/toCheckBy)%1==0);
+			isPrime=false; # Nope, it's not. 
+			break();
+		end();
+		
+		toCheckBy= toCheckBy+1;
+		
+		end();
+		
+	if(isPrime);
+		# write the numbers we know to be prime, and not the ones that aren't.
+		toCheck;
+	end();
+	toCheck= toCheck+1;
+end()   </p></div>
+
+					
+					<h3>Silly Bar</h3>
+					<div class="code"><p># How does this work? Magic!
+# This was written a while ago.
+
+function("drawBar"1);
+	# draw the bar, I guess...
+	str="|";
+	filled = arrayGet(params 0);
+	unfilled=16-filled;
+	while(filled>0);
+		str=str+"#";
+		filled=filled-1;
+	end();
+	while(unfilled>0);
+		str=str+" ";
+		unfilled=unfilled-1;
+	end();
+	str=str+"|";
+	clear();
+	str;
+end()
+
+progress=0;
+while(true);
+
+	# the bar is growing
+	while(progress<16);
+		drawBar(progress);
+		progress=progress+1;
+		sleep(50);
+	end();
+
+	# the bar is shrinking
+	while(progress>0);
+		drawBar(progress);
+		progress=progress-1;
+		sleep(50);
+	end();
+end()   </p></div>
+
+					
+					<p>Now you can see the power of AFL.</p>
+					<p>Not that much, to be honest, but AFL is capable of more things than this limited selection
+shows. Try exploring the reference pages, maybe something interesting is in there.
+Maybe.</p>
+
+					
+				
+					
+				
+				</div>
+			</div>
+
+			<hr>
+			<div class="footer">
+				<p>2022</p>
+			</div>
+		</div>
+	</body>
+	
+</html>
+

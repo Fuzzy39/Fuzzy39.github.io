@@ -1,0 +1,124 @@
+<!doctype html>
+<html>
+	<head>
+		
+		<meta charset="UTF-8">
+		<link rel="stylesheet" type="text/css" href="../../Main.css">
+		<link rel="stylesheet" type="text/css" href="../../DefaultStyle.css">
+		<script src="../../main.js"></script>
+		<title>Qwerty4967: AFL</title>
+		
+	</head>
+
+	<body>
+		<div class="content">
+			
+			<div class="header">
+			
+				<div class="title">
+				
+					<h1>AFL</h1>
+					<h4 style = "font-style:italic;">Arguably Functional Language</h4>
+					<br>
+					
+				
+				</div>
+				<div class="navBar">
+				
+					<button oncLick="nav(&#34;../../index.html&#34;)">Back</button>
+					<button oncLick="nav(&#34;../../AFL/index.html&#34;)"  >AFL Home</button>
+					<button oncLick="nav(&#34;../../AFL/docs/index.html&#34;)" >Docs</button>
+					
+					
+				</div>
+			
+				<hr>
+			</div>
+		
+			<div class= "body"style = "display:flex;" >
+				<div style="margin-right:3em;">
+					<h1 style ="font-size:220%;">AFL Documentation</h1>
+				
+					<div class = "sidebar">
+							<p><a href="index.html">Welcome to the AFL Docs</a></p>
+							<p><a href="1.html">General Info</a></p>
+							<p><a href="2.html">AFL Basics</a></p>
+							<p>Data Types</p>
+							<p><a href="4.html">Variables</a></p>
+							<p><a href="5.html">Operators</a></p>
+							<p><a href="6.html">Control Statements</a></p>
+							<p><a href="7.html">Functions</a></p>
+							<p><a href="8.html">Arrays</a></p>
+							<p><a href="9.html">Components</a></p>
+							<p><a href="10.html">Escape Sequences</a></p>
+							<p><a href="11.html">Command Line Arguments</a></p>
+							<p><a href="12.html">Code Examples</a></p>
+							<p><a href="13.html">Function Index</a></p>
+							<p><a href="14.html">Core Functions</a></p>
+							<p><a href="15.html">Util Component</a></p>
+							<p><a href="16.html">Math Component</a></p>
+						
+							
+					</div>
+				</div>
+				
+				<div class="AFLdocs" >
+
+					<h2> Data Types
+					</h2><hr>
+					<p>AFL has various types of data that you can manipulate, and has various ways as writing them
+as constants. All types of data can be put into variables. This Entry contains a list of
+data types, how to enter them as constants, and some assorted notes on them.</p>
+					<h3>num</h3>
+					<p>The num data type is for storing numbers. All num's are double precision floating points,
+completely stolen from java. They may be entered as expected for the most part, but AFL
+refuses to recognize scientific notation, values like NaN and Infinity, and negative numbers
+as numbers, when written as constants, though these values can still be obtained with 
+expressions. Note that there is a utility function for producing a negative number, 
+neg(num).</p>
+					<h3>string</h3>
+					<p>The string data type represents text, and is written as a constant using quotation marks,
+like so:</p>
+<div class="code"><p>"Hello, World!"</p></div>
+<p>
+Strings can be easily combined (or other types can be appended on to strings) by using the
++ operator. They can also be converted to and from arrays of char type data using the
+toCharArray(string) and fromCharArray(array) functions. Certain characters cannot be easily 
+inputed into strings, and for these characters, escape sequences are available. See the
+entry below for more information.</p>
+				<h3>char</h3>
+				<p>The char data type represents a single character, such as 'a', '!' or '1'. They are
+represented by single quotes surrounding the character in question, like shown above.
+Certain characters cannot be easily inputed, and for these characters escape sequences 
+are available. See the entry below for more information.</p>	
+				<h3>bool</h3>
+				<p>The bool data type represents true or false, and are the results of comparisons e.g. x>10. 
+They are represented by the words true and false, fittingly enough. </p>
+				<h3>array</h3>
+				<p>The array data type cannot be directly represented, though they are stored in variables.
+They are manipulated through array functions. arrays represent multiple values in one,
+indexable by a num. For more information on arrays and how to use them, see the 
+corresponding entry.</p>
+				<h3>type</h3>
+				<p>The type data type represents the data types, num, string, char, bool, array and type, and
+are written as such. types are used most often when determining the type of a potentially
+unknown variable, typically like so:</p>
+				<div class="code"><p>if(typeOf(x)==num);
+    # do something if x is a num
+end();
+else();
+    # do something if x is not a num
+end()</p></div>
+				
+				</div>
+			</div>
+
+			<hr>
+			<div class="footer">
+				<p>2022</p>
+			</div>
+		</div>
+	</body>
+	
+</html>
+

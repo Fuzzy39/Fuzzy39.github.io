@@ -133,7 +133,6 @@ body
 }
 .body
 {
-	display:flex;
 	padding:3%;
 	
 }
@@ -141,7 +140,48 @@ body
 .mainContent
 {
 
-	padding:1%;   
+	padding:1%;
+	
+	
+}
+
+.AFLdocs
+{
+	padding:5%;
+	width:60%;
+	padding-top:4em;
+	font-size:115%;
+}
+
+.AFLdocs hr
+{
+	width:100%;
+	margin-top:-1em;
+	margin-bottom:2em;
+}
+
+.AFLdocs h3
+{
+	margin-top:2em;
+}
+
+.AFLdocs .code
+{
+	width:95%;
+	padding-left:3%;
+	margin-top:.5em;
+	margin-bottom:.5em;
+	background-color: rgba(76, 76, 76, 0.5);
+	
+	border-style:solid;
+	border-width:.2em;
+	border-color: #aaa;
+	border-radius: 15px;	
+	
+	font-family: 'Courier New', monospace;
+	font-size:90%;
+	font-weight:bold;
+	white-space: pre-wrap;
 	
 }
 
@@ -170,11 +210,13 @@ body
 
 .sidebar
 {
-	width:30%;
+	width:100%;
 	padding:3%;
+	background-color: rgba(76, 76, 76, 0.3);
+	padding-left:1.5em;
 	border-style:solid;
-	padding-top:0px;
-	float:right;
+	padding-top:.6em;
+	border-radius: 15px;	
 	
 }
 
@@ -205,8 +247,8 @@ hr
 
 h4
 {
-	margin-top:-1.5em;
-    font-size:75%;
+		margin-bottom:-.5em;
+		font-size:105%;
 }
 
 li

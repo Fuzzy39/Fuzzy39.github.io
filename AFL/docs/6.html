@@ -1,0 +1,132 @@
+<!doctype html>
+<html>
+	<head>
+		
+		<meta charset="UTF-8">
+		<link rel="stylesheet" type="text/css" href="../../Main.css">
+		<link rel="stylesheet" type="text/css" href="../../DefaultStyle.css">
+		<script src="../../main.js"></script>
+		<title>Qwerty4967: AFL</title>
+		
+	</head>
+
+	<body>
+		<div class="content">
+			
+			<div class="header">
+			
+				<div class="title">
+				
+					<h1>AFL</h1>
+					<h4 style = "font-style:italic;">Arguably Functional Language</h4>
+					<br>
+					
+				
+				</div>
+				<div class="navBar">
+				
+					<button oncLick="nav(&#34;../../index.html&#34;)">Back</button>
+					<button oncLick="nav(&#34;../../AFL/index.html&#34;)"  >AFL Home</button>
+					<button oncLick="nav(&#34;../../AFL/docs/index.html&#34;)" >Docs</button>
+					
+					
+				</div>
+			
+				<hr>
+			</div>
+		
+			<div class= "body"style = "display:flex;" >
+				<div style="margin-right:3em;">
+					<h1 style ="font-size:220%;">AFL Documentation</h1>
+				
+					<div class = "sidebar">
+							<p><a href="index.html">Welcome to the AFL Docs</a></p>
+							<p><a href="1.html">General Info</a></p>
+							<p><a href="2.html">AFL Basics</a></p>
+							<p><a href="3.html">Data Types</a></p>
+							<p><a href="4.html">Variables</a></p>
+							<p><a href="5.html">Operators</a></p>
+							<p>Control Statements</p>
+							<p><a href="7.html">Functions</a></p>
+							<p><a href="8.html">Arrays</a></p>
+							<p><a href="9.html">Components</a></p>
+							<p><a href="10.html">Escape Sequences</a></p>
+							<p><a href="11.html">Command Line Arguments</a></p>
+							<p><a href="12.html">Code Examples</a></p>
+							<p><a href="13.html">Function Index</a></p>
+							<p><a href="14.html">Core Functions</a></p>
+							<p><a href="15.html">Util Component</a></p>
+							<p><a href="16.html">Math Component</a></p>
+						
+							
+					</div>
+				</div>
+				
+				<div class="AFLdocs">
+
+					<h2> Control Statements
+					</h2><hr>
+					
+					<p>AFL supports a number of what it calls control statements, which are functions that control 
+the normal flow of code. Certain control statements are used with code blocks, which start
+with the control statement, and end with the use of the end() function. It is required that
+all code blocks are ended. Code blocks can also be nested. It is customary to indent all 
+code within a code block. This entry lists all control statements, and how they are used.
+control statements cannot be part of an expression, though their parameters can be made
+of expressions.</p>
+					
+					<h3>Code Block Creating Control Statements</h3>
+					
+					<h4>if(bool)</h4>
+					<p>  The if control statement executes the code within its block if its parameter is true.
+  If it is false, the code within its block is ignored and skipped.</p>
+					
+					<h4>else()</h4>
+					<p>The else control statement can only be used after the end of an if statement's code block.
+  The code within its block only runs if the code in the if statement's block did not. Note
+  that any check in an if statement will be run again in the else statement.</p>
+					
+					<h4>while(bool)</h4>
+					<p>  The while control statement executes its block of code if the condition is true, similarly
+  to the if statement, but after it reaches the end of its block, it checks the condition
+  again, and will continuing executing the code in its block until it is false.</p>
+					
+					<h3>Other Control Statements</h3>
+					
+					<h4>return() and return(value)</h4>
+					<p>	The return function is tied to functions. when return is run, the function currently
+	running is stopped, and if any value is returned, it is passed to the code that called
+	the function.
+	For example, imagine you have a function to double a number:</p>
+					<div class="code"><p>function("double" 1);
+	return(2*arrayGet(params 0));
+	end()</p></div>
+					<p>the return function here will allow us to get the value the function generates.</p>
+					<div class="code"><p>double(10) # will print "20.0"</p></div>
+					
+					<h4>break()</h4>
+					<p>The break function only works inside of while loops, and when called, immediately ends
+	running code inside of the loop.</p>
+					
+					<h4>continue()</h4>
+					<p>The continue function only works inside of loops, and when called, returns to the start
+	of the loop.</p>
+					
+					<h4>error(string)</h4>
+					<p>The error function causes AFL to report an error with a description provided by its parameter.</p>
+					
+				
+					
+				
+				</div>
+			</div>
+
+			<hr>
+			<div class="footer">
+				<p>2022</p>
+			</div>
+		</div>
+	</body>
+	
+</html>
+

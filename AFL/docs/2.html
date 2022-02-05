@@ -1,0 +1,135 @@
+<!doctype html>
+<html>
+	<head>
+		
+		<meta charset="UTF-8">
+		<link rel="stylesheet" type="text/css" href="../../Main.css">
+		<link rel="stylesheet" type="text/css" href="../../DefaultStyle.css">
+		<script src="../../main.js"></script>
+		<title>Qwerty4967: AFL</title>
+		
+	</head>
+
+	<body>
+		<div class="content">
+			
+			<div class="header">
+			
+				<div class="title">
+				
+					<h1>AFL</h1>
+					<h4 style = "font-style:italic;">Arguably Functional Language</h4>
+					<br>
+					
+				
+				</div>
+				<div class="navBar">
+				
+					<button oncLick="nav(&#34;../../index.html&#34;)">Back</button>
+					<button oncLick="nav(&#34;../../AFL/index.html&#34;)"  >AFL Home</button>
+					<button oncLick="nav(&#34;../../AFL/docs/index.html&#34;)" >Docs</button>
+					
+					
+				</div>
+			
+				<hr>
+			</div>
+		
+			<div class= "body"style = "display:flex;" >
+				<div style="margin-right:3em;">
+					<h1 style ="font-size:220%;">AFL Documentation</h1>
+				
+					<div class = "sidebar">
+							<p><a href="index.html">Welcome to the AFL Docs</a></p>
+							<p><a href="1.html">General Info</a></p>
+							<p>AFL Basics</p>
+							<p><a href="3.html">Data Types</a></p>
+							<p><a href="4.html">Variables</a></p>
+							<p><a href="5.html">Operators</a></p>
+							<p><a href="6.html">Control Statements</a></p>
+							<p><a href="7.html">Functions</a></p>
+							<p><a href="8.html">Arrays</a></p>
+							<p><a href="9.html">Components</a></p>
+							<p><a href="10.html">Escape Sequences</a></p>
+							<p><a href="11.html">Command Line Arguments</a></p>
+							<p><a href="12.html">Code Examples</a></p>
+							<p><a href="13.html">Function Index</a></p>
+							<p><a href="14.html">Core Functions</a></p>
+							<p><a href="15.html">Util Component</a></p>
+							<p><a href="16.html">Math Component</a></p>
+						
+							
+					</div>
+				</div>
+				
+				<div class="AFLdocs" >
+
+					<h2> AFL Basics
+					</h2>
+					<hr>
+					<p>This help entry contains a broad overview for a number of basic topics required to 
+understand most AFL code. Hopefully most of it is relatively straightforward.</p>
+					
+					<h3>Data Types</h3>
+					<p>AFL has various types of data that you can manipulate, and has specific ways of writing them
+as constants. The various types are num, string, char, bool, array, and type. For more 
+information on data types, see their corresponding entry.
+</p>
+					<h3>Printing</h3>
+					<p>AFL has no print statement. If you want to print something to the console, just type it out!
+Here are some examples:</p>
+					<div class="code"><p>"Hello, World!"</p></div>
+					<div class="code"><p>1+1</p></div>
+					<div class="code"><p>round(1.1)</p></div>
+					
+					<h3>Multiple Statements</h3>
+					<p>Statements in an AFL program are separated by semicolons. This is always the case, no matter
+where the semicolon is in AFL code. Because statements are separated by semicolons, and not 
+ended by them, AFL expects the last statement in a piece of code to not be ended by a 
+semicolon. If you want to use a semicolon in a way that does not denote a new statement,
+you can escape them with a backslash. See the entry on escape sequences to learn more about
+escaping other characters.</p>
+					<p>
+					If you are typing a program in the shell, pressing enter after typing a semicolon will let
+you write multiple lines of code, though putting multiple statements in a single line is 
+also valid.
+					</p>
+					
+					<h3>Variables & Arrays</h3>
+					<p>AFL supports variables, which are used to store values. Assigning a variable is fairly 
+simple:</p>
+					<div class="code"><p>x = 2+1;
+"x squared:";
+x*x</p></div>
+					<p>If you want more specific information on variables and variable scoping, check out the 
+entry on variables below.</p>
+					<p>AFL also supports arrays, which are special variables that can store multiple values. Check
+out the entry on arrays for more information.
+					</p>
+					
+					<h3>Comments</h3>
+					<p>AFL provides ways to insert comments that are not executed into your code, usually to
+explain the function of your code. AFL uses # to denote a comment for a single line, though
+note that semicolons in comments have to be escaped.</p>
+					<h3>Operators and Functions</h3>
+					<p>AFL provides various ways to modify values. These include operators such as +, *, and ==,
+and functions, such as round(num) and random(). Functions in particular do not have to
+output any value, however. You can also create your own functions. To learn how to make and
+call functions, see the corresponding entry on functions below.</p>
+					<h3>Control Statements</h3>
+					<p>AFL also supports what it calls control statements, which are functions that modify the flow
+of code execution. These include the commonplace if(bool) and while(bool). To see syntax for 
+them and a list of all control statements, see the corresponding entry below</p>
+				
+				</div>
+			</div>
+
+			<hr>
+			<div class="footer">
+				<p>2022</p>
+			</div>
+		</div>
+	</body>
+	
+</html>
+
