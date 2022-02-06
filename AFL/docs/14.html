@@ -66,7 +66,87 @@
 
 					<h2> Core Functions
 					</h2><hr>
-					<p>Reference material for AFL isn't quite ready yet. Soon, though, hopefully.</p>
+					<p>This entry contains descriptions for all normal functions that are not part of any 
+component.</p>
+					
+					<h3>Functions</h3>
+					
+					<h4>input(0)  </h4>
+					<ul>
+					<li><p>Parameters: none   </p></li>
+					<li><p>Description:
+		prompts the user for one line of input. Returns what the user entered.   </p></li>
+					<li><p>Returns: string   </p></li>
+					</ul>
+					
+					<h4>typeOf(1)  </h4>
+					<ul>
+					<li><p>	Parameters: value val   </p></li>
+					<li><p> 	Description:
+		returns the type of val.  </p></li>
+					<li><p>Returns: type   </p></li>
+					</ul>
+					
+					<h4>toCharArray(1)  </h4>
+					<ul>
+					<li><p>Parameters: string str   </p></li>
+					<li><p> Description:
+		Returns an array of every char from str, in their original order.  </p></li>
+					<li><p>  Returns: array </p></li>
+					</ul>
+					
+					<h4>isType(2)  </h4>
+					<ul>
+					<li><p>Parameters: string str, type tp   </p></li>
+					<li><p> 	Description:
+		Returns whether str could be converted to type tp. Arrays are not a valid type to
+		check for.  </p></li>
+					<li><p> 	Returns: bool  </p></li>
+					</ul>
+					
+					<h4>toType(2)  </h4>
+					<ul>
+					<li><p> Parameters: string str, type tp  </p></li>
+					<li><p>Description:
+		Converts str to type tp, if possible.   </p></li>
+					<li><p>Returns: a value tp's type   </p></li>
+					</ul>
+					
+					<h4>random(0)  </h4>
+					<ul>
+					<li><p> Parameters: none  </p></li>
+					<li><p>Description:
+		Returns a random decimal from 0 to 1.   </p></li>
+					<li><p>Returns: num   </p></li>
+					</ul>
+					
+					<h4> clear(0) </h4>
+					<ul>
+					<li><p>Parameters: none   </p></li>
+					<li><p>Description:
+		Clears the console.   </p></li>
+					<li><p>Returns: nothing   </p></li>
+					</ul>
+					
+					<h4> sleep(1) </h4>
+					<ul>
+					<li><p> Parameters: num ms  </p></li>
+					<li><p> Description:
+		Halts execution for ms miliseconds.  </p></li>
+					<li><p>Returns: nothing   </p></li>
+					</ul>
+					
+					<h4> printCompleteNamespace(0) </h4>
+					<ul>
+					<li><p> Parameters: none  </p></li>
+					<li><p> 	Description:
+		Prints every function currently defined in AFL, excluding control functions.  </p></li>
+					<li><p> Returns: nothing  </p></li>
+					</ul>
+					
+					
+				
+					
 					
 				
 					

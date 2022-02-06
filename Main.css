@@ -185,6 +185,11 @@ body
 	
 }
 
+ul
+{
+	padding-bottom:1em;
+}
+
 .mainContent button
 {
 	width:100%;

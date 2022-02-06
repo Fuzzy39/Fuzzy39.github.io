@@ -66,7 +66,106 @@
 
 					<h2> Util Component
 					</h2><hr>
-					<p>Reference material for AFL isn't quite ready yet. Soon, though, hopefully.</p>
+					<p>This entry contains descriptions for all normal functions that are part of the Util
+component.</p>
+					<h3>Functions</h3>
+					
+					<h4>util.checkParam(4)   </h4>
+					<ul>
+					<li><p>Parameters: value toCheck, type checkAgainst, val parameter, string funct   </p></li>
+					<li>
+						<p>Description:
+		checkParam is intended to make robust type checks in functions easier.
+		toCheck is the parameter of your function you want to check,
+		checkAgainst is the type you expect it to be,
+		parameter is some identifier of the parameter (usually a char that matches it's
+		index in params)
+		and funct is the name of your function.   </p>
+						<p>if the value is correct, checkParam returns it.
+		if it is not, it will happily throw up a reasonably formatted error.
+		
+		you could imagine it being used like so:</p>
+						<div class="code"><p>number =checkParam( arrayGet(params 0) num '0' "numberFunction");   </p></div>
+
+					</li>
+					<li><p> Returns: value  </p></li>
+					</ul>
+					
+					<h4>util.not(1)</h4>
+					<ul>
+					<li><p> Parameters:	bool b  </p></li>
+					<li><p> 	Description:
+		negates b.  </p></li>
+					<li><p>Returns: bool   </p></li>
+					</ul>
+					
+					<h4> util.numInput(0)  </h4>
+					<ul>
+					<li><p>Parameters: none   </p></li>
+					<li><p>Description: 
+		Prompts the user for a number, and will not stop prompting the user until
+		a num value is entered. Returns this value.   </p></li>
+					<li><p> 	Returns: num  </p></li>
+					</ul>
+					
+					<h4> util.isWhitespace(1)  </h4>
+					<ul>
+					<li><p>Parameters: char ch   </p></li>
+					<li><p> Description:
+		if ch is ' ' or '\n', returns true. Otherwise, returns false.  </p></li>
+					<li><p>  Returns: bool </p></li>
+					</ul>
+					
+					<h4>util.fromCharArray(1)   </h4>
+					<ul>
+					<li><p> 	Parameters: array arr  </p></li>
+					<li><p>  Description:
+		if arr consists only of char values, it will return a string of all of the values
+		concatenated together. </p></li>
+					<li><p>Returns: string   </p></li>
+					</ul>
+					
+					<h4>util.strip(1)   </h4>
+					<ul>
+					<li><p>Parameters: string str   </p></li>
+					<li><p>Description:
+		returns str, but remove any leading or trailing whitespace. (' ' or '\n' 
+		characters)   </p></li>
+					<li><p> 	Returns: str  </p></li>
+					</ul>
+					
+					<h4> util.length(1)  </h4>
+					<ul>
+					<li><p> Parameters: string str  </p></li>
+					<li><p> 	Description:
+		returns the number of characters in str.  </p></li>
+					<li><p>Returns: num   </p></li>
+					</ul>
+					
+					<h4> util.substring(3)  </h4>
+					<ul>
+					<li><p>Parameters: string str, num start, num end   </p></li>
+					<li><p>Description:
+		returns a section of str from index start (inclusive) to index end (exclusive).   </p></li>
+					<li><p>  Returns: str </p></li>
+					</ul>
+					
+					<h4> util.split(2)  </h4>
+					<ul>
+					<li><p>Parameters: string str, char splitBy   </p></li>
+					<li><p>Description:
+		Returns an array where every instance of splitBy in str creates a new element.   </p></li>
+					<li><p>Returns: array   </p></li>
+					</ul>
+					
+					<h4> util.contains(2)  </h4>
+					<ul>
+					<li><p>Parameters: string str, char c   </p></li>
+					<li><p> Description:
+		Returns true if at least one instance of c is in str, false otherwise.  </p></li>
+					<li><p>  Returns: bool </p></li>
+					</ul>
+					
 					
 				
 					
