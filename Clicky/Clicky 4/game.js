@@ -508,7 +508,7 @@ function updateLegacy()
 		potentialLegacyBonus=0;
 	}
 	
-	if(potentialLegacyBonus+legacyBonus>=1000000) // Capping legacy to 100M%
+	if(potentialLegacyBonus+legacyBonus>=1000000000) // Capping legacy to 100B%
 	{
 		potentialLegacyBonus=1000000-legacyBonus;
 		maxing=true;
