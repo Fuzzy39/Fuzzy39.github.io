@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"io.github.fuzzy39.swingRPG"},{"l":"io.github.fuzzy39.swingRPG.util"},{"l":"io.github.fuzzy39.swingRPG.world"},{"l":"io.github.fuzzy39.swingRPG.world.entities"},{"l":"io.github.fuzzy39.swingRPG.world.tiles"}];updateSearchResults();
