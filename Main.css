@@ -12,9 +12,9 @@ body
 	margin:3%;
 	width:90%;
 	border-style:solid;
-	border-color:#777;
+	border-color:#666;
 	border-width:5px;
-	background-color:rgba(100,100,100,0.8);
+	background-color:rgba(85,80,80,0.8);
 	border-radius: 15px;
 	transition:2s;
 }
